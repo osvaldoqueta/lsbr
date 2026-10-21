@@ -1,0 +1,9 @@
+{
+  "name": "fox-libras",
+  "version": "2.0.0",
+  "private": true,
+  "description": "FOX LIBRAS — Soluções Corporativas em LIBRAS & Acessibilidade Comunicacional",
+  "scripts": {
+    "start": "npx serve ."
+  }
+}
