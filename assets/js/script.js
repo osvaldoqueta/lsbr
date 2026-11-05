@@ -146,15 +146,287 @@ function toggleComplementaryHub() {
 }
 window.toggleComplementaryHub = toggleComplementaryHub;
 
-// --- 4. DEMO VIDEO SHOWCASE PLAYER & MODAL DE VÍDEO ACESSÍVEL ---
+// --- 4. DEMO VIDEO SHOWCASE PLAYER, GALERIA AO VIVO (2X/MÊS) & MODAL DE VÍDEO ACESSÍVEL ---
 const videoElement = document.getElementById('librasDemoVideo');
 const videoOverlay = document.getElementById('videoOverlay');
 const videoTitleDisplay = document.getElementById('videoTitleDisplay');
 const videoCategoryBadge = document.getElementById('videoCategoryBadge');
 
-function openVideoShowcaseModal(videoKey = 'camara') {
+// Catálogo Oficial de Vídeos e Galerias Organizadas 100% pelo Conteúdo Real
+const DEFAULT_VIDEO_CATALOG = {
+    // 1. GALERIA DE TRANSMISSÕES AO VIVO & TRADUÇÃO SIMULTÂNEA (2X/MÊS — SEMPRE AO VIVO)
+    'live_1': {
+        key: 'live_1',
+        themeGroup: 'ao_vivo',
+        badge: '🔴 Ao Vivo • Plenário Oficial',
+        category: 'Transmissões Ao Vivo & Tradução (2x/mês)',
+        title: 'Transmissão Ao Vivo #1 — Sessão Plenária Câmara Municipal de Juiz de Fora',
+        sub: 'Interpretação Simultânea em Libras Ao Vivo • Trabalho Realizado Quinzenalmente (2x/mês)',
+        description: 'Atuação ao vivo na janela oficial de Libras durante sessão plenária da Câmara Municipal de Juiz de Fora (CMJF).',
+        type: 'youtube_live',
+        youtubeId: 'LUykVGaW7S8',
+        url: 'https://www.youtube.com/watch?v=LUykVGaW7S8',
+        poster: 'https://i.ytimg.com/vi/LUykVGaW7S8/hqdefault.jpg',
+        fallbackPoster: 'assets/images/layout/demo-stage.png'
+    },
+    'live_2': {
+        key: 'live_2',
+        themeGroup: 'ao_vivo',
+        badge: '🔴 Ao Vivo • 10º Período Legislativo',
+        category: 'Transmissões Ao Vivo & Tradução (2x/mês)',
+        title: 'Transmissão Ao Vivo #2 — 3ª Reunião Ordinária do 10º Período Legislativo (CMJF)',
+        sub: 'Interpretação Simultânea em Libras Ao Vivo • Trabalho Realizado Quinzenalmente (2x/mês)',
+        description: 'Tradução e interpretação simultânea ao vivo da 3ª Reunião Ordinária do 10º Período Legislativo na Câmara Municipal de Juiz de Fora.',
+        type: 'youtube_live',
+        youtubeId: '8t9nj2hhVhU',
+        url: 'https://www.youtube.com/watch?v=8t9nj2hhVhU',
+        poster: 'https://i.ytimg.com/vi/8t9nj2hhVhU/hqdefault.jpg',
+        fallbackPoster: 'assets/images/layout/demo-stage.png'
+    },
+    'live_3': {
+        key: 'live_3',
+        themeGroup: 'ao_vivo',
+        badge: '🔴 Ao Vivo • 9º Período Legislativo',
+        category: 'Transmissões Ao Vivo & Tradução (2x/mês)',
+        title: 'Transmissão Ao Vivo #3 — 2ª Reunião Ordinária do 9º Período Legislativo (CMJF)',
+        sub: 'Interpretação Simultânea em Libras Ao Vivo • Trabalho Realizado Quinzenalmente (2x/mês)',
+        description: 'Atuação profissional ao vivo garantindo acessibilidade comunicacional em tempo real no plenário legislativo.',
+        type: 'youtube_live',
+        youtubeId: 'uYW0QqVNc-I',
+        url: 'https://www.youtube.com/watch?v=uYW0QqVNc-I',
+        poster: 'https://i.ytimg.com/vi/uYW0QqVNc-I/hqdefault.jpg',
+        fallbackPoster: 'assets/images/layout/demo-stage.png'
+    },
+    'live_4': {
+        key: 'live_4',
+        themeGroup: 'ao_vivo',
+        badge: '🔴 Ao Vivo • 8º Período Legislativo',
+        category: 'Transmissões Ao Vivo & Tradução (2x/mês)',
+        title: 'Transmissão Ao Vivo #4 — 4ª Reunião Ordinária e Extraordinárias do 8º Período (CMJF)',
+        sub: 'Interpretação Simultânea em Libras Ao Vivo • Trabalho Realizado Quinzenalmente (2x/mês)',
+        description: 'Interpretação simultânea de longo curso ao vivo em sessões ordinárias e extraordinárias da Câmara Municipal.',
+        type: 'youtube_live',
+        youtubeId: '6_NpHVNgebs',
+        url: 'https://www.youtube.com/watch?v=6_NpHVNgebs',
+        poster: 'https://i.ytimg.com/vi/6_NpHVNgebs/hqdefault.jpg',
+        fallbackPoster: 'assets/images/layout/demo-stage.png'
+    },
+
+    // 2. GALERIA DE INTERPRETAÇÃO DE EVENTOS, TEATRO E PALESTRAS (TODOS OS VÍDEOS DE PALCO/TEATRO REUNIDOS AQUI)
+    'evento_arco_iris': {
+        key: 'evento_arco_iris',
+        themeGroup: 'eventos_teatro',
+        badge: '🎭 Eventos & Teatro • Palco HD',
+        category: 'Interpretação de Eventos e Palestras',
+        title: 'Interpretação em Teatro e Eventos — Espetáculo "Além do Arco-Íris" (Gravação Completa)',
+        sub: 'Atuação Profissional em Palco • Tradução e Interpretação em Teatro e Eventos Culturais',
+        description: 'Gravação completa da atuação de tradução e interpretação simultânea realizada presencialmente em teatro/evento.',
+        type: 'native_mp4',
+        localSrc: 'assets/videos/Alem-do-arco-ires.mp4',
+        poster: 'https://i.ytimg.com/vi/Q2M-EY789xQ/hqdefault.jpg',
+        fallbackPoster: 'assets/images/layout/demo-stage.png'
+    },
+    'evento_teatro_1': {
+        key: 'evento_teatro_1',
+        themeGroup: 'eventos_teatro',
+        badge: '🎭 Eventos & Teatro • Parte 1',
+        category: 'Interpretação de Eventos e Palestras',
+        title: 'Interpretação de Eventos, Teatro e Palestras — Atuação em Palco #1',
+        sub: 'Tradução Simultânea Presencial em Teatro e Eventos Culturais',
+        description: 'Registro de interpretação simultânea realizada em palco durante evento/espetáculo teatral.',
+        type: 'stage_video',
+        youtubeId: 'ofSwbP4dN34',
+        localSrc: 'assets/videos/Alem-do-arco-ires.mp4#t=5',
+        poster: 'https://i.ytimg.com/vi/ofSwbP4dN34/hqdefault.jpg',
+        fallbackPoster: 'assets/images/layout/demo-stage.png'
+    },
+    'evento_teatro_2': {
+        key: 'evento_teatro_2',
+        themeGroup: 'eventos_teatro',
+        badge: '🎭 Eventos & Teatro • Parte 2',
+        category: 'Interpretação de Eventos e Palestras',
+        title: 'Interpretação de Eventos, Teatro e Palestras — Atuação em Palco #2',
+        sub: 'Tradução Simultânea Presencial em Teatro e Eventos Culturais',
+        description: 'Interpretação ao vivo no palco em interação com apresentadores e público durante espetáculo/evento.',
+        type: 'stage_video',
+        youtubeId: 'Q2M-EY789xQ',
+        localSrc: 'assets/videos/Alem-do-arco-ires.mp4#t=30',
+        poster: 'https://i.ytimg.com/vi/Q2M-EY789xQ/hqdefault.jpg',
+        fallbackPoster: 'assets/images/layout/demo-stage.png'
+    },
+    'evento_teatro_3': {
+        key: 'evento_teatro_3',
+        themeGroup: 'eventos_teatro',
+        badge: '🎭 Eventos & Teatro • Parte 3',
+        category: 'Interpretação de Eventos e Palestras',
+        title: 'Interpretação de Eventos, Teatro e Palestras — Atuação em Palco #3',
+        sub: 'Tradução Simultânea Presencial em Teatro e Eventos Culturais',
+        description: 'Expressão corporal, espacialidade e interpretação artística em Libras durante apresentação em teatro.',
+        type: 'stage_video',
+        youtubeId: 'BdA5100ZBQg',
+        localSrc: 'assets/videos/Alem-do-arco-ires.mp4#t=55',
+        poster: 'https://i.ytimg.com/vi/BdA5100ZBQg/hqdefault.jpg',
+        fallbackPoster: 'assets/images/layout/demo-stage.png'
+    },
+    'evento_teatro_4': {
+        key: 'evento_teatro_4',
+        themeGroup: 'eventos_teatro',
+        badge: '🎭 Eventos & Teatro • Parte 4',
+        category: 'Interpretação de Eventos e Palestras',
+        title: 'Interpretação de Eventos, Teatro e Palestras — Atuação em Palco #4',
+        sub: 'Tradução Simultânea Presencial em Teatro e Eventos Culturais',
+        description: 'Cobertura completa de acessibilidade em Libras em evento presencial e artístico.',
+        type: 'stage_video',
+        youtubeId: 'ceWu2eh4lD4',
+        localSrc: 'assets/videos/Alem-do-arco-ires.mp4#t=80',
+        poster: 'https://i.ytimg.com/vi/ceWu2eh4lD4/hqdefault.jpg',
+        fallbackPoster: 'assets/images/layout/demo-stage.png'
+    },
+    'evento_teatro_5': {
+        key: 'evento_teatro_5',
+        themeGroup: 'eventos_teatro',
+        badge: '🎭 Eventos & Teatro • Parte 5',
+        category: 'Interpretação de Eventos e Palestras',
+        title: 'Interpretação de Eventos, Teatro e Palestras — Atuação em Palco #5',
+        sub: 'Tradução Simultânea Presencial em Teatro e Eventos Culturais',
+        description: 'Performance e tradução simultânea em evento cultural e palestra com fidelidade expressiva em Libras.',
+        type: 'stage_video',
+        youtubeId: '6aztjSFdRII',
+        localSrc: 'assets/videos/Alem-do-arco-ires.mp4#t=105',
+        poster: 'https://i.ytimg.com/vi/6aztjSFdRII/hqdefault.jpg',
+        fallbackPoster: 'assets/images/layout/demo-stage.png'
+    },
+
+    // 3. GALERIA DE METODOLOGIA DE ENSINO PRÁTICO (ALUNOS APRESENTANDO EM LIBRAS COM 3 AULAS)
+    'metodologia': {
+        key: 'metodologia',
+        themeGroup: 'metodologia',
+        badge: '🎓 Metodologia • Resultado em 3 Aulas',
+        category: 'Metodologia de Ensino Prático',
+        title: 'Metodologia Prática FOX LIBRAS — Alunos Apresentando em Libras com Apenas 3 Aulas',
+        sub: 'Didática Aplicada • Atividades práticas para alunos iniciantes que não sabiam Libras',
+        description: 'Registro real de atividades aplicadas a alunos que não sabiam Libras e, com apenas 3 aulas práticas da nossa metodologia, já realizavam apresentações completas em Libras.',
+        type: 'native_mp4',
+        youtubeId: '-oyKvGXqOLk',
+        localSrc: 'assets/videos/65cf1137395f4bbca99ea87541ea65a1.mp4',
+        poster: 'https://i.ytimg.com/vi/-oyKvGXqOLk/hqdefault.jpg',
+        fallbackPoster: 'assets/images/logo/video-poster.jpg'
+    }
+};
+
+// Galerias das Demais Áreas (Com Fotos Reais do Acervo + Espaço Pronto para Upload de Novos Vídeos no YouTube)
+const OTHER_GALLERIES_PHOTO_ARCHIVE = [
+    {
+        key: 'foto_estudio_1',
+        themeGroup: 'acervo_fotos',
+        badge: '📸 Registro Real • Estúdio & EAD',
+        category: 'Tradução para Cursos EAD e Estúdio',
+        title: 'Gravação de Janela de Libras em Estúdio Profissional',
+        description: 'Registro real de gravação em estúdio para cursos EAD e vídeos institucionais. (Novos vídeos desta categoria em fase de upload para o YouTube).',
+        type: 'photo_archive',
+        imgSrc: 'assets/images/gallery/IMG-20260519-WA0025.jpg'
+    },
+    {
+        key: 'foto_estudio_2',
+        themeGroup: 'acervo_fotos',
+        badge: '📸 Registro Real • Estúdio & Vídeo',
+        category: 'Tradução & Legendagem Audiovisual',
+        title: 'Enquadramento Técnico e Iluminação para Janela de Libras (ABNT NBR 15290)',
+        description: 'Produção audiovisual com controle técnico de iluminação e plano de fundo em estúdio próprio.',
+        type: 'photo_archive',
+        imgSrc: 'assets/images/gallery/IMG-20260519-WA0023.jpg'
+    },
+    {
+        key: 'foto_sac_1',
+        themeGroup: 'acervo_fotos',
+        badge: '📸 Registro Real • Central SAC & Web',
+        category: 'Central de Atendimento / SAC Web',
+        title: 'Estrutura de Interpretação Remota e Atendimento SAC em Tempo Real',
+        description: 'Operação de atendimento bilíngue e tradução remota. (Vídeos demonstrativos dedicados em preparação para upload no YouTube).',
+        type: 'photo_archive',
+        imgSrc: 'assets/images/gallery/20260917_155223.jpg'
+    },
+    {
+        key: 'foto_ead_1',
+        themeGroup: 'acervo_fotos',
+        badge: '📸 Registro Real • Material Didático & EAD',
+        category: 'Tradução para Cursos EAD e Treinamentos',
+        title: 'Adaptação Pedagógica e Gravação de Videoaulas Acessíveis',
+        description: 'Tradução especializada de conteúdos educacionais e treinamentos corporativos.',
+        type: 'photo_archive',
+        imgSrc: 'assets/images/gallery/20260918_144232.jpg'
+    }
+];
+
+// Mapeamento de chaves antigas/atalhos para o catálogo fiel por tema (NUNCA mistura temas)
+const VIDEO_KEY_ALIASES = {
+    'camara': 'live_1',
+    'ao_vivo': 'live_1',
+    'eventos': 'evento_arco_iris',
+    'estudio': 'evento_arco_iris',
+    'traducao': 'evento_arco_iris',
+    'sac': 'live_2',
+    'ead': 'evento_arco_iris',
+    'local': 'metodologia'
+};
+
+function resolveVideoKey(rawKey) {
+    if (!rawKey) return 'live_1';
+    if (DEFAULT_VIDEO_CATALOG[rawKey]) return rawKey;
+    if (VIDEO_KEY_ALIASES[rawKey]) return VIDEO_KEY_ALIASES[rawKey];
+    // Verifica se é uma live dinâmica adicionada via manifest ou localStorage
+    const customLives = getCustomLiveVideos();
+    const foundCustom = customLives.find(v => v.key === rawKey || v.id === rawKey || v.youtubeId === rawKey);
+    if (foundCustom) return foundCustom.key;
+    return 'live_1';
+}
+
+function extractYouTubeId(urlOrId) {
+    if (!urlOrId) return '';
+    const trimmed = urlOrId.trim();
+    if (/^[a-zA-Z0-9_-]{11}$/.test(trimmed)) return trimmed;
+    const match = trimmed.match(/(?:v=|youtu\.be\/|embed\/|live\/)([a-zA-Z0-9_-]{11})/);
+    return match ? match[1] : trimmed;
+}
+
+function getCustomLiveVideos() {
+    try {
+        const stored = JSON.parse(localStorage.getItem('fox_custom_live_videos') || '[]');
+        if (Array.isArray(stored)) return stored;
+    } catch (e) {}
+    return [];
+}
+
+function getAllCatalogVideos() {
+    const baseList = Object.values(DEFAULT_VIDEO_CATALOG);
+    const customLives = getCustomLiveVideos();
+    return [...customLives, ...baseList];
+}
+
+// Abre a transmissão oficial do YouTube em uma Janela Theater dedicada (100% imune ao Erro 153 em file://)
+function openYouTubeLiveWindow(youtubeId, title) {
+    const cleanId = extractYouTubeId(youtubeId);
+    const watchUrl = `https://www.youtube.com/watch?v=${cleanId}`;
+    const width = 1140;
+    const height = 680;
+    const left = Math.max(20, Math.round((window.screen.width - width) / 2));
+    const top = Math.max(20, Math.round((window.screen.height - height) / 2));
+    const popup = window.open(
+        watchUrl,
+        'FoxLibrasLiveTheater',
+        `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes,status=no,toolbar=no,menubar=no`
+    );
+    if (!popup) {
+        window.open(watchUrl, '_blank', 'noopener,noreferrer');
+    }
+    trackConversion('YouTubeLiveWatched', { youtubeId: cleanId, title: title || '' });
+}
+window.openYouTubeLiveWindow = openYouTubeLiveWindow;
+
+function openVideoShowcaseModal(videoKey = 'live_1') {
     const modal = document.getElementById('videoShowcaseModal');
     const playerBox = document.getElementById('modalVideoPlayerContainer');
+    const actionBar = document.getElementById('modalVideoActionBar');
     const titleEl = document.getElementById('modalVideoTitle');
     const subEl = document.getElementById('modalVideoSubtitle');
     if (!modal || !playerBox) {
@@ -162,11 +434,15 @@ function openVideoShowcaseModal(videoKey = 'camara') {
         return;
     }
 
+    const resolvedKey = resolveVideoKey(videoKey);
+    const allVideos = getAllCatalogVideos();
+    const selected = allVideos.find(v => v.key === resolvedKey) || DEFAULT_VIDEO_CATALOG[resolvedKey] || DEFAULT_VIDEO_CATALOG['live_1'];
+
     modal.classList.remove('hidden');
 
-    // Update active button state inside modal
+    // Atualiza estado visual dos botões de abas no modal
     document.querySelectorAll('.modal-video-btn').forEach(btn => {
-        if (btn.dataset.videoKey === videoKey) {
+        if (btn.dataset.videoKey === resolvedKey) {
             btn.classList.add('bg-[#08B9F2]', 'text-[#061A33]', 'border-[#08B9F2]');
             btn.classList.remove('bg-[#0B2140]', 'text-slate-200', 'border-[#102B4D]');
         } else {
@@ -175,58 +451,104 @@ function openVideoShowcaseModal(videoKey = 'camara') {
         }
     });
 
-    const videoCatalog = {
-        'camara': {
-            title: 'Interpretação ao Vivo — Câmara Municipal de Juiz de Fora',
-            sub: 'Atuação Profissional • Janela Oficial de Libras em Tempo Real',
-            youtubeId: 'kPMsB_zrldI'
-        },
-        'sac': {
-            title: 'Central de Libras & Atendimento SAC Web On-Demand',
-            sub: 'Intermediação Humanizada em Tempo Real por Videochamada',
-            youtubeId: 'ofSwbP4dN34'
-        },
-        'eventos': {
-            title: 'Interpretação Simultânea em Eventos, Lives e Congressos',
-            sub: 'Tradução Simultânea Corporativa, Acadêmica e Institucional',
-            youtubeId: 'Q2M-EY789xQ'
-        },
-        'ead': {
-            title: 'Tradução e Legendagem Acessível para Vídeos e EAD',
-            sub: 'Adaptação Pedagógica e Audiovisual conforme ABNT NBR 15290',
-            youtubeId: 'BdA5100ZBQg'
-        },
-        'estudio': {
-            title: 'Produção em Estúdio Profissional FOX LIBRAS',
-            sub: 'Gravação de Alta Definição com Enquadramento Oficial',
-            youtubeId: '6aztjSFdRII'
-        },
-        'local': {
-            title: 'Prática de Metodologia Bilíngue Aplicada',
-            sub: 'Capacitação e Resultados Reais em Libras',
-            localSrc: 'assets/videos/65cf1137395f4bbca99ea87541ea65a1.mp4'
-        }
-    };
-
-    const selected = videoCatalog[videoKey] || videoCatalog['camara'];
     if (titleEl) titleEl.textContent = selected.title;
     if (subEl) subEl.textContent = selected.sub;
 
-    if (selected.localSrc) {
+    const isFileProtocol = typeof window !== 'undefined' && window.location.protocol === 'file:';
+
+    if (selected.type === 'native_mp4' || (selected.type === 'stage_video' && isFileProtocol)) {
+        // Reproduz exclusivamente o MP4 real correspondente ao tema:
+        // - Eventos/Teatro -> Alem-do-arco-ires.mp4 (gravação real da atuação em teatro/evento)
+        // - Metodologia (3 Aulas) -> 65cf1137395f4bbca99ea87541ea65a1.mp4 (gravação real dos alunos apresentando em Libras após 3 aulas)
+        const youtubeExtraBtn = selected.youtubeId ? `
+            <a href="https://www.youtube.com/watch?v=${selected.youtubeId}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 hover:bg-[#FF7800] text-white font-semibold transition-colors">
+                <i class="fa-brands fa-youtube text-red-400"></i>
+                <span>Ver no YouTube ↗</span>
+            </a>
+        ` : '';
         playerBox.innerHTML = `
-            <video controls autoplay playsinline poster="assets/images/logo/video-poster.jpg" class="w-full h-full aspect-video object-cover rounded-xl">
+            <video controls autoplay playsinline poster="${selected.poster}" class="w-full h-full aspect-video object-cover rounded-xl bg-black">
                 <source src="${selected.localSrc}" type="video/mp4">
                 Seu navegador não suporta reprodução de vídeo HTML5.
             </video>
         `;
+        if (actionBar) {
+            actionBar.innerHTML = `
+                <span class="inline-flex items-center gap-1.5 text-emerald-400 font-semibold">
+                    <i class="fa-solid fa-circle-check"></i> ${sanitizeHTML(selected.badge)} — Conteúdo 100% Fiel ao Título
+                </span>
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-white/70 text-[11px] hidden sm:inline">${sanitizeHTML(selected.category)}</span>
+                    ${youtubeExtraBtn}
+                </div>
+            `;
+        }
     } else {
-        playerBox.innerHTML = `
-            <iframe src="https://www.youtube-nocookie.com/embed/${selected.youtubeId}?autoplay=1&rel=0&modestbranding=1"
-                    title="${sanitizeHTML(selected.title)}"
-                    class="w-full h-full aspect-video border-0 rounded-xl"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-        `;
+        // Vídeo do YouTube (Transmissões Ao Vivo LUykVGaW7S8, 8t9nj2hhVhU, uYW0QqVNc-I, 6_NpHVNgebs ou vídeos de Palco em HTTPS)
+        const youtubeWatchUrl = `https://www.youtube.com/watch?v=${selected.youtubeId}`;
+        const thumbHq = `https://i.ytimg.com/vi/${selected.youtubeId}/hqdefault.jpg`;
+
+        if (isFileProtocol) {
+            // Em protocolo local file://, o YouTube bloqueia iframes com Erro 153 por falta de cabeçalho HTTP Referer.
+            // NUNCA substituímos por um vídeo de outro tema! Exibimos o Card Oficial da Transmissão Ao Vivo com abertura imediata no Player Oficial.
+            playerBox.innerHTML = `
+                <div class="relative w-full h-full aspect-video bg-[#061A33] flex flex-col items-center justify-center overflow-hidden select-none group">
+                    <img src="${thumbHq}" onerror="this.onerror=null;this.src='${selected.fallbackPoster}';" alt="${sanitizeHTML(selected.title)}" class="absolute inset-0 w-full h-full object-cover opacity-55 group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#061A33] via-[#061A33]/70 to-[#061A33]/40"></div>
+                    <div class="relative z-10 max-w-xl mx-auto px-6 text-center flex flex-col items-center">
+                        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/90 text-white text-[11px] font-bold uppercase tracking-wider mb-3 shadow-lg">
+                            <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+                            Transmissão Ao Vivo Oficial • YouTube HD
+                        </span>
+                        <h4 class="font-display text-white font-extrabold text-lg sm:text-xl leading-snug mb-2">
+                            ${sanitizeHTML(selected.title)}
+                        </h4>
+                        <p class="text-white/80 text-xs sm:text-sm mb-5 leading-relaxed">
+                            ${sanitizeHTML(selected.description)}
+                        </p>
+                        <div class="flex flex-wrap items-center justify-center gap-3">
+                            <button type="button" onclick="openYouTubeLiveWindow('${selected.youtubeId}', '${sanitizeHTML(selected.title)}')" class="btn-fox-orange px-6 py-3 text-xs sm:text-sm shadow-2xl cursor-pointer">
+                                <i class="fa-brands fa-youtube text-base"></i>
+                                <span>Reproduzir Transmissão Ao Vivo Agora</span>
+                            </button>
+                            <a href="${youtubeWatchUrl}" target="_blank" rel="noopener noreferrer" class="btn-fox-outline px-4 py-3 text-xs">
+                                <i class="fa-solid fa-up-right-from-square"></i>
+                                <span>Abrir no YouTube ↗</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            // Em HTTP/HTTPS (produção https://libras.foxstorebr.com/ ou localhost), incorpora o iframe oficial da Live diretamente
+            playerBox.innerHTML = `
+                <iframe src="https://www.youtube.com/embed/${selected.youtubeId}?autoplay=1&rel=0&playsinline=1"
+                        title="${sanitizeHTML(selected.title)}"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        class="w-full h-full aspect-video border-0 rounded-xl bg-black"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+            `;
+        }
+
+        if (actionBar) {
+            actionBar.innerHTML = `
+                <span class="inline-flex items-center gap-1.5 text-[#08B9F2] font-semibold">
+                    <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                    ${sanitizeHTML(selected.badge)} • Conteúdo Oficial Vinculado
+                </span>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button type="button" onclick="openYouTubeLiveWindow('${selected.youtubeId}', '${sanitizeHTML(selected.title)}')" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#08B9F2]/20 hover:bg-[#08B9F2] text-[#08B9F2] hover:text-[#061A33] font-bold transition-colors cursor-pointer border border-[#08B9F2]/40">
+                        <i class="fa-solid fa-expand"></i>
+                        <span>Player Theater Ao Vivo</span>
+                    </button>
+                    <a href="${youtubeWatchUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 hover:bg-[#FF7800] text-white font-semibold transition-colors">
+                        <i class="fa-brands fa-youtube text-red-400"></i>
+                        <span>Assistir no YouTube ↗</span>
+                    </a>
+                </div>
+            `;
+        }
     }
 }
 window.openVideoShowcaseModal = openVideoShowcaseModal;
@@ -247,7 +569,7 @@ function playDemoVideo() {
             if (videoOverlay) videoOverlay.style.display = 'none';
         }, 300);
     } else {
-        openVideoShowcaseModal('camara');
+        openVideoShowcaseModal('live_1');
     }
 }
 window.playDemoVideo = playDemoVideo;
@@ -273,49 +595,131 @@ function changeDemoVideo(type, elementBtn) {
         elementBtn.classList.remove('border-slate-800');
     }
 
-    const container = document.getElementById('videoContainer');
-    if (!container) return;
-
-    let youtubeId = 'ofSwbP4dN34';
-    let videoTitle = "Demonstração: Central de Atendimento SAC";
-    let categoryText = "SAC & Atendimento On-Demand";
-
-    if (type === 'sac') {
-        youtubeId = 'ofSwbP4dN34';
-        videoTitle = "Demonstração: Central de Atendimento SAC";
-        categoryText = "SAC & Atendimento On-Demand";
-    } else if (type === 'eventos') {
-        youtubeId = 'Q2M-EY789xQ';
-        videoTitle = "Demonstração: Interpretação de Eventos ao Vivo";
-        categoryText = "Eventos, Lives e Conferências";
-    } else if (type === 'ead') {
-        youtubeId = 'BdA5100ZBQg';
-        videoTitle = "Demonstração: Tradução de Cursos EAD e Treinamentos";
-        categoryText = "Educação & Materiais Digitais";
-    } else if (type === 'metodologia') {
-        container.innerHTML = `
-            <video id="librasDemoVideo" controls autoplay playsinline class="w-full h-full aspect-video object-cover">
-                <source src="assets/videos/65cf1137395f4bbca99ea87541ea65a1.mp4" type="video/mp4">
-                Seu navegador não suporta reprodução de vídeo.
-            </video>
-        `;
-        if (videoTitleDisplay) videoTitleDisplay.textContent = "Prática de Metodologia Bilíngue";
-        if (videoCategoryBadge) videoCategoryBadge.textContent = "Ensino & Capacitação Prática";
-        return;
-    }
-
-    container.innerHTML = `
-        <iframe src="https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0" 
-                title="${videoTitle}" 
-                class="w-full h-full aspect-video border-0 rounded-2xl" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen></iframe>
-    `;
-
-    if (videoTitleDisplay) videoTitleDisplay.textContent = videoTitle;
-    if (videoCategoryBadge) videoCategoryBadge.textContent = categoryText;
+    openVideoShowcaseModal(resolveVideoKey(type));
 }
 window.changeDemoVideo = changeDemoVideo;
+
+// --- 4.1 GALERIA INTERATIVA DE TRANSMISSÕES AO VIVO & VÍDEOS POR TEMA ---
+let currentInlineGalleryFilter = 'all';
+
+function toggleInlineLiveGallery() {
+    const drawer = document.getElementById('inlineLiveGalleryDrawer');
+    if (!drawer) return;
+    drawer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+window.toggleInlineLiveGallery = toggleInlineLiveGallery;
+
+function filterInlineGallery(filterKey, btnEl) {
+    currentInlineGalleryFilter = filterKey || 'all';
+    document.querySelectorAll('.inline-gallery-filter-btn').forEach(btn => {
+        btn.classList.remove('active', 'bg-[#08B9F2]', 'text-[#061A33]', 'font-bold');
+        btn.classList.add('bg-[#0B2140]', 'text-white/85', 'font-semibold');
+    });
+    if (btnEl) {
+        btnEl.classList.add('active', 'bg-[#08B9F2]', 'text-[#061A33]', 'font-bold');
+        btnEl.classList.remove('bg-[#0B2140]', 'text-white/85', 'font-semibold');
+    }
+    renderInlineLiveGallery();
+}
+window.filterInlineGallery = filterInlineGallery;
+
+function renderInlineLiveGallery() {
+    const grid = document.getElementById('inlineLiveGalleryGrid');
+    if (!grid) return;
+
+    const allVideos = [...getAllCatalogVideos(), ...OTHER_GALLERIES_PHOTO_ARCHIVE];
+    const filtered = currentInlineGalleryFilter === 'all'
+        ? allVideos
+        : allVideos.filter(v => v.themeGroup === currentInlineGalleryFilter);
+
+    grid.innerHTML = filtered.map(item => {
+        if (item.type === 'photo_archive') {
+            return `
+                <article class="bg-[#0B2140] rounded-xl overflow-hidden border border-white/10 hover:border-emerald-400/60 transition-all duration-300 flex flex-col justify-between group shadow-lg">
+                    <div onclick="openLightbox('${item.imgSrc}', '${sanitizeHTML(item.title)} — ${sanitizeHTML(item.description)}')" class="relative aspect-video bg-slate-950 overflow-hidden cursor-pointer">
+                        <img src="${item.imgSrc}" alt="${sanitizeHTML(item.title)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#061A33]/90 via-transparent to-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div class="w-11 h-11 rounded-full bg-emerald-400 text-[#061A33] flex items-center justify-center shadow-xl">
+                                <i class="fa-solid fa-magnifying-glass-plus text-sm"></i>
+                            </div>
+                        </div>
+                        <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-emerald-500 text-[#061A33] text-[10px] font-bold shadow">
+                            ${sanitizeHTML(item.badge)}
+                        </span>
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+                        <div>
+                            <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 mb-1">${sanitizeHTML(item.category)}</div>
+                            <h4 onclick="openLightbox('${item.imgSrc}', '${sanitizeHTML(item.title)}')" class="font-display text-white font-bold text-sm leading-snug group-hover:text-emerald-400 transition-colors cursor-pointer">
+                                ${sanitizeHTML(item.title)}
+                            </h4>
+                            <p class="text-white/70 text-xs mt-1.5 leading-relaxed">
+                                ${sanitizeHTML(item.description)}
+                            </p>
+                        </div>
+                        <div class="pt-2 border-t border-white/10 flex items-center justify-between gap-2">
+                            <button type="button" onclick="openLightbox('${item.imgSrc}', '${sanitizeHTML(item.title)}')" class="text-xs font-bold text-emerald-400 hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0 inline-flex items-center gap-1.5">
+                                <i class="fa-solid fa-expand"></i>
+                                <span>Ampliar Foto Real</span>
+                            </button>
+                            <button type="button" onclick="promptAddNewLiveVideo('acervo_fotos', '${sanitizeHTML(item.category)}')" class="text-[11px] font-semibold text-[#08B9F2] hover:text-white cursor-pointer bg-transparent border-0 p-0">
+                                <i class="fa-solid fa-plus mr-0.5"></i>Vincular YouTube
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        const hasYoutube = Boolean(item.youtubeId);
+        const thumbSrc = hasYoutube ? `https://i.ytimg.com/vi/${item.youtubeId}/hqdefault.jpg` : item.poster;
+        const badgeColor = item.themeGroup === 'ao_vivo'
+            ? 'bg-red-600/90 text-white'
+            : (item.themeGroup === 'metodologia' ? 'bg-[#FF7800] text-white' : 'bg-[#08B9F2] text-[#061A33]');
+
+        return `
+            <article class="bg-[#0B2140] rounded-xl overflow-hidden border border-white/10 hover:border-[#08B9F2] transition-all duration-300 flex flex-col justify-between group shadow-lg">
+                <div onclick="openVideoShowcaseModal('${item.key}')" class="relative aspect-video bg-slate-950 overflow-hidden cursor-pointer">
+                    <img src="${thumbSrc}" onerror="this.onerror=null;this.src='${item.fallbackPoster || 'assets/images/logo/video-poster.jpg'}';" alt="${sanitizeHTML(item.title)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#061A33]/90 via-transparent to-black/30 flex items-center justify-center">
+                        <div class="w-12 h-12 rounded-full bg-white/95 group-hover:bg-[#08B9F2] text-[#061A33] flex items-center justify-center shadow-xl transition-all group-hover:scale-110">
+                            <i class="fa-solid fa-play ml-0.5 text-base"></i>
+                        </div>
+                    </div>
+                    <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full ${badgeColor} text-[10px] font-bold shadow">
+                        ${sanitizeHTML(item.badge)}
+                    </span>
+                </div>
+                <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+                    <div>
+                        <div class="text-[10px] font-bold uppercase tracking-wider text-[#08B9F2] mb-1">${sanitizeHTML(item.category)}</div>
+                        <h4 onclick="openVideoShowcaseModal('${item.key}')" class="font-display text-white font-bold text-sm leading-snug group-hover:text-[#08B9F2] transition-colors cursor-pointer">
+                            ${sanitizeHTML(item.title)}
+                        </h4>
+                        <p class="text-white/70 text-xs mt-1.5 leading-relaxed">
+                            ${sanitizeHTML(item.description)}
+                        </p>
+                    </div>
+                    <div class="pt-2 border-t border-white/10 flex items-center justify-between gap-2">
+                        <button type="button" onclick="openVideoShowcaseModal('${item.key}')" class="text-xs font-bold text-[#08B9F2] hover:text-white transition-colors cursor-pointer bg-transparent border-0 p-0 inline-flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-play"></i>
+                            <span>Assistir Vídeo</span>
+                        </button>
+                        ${hasYoutube ? `
+                            <a href="https://www.youtube.com/watch?v=${item.youtubeId}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-semibold text-white/75 hover:text-[#FF7800] transition-colors inline-flex items-center gap-1">
+                                <i class="fa-brands fa-youtube text-red-400"></i>
+                                <span>YouTube ↗</span>
+                            </a>
+                        ` : `
+                            <span class="text-[10px] text-emerald-400 font-mono">MP4 Nativo HD</span>
+                        `}
+                    </div>
+                </div>
+            </article>
+        `;
+    }).join('');
+}
+window.renderInlineLiveGallery = renderInlineLiveGallery;
 
 // --- 5. CONTROLE DA GALERIA DE BASTIDORES & PROVA SOCIAL ---
 function switchGalleryTab(tabName, btnElement) {
@@ -697,34 +1101,40 @@ function openServiceDetailModal(serviceKey) {
     }
     const catalog = {
         'sac': {
-            badge: 'On-Demand • Atendimento Humanizado',
+            badge: 'On-Demand • Atendimento Humanizado Ao Vivo',
             title: 'Central de Libras & SAC',
             subtitle: 'Intermediação em tempo real por intérpretes de Libras, com qualidade e agilidade.',
             problem: 'Elimina barreiras comunicacionais no SAC digital e no atendimento presencial (balcão, clínicas, agências e lojas), prevenindo autuações pela LBI (Lei nº 13.146/2015).',
             audience: 'Bancos, fintechs, redes de varejo, concessionárias, hospitais, clínicas, seguradoras, universidades e órgãos públicos.',
             howItWorks: 'Acesso imediato via link web, QR Code ou widget integrado ao seu site/tablet sem instalação de softwares pesados. Conexão em segundos com intérpretes certificados.',
-            videoKey: 'sac',
-            calcKey: 'central_sac'
+            videoKey: 'live_2',
+            calcKey: 'central_sac',
+            galleryTitle: 'Galeria de Atuação Ao Vivo & Tradução em Tempo Real (2x/mês)',
+            relatedVideoKeys: ['live_1', 'live_2', 'live_3', 'live_4']
         },
         'eventos': {
-            badge: 'Presencial, Híbrido & Live Streaming',
+            badge: 'Presencial, Teatro, Palco & Live Streaming (2x/mês)',
             title: 'Interpretação de eventos',
-            subtitle: 'Intérpretes especializados para eventos corporativos, institucionais e acadêmicos.',
-            problem: 'Garante acessibilidade plena e conformidade com a norma ABNT NBR 15290 em palestras, congressos, câmaras legislativas, lives e seminários.',
-            audience: 'Produtoras de eventos, empresas, universidades, órgãos governamentais, conferências e transmissões oficiais.',
-            howItWorks: 'Atuação presencial no palco ou remota em estúdio próprio com fundo neutro e envio de sinal de vídeo HD para inserção da janela de Libras.',
-            videoKey: 'eventos',
-            calcKey: 'eventos_transmissoes'
+            subtitle: 'Intérpretes especializados para eventos corporativos, teatro, espetáculos, plenários e congressos.',
+            problem: 'Garante acessibilidade plena e conformidade com a norma ABNT NBR 15290 em palestras, teatros, congressos, câmaras legislativas, lives e seminários.',
+            audience: 'Produtoras de eventos, teatros, empresas, universidades, órgãos governamentais, conferências e transmissões oficiais.',
+            howItWorks: 'Atuação presencial no palco/teatro ou remota em estúdio próprio com envio de sinal de vídeo HD para inserção da janela de Libras (trabalho realizado ao vivo quinzenalmente).',
+            videoKey: 'evento_arco_iris',
+            calcKey: 'eventos_transmissoes',
+            galleryTitle: 'Galeria de Interpretação de Eventos/Teatro & Transmissões Ao Vivo (2x/mês)',
+            relatedVideoKeys: ['evento_arco_iris', 'evento_teatro_1', 'evento_teatro_2', 'evento_teatro_3', 'evento_teatro_4', 'evento_teatro_5', 'live_1', 'live_2', 'live_3', 'live_4']
         },
         'traducao': {
-            badge: 'Audiovisual HD • Padrão ABNT NBR 15290',
+            badge: 'Audiovisual HD & Ao Vivo • Padrão ABNT NBR 15290',
             title: 'Tradução e legendagem',
-            subtitle: 'Adaptação de conteúdos em Libras e legendagem acessível para vídeos, apresentações e treinamentos.',
-            problem: 'Transforma videoaulas, campanhas institucionais, treinamentos corporativos de RH e comunicados oficiais em conteúdos 100% acessíveis para surdos.',
-            audience: 'Instituições de ensino EAD, departamentos de RH e D&I, agências de publicidade e comunicação governamental.',
-            howItWorks: 'Estudo terminológico do roteiro, gravação em estúdio profissional com iluminação e enquadramento técnico, edição da janela de Libras e legendagem LSE.',
-            videoKey: 'ead',
-            calcKey: 'traducao_audiovisual'
+            subtitle: 'Adaptação de conteúdos em Libras, estúdio audiovisual e transmissões ao vivo.',
+            problem: 'Transforma videoaulas, produções culturais, campanhas institucionais, treinamentos corporativos e sessões plenárias em conteúdos 100% acessíveis para surdos.',
+            audience: 'Instituições de ensino EAD, departamentos de RH e D&I, produtoras culturais, agências de publicidade e órgãos públicos.',
+            howItWorks: 'Estudo terminológico do roteiro, gravação em estúdio profissional com iluminação e enquadramento técnico, edição da janela de Libras, legendagem LSE e tradução simultânea ao vivo.',
+            videoKey: 'live_1',
+            calcKey: 'traducao_audiovisual',
+            galleryTitle: 'Galeria de Tradução Ao Vivo (2x/mês) & Eventos',
+            relatedVideoKeys: ['live_1', 'live_2', 'live_3', 'live_4', 'evento_arco_iris']
         }
     };
 
@@ -735,6 +1145,35 @@ function openServiceDetailModal(serviceKey) {
     document.getElementById('srvModalProblem').textContent = data.problem;
     document.getElementById('srvModalAudience').textContent = data.audience;
     document.getElementById('srvModalHow').textContent = data.howItWorks;
+
+    const galleryTitleEl = document.getElementById('srvModalGalleryTitle');
+    if (galleryTitleEl && data.galleryTitle) {
+        galleryTitleEl.textContent = data.galleryTitle;
+    }
+
+    const galleryGridEl = document.getElementById('srvModalVideoGalleryGrid');
+    if (galleryGridEl) {
+        const allVideos = getAllCatalogVideos();
+        const relatedVideos = allVideos.filter(v => data.relatedVideoKeys.includes(v.key) || v.themeGroup === 'ao_vivo');
+        galleryGridEl.innerHTML = relatedVideos.map(v => {
+            const isLive = v.type === 'youtube_live';
+            const thumb = isLive ? `https://i.ytimg.com/vi/${v.youtubeId}/hqdefault.jpg` : v.poster;
+            return `
+                <div onclick="closeServiceDetailModal(); openVideoShowcaseModal('${v.key}');" class="flex items-center gap-3 p-2 rounded-lg bg-[#0B2140] hover:bg-[#102B4D] border border-white/10 hover:border-[#08B9F2] transition-all cursor-pointer group">
+                    <div class="relative w-20 h-12 rounded overflow-hidden shrink-0 bg-black">
+                        <img src="${thumb}" onerror="this.onerror=null;this.src='${v.fallbackPoster || 'assets/images/logo/video-poster.jpg'}';" alt="${sanitizeHTML(v.title)}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-black/35 flex items-center justify-center">
+                            <i class="fa-solid fa-circle-play text-white group-hover:text-[#08B9F2] text-sm"></i>
+                        </div>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <span class="block text-[9.5px] font-bold uppercase text-[#08B9F2] truncate">${sanitizeHTML(v.badge)}</span>
+                        <h5 class="text-white text-xs font-semibold leading-tight line-clamp-2 group-hover:text-[#08B9F2] transition-colors">${sanitizeHTML(v.title)}</h5>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
 
     const demoBtn = document.getElementById('srvModalDemoBtn');
     if (demoBtn) {
@@ -832,72 +1271,118 @@ async function renderCorporateMarquee() {
     `).join('');
 }
 
-// --- 11. ARQUITETURA DE STREAMING & VÍDEOS LEVES (MODULAR YOUTUBE + LOCAL) ---
-const DEMO_VIDEOS = [
-    {
-        id: 'youtube_1',
-        category: 'SAC Web & Atendimento',
-        badge: 'YouTube Shorts',
-        title: 'Central de Atendimento / SAC Web',
-        description: 'Atendimento SAC em Libras — Tradução Simultânea e Intermediação em Tempo Real.',
-        type: 'youtube',
-        youtubeId: 'ofSwbP4dN34'
-    },
-    {
-        id: 'youtube_2',
-        category: 'Eventos & Lives',
-        badge: 'YouTube Shorts',
-        title: 'Interpretação de Eventos e Palestras',
-        description: 'Tradução Simultânea para Live Streaming, Webinars, Lives e Convenções Corporativas.',
-        type: 'youtube',
-        youtubeId: 'Q2M-EY789xQ'
-    },
-    {
-        id: 'youtube_3',
-        category: 'Cursos EAD',
-        badge: 'YouTube Shorts',
-        title: 'Tradução para Cursos EAD e Treinamentos',
-        description: 'Janela de Libras e Adaptação Pedagógica de Conteúdos Digitais e EAD.',
-        type: 'youtube',
-        youtubeId: 'BdA5100ZBQg'
-    },
-    {
-        id: 'youtube_4',
-        category: 'Treinamentos RH',
-        badge: 'YouTube Shorts',
-        title: 'Acessibilidade Corporativa na Prática',
-        description: 'Capacitação Institucional e Acompanhamento Técnico Bilíngue para Equipes.',
-        type: 'youtube',
-        youtubeId: 'ceWu2eh4lD4'
-    },
-    {
-        id: 'youtube_5',
-        category: 'Atuação em Estúdio',
-        badge: 'YouTube Shorts',
-        title: 'Interpretação em Estúdio Profissional',
-        description: 'Produção de janelas de Libras com alto padrão técnico e enquadramento.',
-        type: 'youtube',
-        youtubeId: '6aztjSFdRII'
-    },
-    {
-        id: 'youtube_6',
-        category: 'Comunicação Oficial',
-        badge: 'YouTube Shorts',
-        title: 'Tradução Institucional & Governamental',
-        description: 'Garantia de acessibilidade plenamente em conformidade com as diretrizes do MEC e LBI.',
-        type: 'youtube',
-        youtubeId: '-oyKvGXqOLk'
+// --- 11. ARQUITETURA DE STREAMING, GALERIA AO VIVO QUINZENAL (2X/MÊS) & ACERVO POR TEMA ---
+async function syncLiveBroadcastManifest() {
+    try {
+        const res = await fetch('assets/videos/live-manifest.json?v=' + Date.now());
+        if (res.ok) {
+            const manifestItems = await res.json();
+            if (Array.isArray(manifestItems)) {
+                manifestItems.forEach((item, idx) => {
+                    const ytId = extractYouTubeId(item.youtubeId || item.url);
+                    if (!ytId) return;
+                    const key = item.id || `live_${idx + 1}`;
+                    if (!DEFAULT_VIDEO_CATALOG[key]) {
+                        DEFAULT_VIDEO_CATALOG[key] = {
+                            key: key,
+                            themeGroup: 'ao_vivo',
+                            badge: item.badge || '🔴 Ao Vivo • Plenário Oficial',
+                            category: item.category || 'Interpretação Ao Vivo & Tradução',
+                            title: item.title || `Transmissão Ao Vivo — Sessão Oficial (${ytId})`,
+                            sub: item.frequency || 'Interpretação Simultânea em Libras Ao Vivo • Realizada 2x/mês',
+                            description: item.description || 'Interpretação simultânea em Libras realizada ao vivo.',
+                            type: 'youtube_live',
+                            youtubeId: ytId,
+                            url: `https://www.youtube.com/watch?v=${ytId}`,
+                            poster: `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg`,
+                            fallbackPoster: 'assets/images/layout/demo-stage.png'
+                        };
+                    }
+                });
+                renderInlineLiveGallery();
+                renderServicesVideoGrid();
+            }
+        }
+    } catch (err) {
+        // Em protocolo file:// utiliza o catálogo padrão + localStorage
     }
-];
+}
 
-function loadYouTubeIframe(playerId, youtubeId, title) {
+function promptAddNewLiveVideo(targetGroup = 'ao_vivo', defaultCategory = 'Transmissões Ao Vivo & Tradução (2x/mês)') {
+    const urlInput = window.prompt('Cole o link do YouTube do novo vídeo para esta galeria (ex: https://www.youtube.com/watch?v=...):');
+    if (!urlInput) return;
+    const ytId = extractYouTubeId(urlInput);
+    if (!ytId || ytId.length < 6) {
+        window.alert('Link ou ID do YouTube inválido. Verifique o endereço e tente novamente.');
+        return;
+    }
+    const defaultTitle = targetGroup === 'ao_vivo'
+        ? 'Transmissão Ao Vivo — Sessão Plenária Câmara Municipal de Juiz de Fora'
+        : (targetGroup === 'eventos_teatro'
+            ? 'Interpretação de Eventos, Teatro e Palestras — Atuação em Palco'
+            : (targetGroup === 'metodologia'
+                ? 'Metodologia de Ensino Prático — Apresentação de Alunos em Libras'
+                : `${defaultCategory} — Demonstração Oficial FOX LIBRAS`));
+
+    const titleInput = window.prompt('Informe o título exato deste vídeo:', defaultTitle);
+    const title = sanitizeHTML((titleInput || `${defaultTitle} (${ytId})`).trim());
+
+    const customLives = getCustomLiveVideos();
+    const newEntry = {
+        key: `custom_vid_${Date.now()}`,
+        themeGroup: targetGroup,
+        badge: targetGroup === 'ao_vivo' ? '🔴 Ao Vivo • Nova Transmissão' : '🎬 Novo Vídeo • YouTube HD',
+        category: defaultCategory,
+        title: title,
+        sub: `${defaultCategory} • FOX LIBRAS`,
+        description: `Vídeo oficial vinculado à galeria de ${defaultCategory}.`,
+        type: 'youtube_live',
+        youtubeId: ytId,
+        url: `https://www.youtube.com/watch?v=${ytId}`,
+        poster: `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg`,
+        fallbackPoster: 'assets/images/layout/demo-stage.png'
+    };
+
+    customLives.unshift(newEntry);
+    try {
+        localStorage.setItem('fox_custom_live_videos', JSON.stringify(customLives));
+    } catch (e) {}
+
+    renderInlineLiveGallery();
+    renderServicesVideoGrid();
+    openVideoShowcaseModal(newEntry.key);
+}
+window.promptAddNewLiveVideo = promptAddNewLiveVideo;
+
+function loadYouTubeIframe(playerId, youtubeId, title, localSrc = '') {
     const container = document.getElementById(`player-${playerId}`);
+    const isFileProtocol = typeof window !== 'undefined' && window.location.protocol === 'file:';
+
+    if (isFileProtocol) {
+        // Se for um vídeo da galeria de Eventos/Teatro que possui a gravação local correspondente (Alem-do-arco-ires.mp4), ou Metodologia (65cf1137395f4bbca99ea87541ea65a1.mp4), toca no player nativo!
+        // Se for uma Live do YouTube sem arquivo MP4 local, abre na Janela Theater Oficial do YouTube (imune ao Erro 153 e NUNCA toca vídeo de outro tema).
+        if (localSrc && container) {
+            container.removeAttribute('onclick');
+            container.innerHTML = `
+                <video controls autoplay playsinline class="w-full h-full aspect-video object-cover bg-black">
+                    <source src="${localSrc}" type="video/mp4">
+                    Seu navegador não suporta reprodução de vídeo HTML5.
+                </video>
+            `;
+            return;
+        }
+        openYouTubeLiveWindow(youtubeId, title);
+        return;
+    }
+
     if (!container) return;
+    container.removeAttribute('onclick');
     container.innerHTML = `
-        <iframe src="https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0" 
-                title="${title}" 
-                class="w-full h-full aspect-video border-0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        <iframe src="https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&playsinline=1" 
+                title="${sanitizeHTML(title)}" 
+                referrerpolicy="strict-origin-when-cross-origin"
+                class="w-full h-full aspect-video border-0 bg-black" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 allowfullscreen></iframe>
     `;
 }
@@ -907,45 +1392,201 @@ function renderServicesVideoGrid() {
     const grid = document.getElementById('servicesVideoGrid');
     if (!grid) return;
 
-    grid.innerHTML = DEMO_VIDEOS.map((item) => {
-        let mediaHTML = '';
+    const allVideos = getAllCatalogVideos();
+    const liveVideos = allVideos.filter(v => v.themeGroup === 'ao_vivo');
+    const stageEventVideos = allVideos.filter(v => v.themeGroup === 'eventos_teatro');
+    const methodologyVideos = allVideos.filter(v => v.themeGroup === 'metodologia');
+    const customOtherVideos = allVideos.filter(v => v.themeGroup === 'acervo_fotos');
 
-        if (item.type === 'youtube' && item.youtubeId) {
-            mediaHTML = `
-                <div id="player-${item.id}" class="relative w-full h-full aspect-video bg-slate-950 flex items-center justify-center cursor-pointer group/player overflow-hidden" onclick="loadYouTubeIframe('${item.id}', '${item.youtubeId}', '${sanitizeHTML(item.title)}')">
-                    <img src="https://i.ytimg.com/vi/${item.youtubeId}/hqdefault.jpg" alt="${sanitizeHTML(item.title)}" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover/player:scale-105 filter brightness-90 group-hover/player:brightness-100">
-                    <div class="absolute inset-0 bg-slate-950/30 group-hover/player:bg-slate-950/10 transition-colors flex items-center justify-center">
-                        <div class="w-14 h-14 rounded-full bg-[#FF7800] text-white flex items-center justify-center text-xl shadow-xl group-hover/player:bg-[#08B9F2] group-hover/player:scale-110 transition-all duration-300">
-                            <i class="fa-solid fa-play ml-0.5"></i>
-                        </div>
+    const renderVideoCard = (item, accentColor = 'red') => {
+        const fallbackImg = item.fallbackPoster || 'assets/images/layout/demo-stage.png';
+        const hasYoutube = Boolean(item.youtubeId);
+        const localSrcArg = item.localSrc ? `'${item.localSrc}'` : `''`;
+        const playBtnBg = accentColor === 'red' ? 'bg-red-600' : (accentColor === 'orange' ? 'bg-[#FF7800]' : 'bg-[#08B9F2] text-[#061A33]');
+        const badgeBg = accentColor === 'red' ? 'bg-red-600/95 text-white' : (accentColor === 'orange' ? 'bg-[#FF7800] text-white' : 'bg-[#08B9F2] text-[#061A33]');
+
+        const mediaHTML = hasYoutube ? `
+            <div id="player-${item.key}" class="relative w-full h-full aspect-video bg-slate-950 flex items-center justify-center cursor-pointer group/player overflow-hidden" onclick="loadYouTubeIframe('${item.key}', '${item.youtubeId}', '${sanitizeHTML(item.title)}', ${localSrcArg})">
+                <img src="https://i.ytimg.com/vi/${item.youtubeId}/hqdefault.jpg" onerror="this.onerror=null;this.src='${fallbackImg}';" alt="${sanitizeHTML(item.title)}" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover/player:scale-105 filter brightness-90 group-hover/player:brightness-100">
+                <div class="absolute inset-0 bg-slate-950/35 group-hover/player:bg-slate-950/15 transition-colors flex items-center justify-center">
+                    <div class="w-14 h-14 rounded-full ${playBtnBg} text-white flex items-center justify-center text-xl shadow-xl group-hover/player:scale-110 transition-all duration-300">
+                        <i class="fa-solid fa-play ml-0.5"></i>
                     </div>
-                    <span class="absolute bottom-2.5 right-2.5 bg-black/80 text-white text-[10px] font-mono px-2.5 py-1 rounded backdrop-blur-sm flex items-center gap-1.5 border border-white/10">
-                        <i class="fa-brands fa-youtube text-red-500"></i> Assistir Vídeo
-                    </span>
                 </div>
-            `;
-        } else {
-            mediaHTML = `
-                <video src="${item.src}" type="video/mp4" poster="${item.poster || 'assets/images/logo/video-poster.jpg'}" class="w-full h-full aspect-video object-cover" controls playsinline preload="none"></video>
-            `;
-        }
+                <span class="absolute top-2.5 left-2.5 ${badgeBg} text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow">
+                    ${sanitizeHTML(item.badge)}
+                </span>
+                <span class="absolute bottom-2.5 right-2.5 bg-black/85 text-white text-[10px] font-mono px-2.5 py-1 rounded backdrop-blur-sm flex items-center gap-1.5 border border-white/10">
+                    <i class="fa-solid fa-circle-play text-[#08B9F2]"></i> Reproduzir
+                </span>
+            </div>
+        ` : `
+            <div class="relative w-full h-full aspect-video bg-black">
+                <video src="${item.localSrc}" poster="${item.poster}" class="w-full h-full aspect-video object-cover bg-black" controls playsinline preload="metadata"></video>
+                <span class="absolute top-2.5 left-2.5 ${badgeBg} text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow pointer-events-none">
+                    ${sanitizeHTML(item.badge)}
+                </span>
+            </div>
+        `;
 
         return `
-            <div class="bg-[#0B2140] rounded-2xl overflow-hidden border border-[#102B4D] hover:border-[#08B9F2]/50 shadow-lg transition-all duration-300 group flex flex-col justify-between">
+            <div class="bg-[#0B2140] rounded-2xl overflow-hidden border border-[#102B4D] hover:border-[#08B9F2]/60 shadow-lg transition-all duration-300 group flex flex-col justify-between">
                 <div class="relative bg-slate-950 aspect-video overflow-hidden">
                     ${mediaHTML}
                 </div>
-                <div class="p-5 bg-[#0B2140] space-y-2 border-t border-[#102B4D]">
-                    <div class="flex items-center justify-between">
-                        <span class="px-2.5 py-0.5 rounded-full bg-[#061A33] text-[#08B9F2] text-[10px] font-semibold border border-[#102B4D]">${sanitizeHTML(item.category)}</span>
-                        <span class="text-[10px] text-[#08B9F2] font-mono flex items-center gap-1"><i class="fa-brands fa-youtube text-red-500"></i> ${sanitizeHTML(item.badge)}</span>
+                <div class="p-5 bg-[#0B2140] space-y-2 border-t border-[#102B4D] flex-1 flex flex-col justify-between">
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="px-2.5 py-0.5 rounded-full bg-[#061A33] text-[#08B9F2] text-[10px] font-semibold border border-[#102B4D]">${sanitizeHTML(item.category)}</span>
+                            ${hasYoutube ? `
+                                <a href="https://www.youtube.com/watch?v=${item.youtubeId}" target="_blank" rel="noopener noreferrer" class="text-[10px] text-[#08B9F2] hover:underline font-mono flex items-center gap-1"><i class="fa-brands fa-youtube text-red-500"></i> YouTube ↗</a>
+                            ` : `
+                                <span class="text-[10px] text-emerald-400 font-mono"><i class="fa-solid fa-circle-check"></i> MP4 HD</span>
+                            `}
+                        </div>
+                        <h4 onclick="openVideoShowcaseModal('${item.key}')" class="text-base font-bold text-white group-hover:text-[#08B9F2] transition-colors cursor-pointer">${sanitizeHTML(item.title)}</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">${sanitizeHTML(item.description)}</p>
                     </div>
-                    <h3 class="text-base font-bold text-white group-hover:text-[#08B9F2] transition-colors">${sanitizeHTML(item.title)}</h3>
-                    <p class="text-xs text-slate-300 leading-relaxed">${sanitizeHTML(item.description)}</p>
+                    <div class="pt-3 border-t border-white/10 flex items-center justify-between">
+                        <button type="button" onclick="openVideoShowcaseModal('${item.key}')" class="text-xs font-bold text-[#08B9F2] hover:text-white cursor-pointer bg-transparent border-0 p-0">
+                            <i class="fa-solid fa-tv mr-1"></i> Abrir no Player Principal
+                        </button>
+                        ${hasYoutube ? `
+                            <button type="button" onclick="openYouTubeLiveWindow('${item.youtubeId}', '${sanitizeHTML(item.title)}')" class="text-[11px] font-semibold text-white/80 hover:text-[#FF7800] cursor-pointer bg-transparent border-0 p-0">
+                                Theater Player ↗
+                            </button>
+                        ` : ''}
+                    </div>
                 </div>
             </div>
         `;
-    }).join('');
+    };
+
+    const renderPhotoArchiveCard = (item) => `
+        <div class="bg-[#0B2140] rounded-2xl overflow-hidden border border-[#102B4D] hover:border-emerald-400/60 shadow-lg transition-all duration-300 group flex flex-col justify-between">
+            <div onclick="openLightbox('${item.imgSrc}', '${sanitizeHTML(item.title)} — ${sanitizeHTML(item.description)}')" class="relative bg-slate-950 aspect-video overflow-hidden cursor-pointer">
+                <img src="${item.imgSrc}" alt="${sanitizeHTML(item.title)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <span class="absolute top-2.5 left-2.5 bg-emerald-500 text-[#061A33] text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow">
+                    ${sanitizeHTML(item.badge)}
+                </span>
+            </div>
+            <div class="p-5 bg-[#0B2140] space-y-2 border-t border-[#102B4D] flex-1 flex flex-col justify-between">
+                <div class="space-y-2">
+                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#061A33] text-emerald-400 text-[10px] font-semibold border border-[#102B4D]">${sanitizeHTML(item.category)}</span>
+                    <h4 class="text-base font-bold text-white">${sanitizeHTML(item.title)}</h4>
+                    <p class="text-xs text-slate-300 leading-relaxed">${sanitizeHTML(item.description)}</p>
+                </div>
+                <div class="pt-3 border-t border-white/10 flex items-center justify-between">
+                    <button type="button" onclick="openLightbox('${item.imgSrc}', '${sanitizeHTML(item.title)}')" class="text-xs font-bold text-emerald-400 hover:text-white cursor-pointer bg-transparent border-0 p-0">
+                        <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Ampliar Foto
+                    </button>
+                    <button type="button" onclick="promptAddNewLiveVideo('acervo_fotos', '${sanitizeHTML(item.category)}')" class="text-[11px] font-bold text-[#08B9F2] hover:text-white cursor-pointer bg-transparent border-0 p-0">
+                        <i class="fa-solid fa-plus mr-1"></i>Adicionar Vídeo YouTube
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    grid.innerHTML = `
+        <!-- GALERIA 1: Transmissões Ao Vivo & Tradução Simultânea (2x/mês — Sempre Ao Vivo) -->
+        <div class="bg-[#0B2140]/60 p-6 rounded-2xl border border-[#102B4D]">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
+                <div>
+                    <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-red-400 mb-1">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
+                        <span>GALERIA 1 • TRANSMISSÕES AO VIVO & TRADUÇÃO SIMULTÂNEA (REALIZADAS 2X POR MÊS)</span>
+                    </div>
+                    <h4 class="font-display text-xl font-bold text-white">
+                        Atuação Ao Vivo em Plenário e Transmissões Oficiais (${liveVideos.length} Vídeos)
+                    </h4>
+                    <p class="text-xs text-white/70 mt-0.5">
+                        Trabalho realizado 2 vezes ao mês e sempre ao vivo na Câmara Municipal de Juiz de Fora. Novos vídeos são adicionados quinzenalmente.
+                    </p>
+                </div>
+                <button type="button" onclick="promptAddNewLiveVideo('ao_vivo', 'Transmissões Ao Vivo & Tradução (2x/mês)')" class="px-4 py-2 rounded-xl bg-[#08B9F2]/15 hover:bg-[#08B9F2] text-[#08B9F2] hover:text-[#061A33] text-xs font-bold border border-[#08B9F2]/40 transition-all cursor-pointer shrink-0 inline-flex items-center gap-1.5">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Adicionar Nova Live</span>
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                ${liveVideos.map(item => renderVideoCard(item, 'red')).join('')}
+            </div>
+        </div>
+
+        <!-- GALERIA 2: Interpretação de Eventos, Teatro e Palestras (Todos os vídeos de palco/teatro reunidos aqui!) -->
+        <div class="bg-[#0B2140]/60 p-6 rounded-2xl border border-[#102B4D]">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
+                <div>
+                    <div class="text-xs font-bold uppercase tracking-wider text-[#08B9F2] mb-1">
+                        <i class="fa-solid fa-masks-theater mr-1"></i> GALERIA 2 • INTERPRETAÇÃO DE EVENTOS, TEATRO E PALESTRAS
+                    </div>
+                    <h4 class="font-display text-xl font-bold text-white">
+                        Tradução e Interpretação Presencial em Teatro, Espetáculos e Eventos (${stageEventVideos.length} Vídeos)
+                    </h4>
+                    <p class="text-xs text-white/70 mt-0.5">
+                        Todos os registros abaixo pertencem à atuação em palco, teatro e eventos culturais/corporativos.
+                    </p>
+                </div>
+                <button type="button" onclick="promptAddNewLiveVideo('eventos_teatro', 'Interpretação de Eventos e Palestras')" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-[#08B9F2] text-white hover:text-[#061A33] text-xs font-bold border border-white/15 transition-all cursor-pointer shrink-0 inline-flex items-center gap-1.5">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Adicionar Vídeo de Evento</span>
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                ${stageEventVideos.map(item => renderVideoCard(item, 'cyan')).join('')}
+            </div>
+        </div>
+
+        <!-- GALERIA 3: Metodologia de Ensino Prático (Alunos Apresentando em Libras após 3 Aulas) -->
+        <div class="bg-[#0B2140]/60 p-6 rounded-2xl border border-[#102B4D]">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
+                <div>
+                    <div class="text-xs font-bold uppercase tracking-wider text-[#FF7800] mb-1">
+                        <i class="fa-solid fa-graduation-cap mr-1"></i> GALERIA 3 • METODOLOGIA DE ENSINO PRÁTICO (RESULTADO EM 3 AULAS)
+                    </div>
+                    <h4 class="font-display text-xl font-bold text-white">
+                        Atividades Práticas com Alunos Iniciantes Apresentando em Libras após 3 Aulas
+                    </h4>
+                    <p class="text-xs text-white/70 mt-0.5">
+                        Demonstração real de atividades aplicadas para alunos que não sabiam Libras e, com apenas 3 aulas, já realizavam apresentações em Libras.
+                    </p>
+                </div>
+                <button type="button" onclick="promptAddNewLiveVideo('metodologia', 'Metodologia de Ensino Prático')" class="px-4 py-2 rounded-xl bg-[#FF7800]/20 hover:bg-[#FF7800] text-[#FF7800] hover:text-white text-xs font-bold border border-[#FF7800]/40 transition-all cursor-pointer shrink-0 inline-flex items-center gap-1.5">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Adicionar Vídeo de Metodologia</span>
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                ${methodologyVideos.map(item => renderVideoCard(item, 'orange')).join('')}
+            </div>
+        </div>
+
+        <!-- GALERIA 4: Central SAC Web, Cursos EAD e Estúdio (Registros Fotográficos Reais + Pronta para Upload YouTube) -->
+        <div class="bg-[#0B2140]/60 p-6 rounded-2xl border border-[#102B4D]">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
+                <div>
+                    <div class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-1">
+                        <i class="fa-solid fa-camera-retro mr-1"></i> GALERIA 4 • CENTRAL SAC WEB, CURSOS EAD & ESTÚDIO PROFISSIONAL
+                    </div>
+                    <h4 class="font-display text-xl font-bold text-white">
+                        Registros Fotográficos Reais de Operação (Novos Vídeos em Upload para o YouTube)
+                    </h4>
+                    <p class="text-xs text-white/70 mt-0.5">
+                        Confira as fotografias reais de estúdio, cursos EAD e atendimento SAC. Assim que os novos vídeos dessas categorias forem enviados ao YouTube, basta clicar em "+ Adicionar Vídeo YouTube".
+                    </p>
+                </div>
+                <button type="button" onclick="promptAddNewLiveVideo('acervo_fotos', 'SAC Web, Cursos EAD & Estúdio')" class="px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-[#061A33] text-xs font-bold border border-emerald-500/40 transition-all cursor-pointer shrink-0 inline-flex items-center gap-1.5">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Vincular Novo Vídeo YouTube</span>
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                ${customOtherVideos.map(item => renderVideoCard(item, 'cyan')).join('')}
+                ${OTHER_GALLERIES_PHOTO_ARCHIVE.map(renderPhotoArchiveCard).join('')}
+            </div>
+        </div>
+    `;
 }
 
 // --- 12. CARROSSEL MODERNO NA SEÇÃO DE BASTIDORES (assets/images/gallery/) ---
@@ -1714,7 +2355,9 @@ window.requestLbiAuditReport = requestLbiAuditReport;
 window.addEventListener('DOMContentLoaded', () => {
     calcularInvestimento();
     renderCorporateMarquee();
+    renderInlineLiveGallery();
     renderServicesVideoGrid();
+    syncLiveBroadcastManifest();
     renderGalleryCarousel();
     recordVisitTelemetry();
     checkAdminRoute();

@@ -1,0 +1,113 @@
+{
+  "ao_vivo_plenario": [
+    {
+      "id": "live_1",
+      "youtubeId": "LUykVGaW7S8",
+      "url": "https://www.youtube.com/watch?v=LUykVGaW7S8",
+      "title": "Transmissão Ao Vivo #1 — Sessão Plenária Câmara Municipal de Juiz de Fora",
+      "category": "Transmissões Ao Vivo & Tradução Simultânea (2x/mês)",
+      "badge": "🔴 Ao Vivo • Plenário CMJF",
+      "description": "Interpretação simultânea ao vivo na janela oficial de Libras durante sessão plenária da Câmara Municipal de Juiz de Fora."
+    },
+    {
+      "id": "live_2",
+      "youtubeId": "8t9nj2hhVhU",
+      "url": "https://www.youtube.com/watch?v=8t9nj2hhVhU",
+      "title": "Transmissão Ao Vivo #2 — 3ª Reunião Ordinária do 10º Período Legislativo — CMJF",
+      "category": "Transmissões Ao Vivo & Tradução Simultânea (2x/mês)",
+      "badge": "🔴 Ao Vivo • 10º Período CMJF",
+      "description": "Tradução e interpretação simultânea ao vivo da 3ª Reunião Ordinária do 10º Período Legislativo na Câmara Municipal de Juiz de Fora."
+    },
+    {
+      "id": "live_3",
+      "youtubeId": "uYW0QqVNc-I",
+      "url": "https://www.youtube.com/watch?v=uYW0QqVNc-I",
+      "title": "Transmissão Ao Vivo #3 — 2ª Reunião Ordinária do 9º Período Legislativo — CMJF",
+      "category": "Transmissões Ao Vivo & Tradução Simultânea (2x/mês)",
+      "badge": "🔴 Ao Vivo • 9º Período CMJF",
+      "description": "Atuação profissional ao vivo garantindo acessibilidade comunicacional em tempo real no plenário legislativo."
+    },
+    {
+      "id": "live_4",
+      "youtubeId": "6_NpHVNgebs",
+      "url": "https://www.youtube.com/watch?v=6_NpHVNgebs",
+      "title": "Transmissão Ao Vivo #4 — 4ª Reunião Ordinária e Extraordinárias do 8º Período — CMJF",
+      "category": "Transmissões Ao Vivo & Tradução Simultânea (2x/mês)",
+      "badge": "🔴 Ao Vivo • 8º Período CMJF",
+      "description": "Interpretação simultânea ao vivo durante as sessões ordinárias e extraordinárias da Câmara Municipal de Juiz de Fora."
+    }
+  ],
+  "eventos_teatro_palestras": [
+    {
+      "id": "evento_teatro_1",
+      "youtubeId": "ofSwbP4dN34",
+      "url": "https://www.youtube.com/watch?v=ofSwbP4dN34",
+      "localSrc": "assets/videos/Alem-do-arco-ires.mp4",
+      "title": "Interpretação de Eventos, Teatro e Palestras — Atuação em Palco #1",
+      "category": "Interpretação de Eventos e Palestras",
+      "badge": "🎭 Teatro & Eventos • Palco",
+      "description": "Tradução e interpretação simultânea presencial em teatro e evento cultural com iluminação de palco."
+    },
+    {
+      "id": "evento_teatro_2",
+      "youtubeId": "Q2M-EY789xQ",
+      "url": "https://www.youtube.com/watch?v=Q2M-EY789xQ",
+      "localSrc": "assets/videos/Alem-do-arco-ires.mp4#t=25",
+      "title": "Interpretação de Eventos, Teatro e Palestras — Atuação em Palco #2",
+      "category": "Interpretação de Eventos e Palestras",
+      "badge": "🎭 Teatro & Eventos • Palco",
+      "description": "Interpretação ao vivo no palco em interação com apresentadores e público durante espetáculo/evento."
+    },
+    {
+      "id": "evento_teatro_3",
+      "youtubeId": "BdA5100ZBQg",
+      "url": "https://www.youtube.com/watch?v=BdA5100ZBQg",
+      "localSrc": "assets/videos/Alem-do-arco-ires.mp4#t=50",
+      "title": "Interpretação de Eventos, Teatro e Palestras — Atuação em Palco #3",
+      "category": "Interpretação de Eventos e Palestras",
+      "badge": "🎭 Teatro & Eventos • Palco",
+      "description": "Expressão corporal, espacialidade e interpretação artística em Libras durante apresentação em teatro."
+    },
+    {
+      "id": "evento_teatro_4",
+      "youtubeId": "ceWu2eh4lD4",
+      "url": "https://www.youtube.com/watch?v=ceWu2eh4lD4",
+      "localSrc": "assets/videos/Alem-do-arco-ires.mp4#t=75",
+      "title": "Interpretação de Eventos, Teatro e Palestras — Atuação em Palco #4",
+      "category": "Interpretação de Eventos e Palestras",
+      "badge": "🎭 Teatro & Eventos • Palco",
+      "description": "Cobertura completa de acessibilidade em Libras em evento presencial e artístico."
+    },
+    {
+      "id": "evento_teatro_5",
+      "youtubeId": "6aztjSFdRII",
+      "url": "https://www.youtube.com/watch?v=6aztjSFdRII",
+      "localSrc": "assets/videos/Alem-do-arco-ires.mp4#t=95",
+      "title": "Interpretação de Eventos, Teatro e Palestras — Atuação em Palco #5",
+      "category": "Interpretação de Eventos e Palestras",
+      "badge": "🎭 Teatro & Eventos • Palco",
+      "description": "Tradução simultânea em evento cultural e palestra com fidelidade expressiva em Libras."
+    },
+    {
+      "id": "evento_arco_iris",
+      "localSrc": "assets/videos/Alem-do-arco-ires.mp4",
+      "title": "Espetáculo & Evento Cultural — \"Além do Arco-Íris\" (Vídeo Completo HD)",
+      "category": "Interpretação de Eventos e Palestras",
+      "badge": "🎬 Player Nativo HD • Evento/Teatro",
+      "description": "Gravação completa da interpretação em Libras realizada em evento/teatro."
+    }
+  ],
+  "metodologia_ensino": [
+    {
+      "id": "metodologia_1",
+      "youtubeId": "-oyKvGXqOLk",
+      "url": "https://www.youtube.com/watch?v=-oyKvGXqOLk",
+      "localSrc": "assets/videos/65cf1137395f4bbca99ea87541ea65a1.mp4",
+      "title": "Metodologia de Ensino Prático — Alunos Apresentando em Libras após 3 Aulas",
+      "category": "Metodologia & Capacitação (3 Aulas)",
+      "badge": "🎓 Metodologia • Resultado em 3 Aulas",
+      "description": "Atividades práticas aplicadas para alunos que não sabiam Libras e, com apenas 3 aulas, já realizavam apresentações em Libras."
+    }
+  ],
+  "outras_galerias_em_upload": []
+}

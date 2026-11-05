@@ -8,6 +8,7 @@
     <meta name="keywords" content="FOX LIBRAS, Soluções em Acessibilidade, Intérprete de Libras, Central de Libras, SAC Acessível, Tradução em Libras, Legendagem, Diagnóstico LBI, Lei Brasileira de Inclusão, Osvaldo Queta">
     <meta name="author" content="FOX LIBRAS — Soluções em Acessibilidade">
     <meta name="robots" content="index, follow">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="theme-color" content="#061A33">
 
     <!-- Canonical & Open Graph -->
@@ -31,48 +32,11 @@
     <!-- FontAwesome 6.5.1 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Tailwind CSS Engine + Design System Config -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        navy: {
-                            DEFAULT: '#061A33',
-                            secondary: '#0B2140',
-                            surface: '#102B4D',
-                            deep: '#041225'
-                        },
-                        cyan: {
-                            DEFAULT: '#08B9F2',
-                            light: '#35C7F5'
-                        },
-                        orange: {
-                            DEFAULT: '#FF7800',
-                            hover: '#FF8A1F'
-                        },
-                        light: {
-                            DEFAULT: '#F4F6FA',
-                            alt: '#EEF2F7',
-                            border: '#DCE3EC'
-                        },
-                        slateText: '#52627A'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-                        display: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif']
-                    },
-                    maxWidth: {
-                        'container': '1280px'
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Folha de Estilo Estática Tailwind CSS (Compilada Localmente — Zero Dependência de CDN) -->
+    <link rel="stylesheet" href="assets/css/tailwind.min.css?v=4.2">
 
     <!-- Folha de Estilo Institucional & Design System -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=4.2">
 
     <!-- Schema.org JSON-LD: ProfessionalService & FAQPage -->
     <script type="application/ld+json">
@@ -338,8 +302,8 @@
                         <!-- Indicador sobre a fotografia: "Interpretação profissional • Ao vivo" -->
                         <button 
                             type="button"
-                            onclick="openVideoShowcaseModal('camara')"
-                            title="Clique para assistir à demonstração real de interpretação em Libras ao vivo"
+                            onclick="openVideoShowcaseModal('live_1')"
+                            title="Clique para abrir a Galeria de Transmissões Ao Vivo da FOX LIBRAS"
                             class="absolute bottom-4 right-4 sm:bottom-5 sm:right-6 z-20 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#061A33]/85 hover:bg-[#061A33] backdrop-blur-md border border-white/15 text-white text-[12px] font-medium shadow-lg transition-all hover:scale-105 cursor-pointer group"
                         >
                             <i class="fa-solid fa-circle-play text-white group-hover:text-[#08B9F2] text-xs transition-colors"></i>
@@ -530,7 +494,7 @@
 
                 <!-- ===============================================================
                      5. SEÇÃO DEMONSTRAÇÃO ("VEJA NA PRÁTICA")
-                        Banner horizontal arredondado com vídeo real
+                        Banner horizontal arredondado com vídeo real + Galeria Ao Vivo
                 ================================================================ -->
                 <div id="veja-na-pratica" class="relative w-full rounded-[16px] overflow-hidden bg-[#061A33] shadow-xl min-h-[210px] sm:min-h-[225px] flex items-center">
                     <!-- Imagem de palco à direita -->
@@ -563,25 +527,77 @@
                             </p>
                         </div>
 
-                        <!-- Botão Circular Branco Central de Reprodução -->
-                        <div class="md:col-span-6 lg:col-span-7 flex items-center justify-start md:justify-start lg:pl-10">
+                        <!-- Botão Circular Branco Central de Reprodução + Atalhos por Tema -->
+                        <div class="md:col-span-6 lg:col-span-7 flex flex-wrap items-center justify-start md:justify-start lg:pl-10 gap-4">
                             <button 
                                 type="button" 
-                                onclick="openVideoShowcaseModal('camara')"
+                                onclick="openVideoShowcaseModal('live_1')"
                                 aria-label="Reproduzir vídeo de demonstração da FOX LIBRAS em ação"
-                                class="btn-play-pulse w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white text-[#061A33] flex items-center justify-center shadow-2xl cursor-pointer border-0 focus:outline-none group"
+                                class="btn-play-pulse w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white text-[#061A33] flex items-center justify-center shadow-2xl cursor-pointer border-0 focus:outline-none group shrink-0"
                             >
                                 <i class="fa-solid fa-play text-lg sm:text-xl ml-1 text-[#061A33] group-hover:text-[#08B9F2] transition-colors"></i>
                             </button>
-                            <div class="ml-4 hidden sm:block">
-                                <button type="button" onclick="openVideoShowcaseModal('camara')" class="text-left text-white/90 hover:text-[#08B9F2] text-xs font-semibold transition-colors cursor-pointer bg-transparent border-0">
-                                    <span class="block uppercase tracking-wider text-[10px] text-[#08B9F2] font-bold">Showcase Oficial (6 Vídeos)</span>
-                                    <span class="underline underline-offset-4">Assistir demonstração em Libras →</span>
+                            <div class="flex flex-col gap-1.5">
+                                <button type="button" onclick="openVideoShowcaseModal('live_1')" class="text-left text-white/95 hover:text-[#08B9F2] text-xs font-semibold transition-colors cursor-pointer bg-transparent border-0 p-0">
+                                    <span class="inline-flex items-center gap-1.5 uppercase tracking-wider text-[10px] text-[#08B9F2] font-bold">
+                                        <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                                        Transmissões Ao Vivo (2x/mês) & Acervo Oficial
+                                    </span>
+                                    <span class="block underline underline-offset-4">Assistir transmissões ao vivo e demonstrações →</span>
                                 </button>
+                                <div class="flex flex-wrap items-center gap-1.5 pt-0.5">
+                                    <button type="button" onclick="filterInlineGallery('ao_vivo'); toggleInlineLiveGallery();" class="px-2.5 py-1 rounded-full bg-[#08B9F2]/20 hover:bg-[#08B9F2] text-[#08B9F2] hover:text-[#061A33] text-[10.5px] font-bold transition-all cursor-pointer border border-[#08B9F2]/40">
+                                        <i class="fa-solid fa-tower-broadcast text-red-400 mr-1"></i>Ao Vivo & Tradução (2x/mês)
+                                    </button>
+                                    <button type="button" onclick="filterInlineGallery('eventos_teatro'); toggleInlineLiveGallery();" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-[10.5px] font-semibold transition-all cursor-pointer border border-white/15">
+                                        <i class="fa-solid fa-masks-theater mr-1 text-[#08B9F2]"></i>Eventos, Teatro & Palestras (6)
+                                    </button>
+                                    <button type="button" onclick="openVideoShowcaseModal('metodologia')" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-[10.5px] font-semibold transition-all cursor-pointer border border-white/15">
+                                        <i class="fa-solid fa-graduation-cap mr-1 text-[#FF7800]"></i>Metodologia (Alunos em 3 Aulas)
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
                     </div>
+                </div>
+
+                <!-- GALERIA EXPANSÍVEL DE TRANSMISSÕES AO VIVO & VÍDEOS POR TEMA -->
+                <div id="inlineLiveGalleryDrawer" class="mt-5 rounded-[16px] bg-[#061A33] border border-[#102B4D] p-6 sm:p-8 shadow-xl">
+                    <div class="flex flex-col gap-4 pb-5 mb-6 border-b border-white/10">
+                        <div class="w-full max-w-4xl">
+                            <div class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-[#08B9F2] mb-1.5">
+                                <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+                                <span>GALERIAS OFICIAIS ORGANIZADAS POR TEMA REAL • ATUALIZAÇÃO QUINZENAL (2X/MÊS)</span>
+                            </div>
+                            <h3 class="font-display text-white font-bold text-xl sm:text-2xl leading-snug">
+                                Transmissões Ao Vivo, Interpretação de Eventos/Teatro e Metodologia (3 Aulas)
+                            </h3>
+                            <p class="text-white/75 text-xs sm:text-sm mt-1.5 leading-relaxed">
+                                Todos os vídeos de palco/teatro estão reunidos na galeria de <strong>Interpretação de Eventos e Palestras</strong>, as sessões ao vivo na galeria <strong>Ao Vivo (2x/mês)</strong> e a prática de sala de aula em <strong>Metodologia</strong>.
+                            </p>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2.5 pt-1">
+                            <button type="button" onclick="filterInlineGallery('all', this)" class="inline-gallery-filter-btn active px-3.5 py-2 rounded-lg bg-[#08B9F2] text-[#061A33] text-xs font-bold cursor-pointer border-0 transition-colors">
+                                Todas as Galerias
+                            </button>
+                            <button type="button" onclick="filterInlineGallery('ao_vivo', this)" class="inline-gallery-filter-btn px-3.5 py-2 rounded-lg bg-[#0B2140] text-white/85 hover:text-white text-xs font-semibold cursor-pointer border border-white/10 transition-colors">
+                                <i class="fa-solid fa-tower-broadcast text-red-400 mr-1.5"></i>Ao Vivo & Tradução (4 Lives)
+                            </button>
+                            <button type="button" onclick="filterInlineGallery('eventos_teatro', this)" class="inline-gallery-filter-btn px-3.5 py-2 rounded-lg bg-[#0B2140] text-white/85 hover:text-white text-xs font-semibold cursor-pointer border border-white/10 transition-colors">
+                                <i class="fa-solid fa-masks-theater text-[#08B9F2] mr-1.5"></i>Eventos, Teatro & Palestras (6)
+                            </button>
+                            <button type="button" onclick="filterInlineGallery('metodologia', this)" class="inline-gallery-filter-btn px-3.5 py-2 rounded-lg bg-[#0B2140] text-white/85 hover:text-white text-xs font-semibold cursor-pointer border border-white/10 transition-colors">
+                                <i class="fa-solid fa-chalkboard-user text-[#FF7800] mr-1.5"></i>Metodologia: 3 Aulas (1)
+                            </button>
+                            <button type="button" onclick="filterInlineGallery('acervo_fotos', this)" class="inline-gallery-filter-btn px-3.5 py-2 rounded-lg bg-[#0B2140] text-white/85 hover:text-white text-xs font-semibold cursor-pointer border border-white/10 transition-colors">
+                                <i class="fa-solid fa-camera text-emerald-400 mr-1.5"></i>SAC, EAD & Estúdio (Fotos + Upload)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Grid renderizado dinamicamente por renderInlineLiveGallery() -->
+                    <div id="inlineLiveGalleryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
                 </div>
 
             </div>
@@ -767,18 +783,18 @@
                 <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
                         <div>
-                            <div class="eyebrow-badge text-[#08B9F2] mb-2">ACERVO AUDIOVISUAL REAL</div>
+                            <div class="eyebrow-badge text-[#08B9F2] mb-2">GALERIA DE TRANSMISSÕES AO VIVO (2X/MÊS) & ACERVO AUDIOVISUAL</div>
                             <h3 class="font-display text-2xl sm:text-3xl font-extrabold text-white">
-                                Demonstrações Práticas em <span class="text-[#08B9F2]">Vídeo</span>
+                                Transmissões Ao Vivo, Estúdio e <span class="text-[#08B9F2]">Metodologia</span>
                             </h3>
                         </div>
                         <p class="text-white/75 text-sm max-w-md">
-                            Assista às gravações reais de atuação da FOX LIBRAS em SAC Web, eventos ao vivo, cursos EAD, estúdio e órgãos governamentais.
+                            Galeria oficial de interpretações simultâneas realizadas ao vivo (2 vezes por mês), produções em estúdio e resultados reais de metodologia com alunos em 3 aulas.
                         </p>
                     </div>
 
                     <!-- Grid renderizado dinamicamente por renderServicesVideoGrid() -->
-                    <div id="servicesVideoGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                    <div id="servicesVideoGrid" class="space-y-10"></div>
                 </div>
             </section>
 
@@ -1300,36 +1316,49 @@
 
     <!-- 1. Modal de Demonstração em Vídeo (openVideoShowcaseModal) -->
     <div id="videoShowcaseModal" class="hidden fixed inset-0 z-[80] flex items-center justify-center p-4 modal-backdrop-fox" role="dialog" aria-modal="true" aria-labelledby="modalVideoTitle">
-        <div class="bg-[#0B2140] border border-white/15 rounded-2xl max-w-4xl w-full overflow-hidden shadow-2xl">
-            <div class="px-6 py-4 border-b border-white/10 flex items-center justify-between">
+        <div class="bg-[#0B2140] border border-white/15 rounded-2xl max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl">
+            <div class="px-6 py-4 border-b border-white/10 flex items-center justify-between sticky top-0 bg-[#0B2140]/95 backdrop-blur-md z-20">
                 <div>
                     <span id="modalVideoSubtitle" class="text-[11px] font-bold uppercase tracking-wider text-[#08B9F2]">Atuação Profissional • Janela Oficial de Libras</span>
                     <h3 id="modalVideoTitle" class="text-white font-bold text-lg">Interpretação ao Vivo — FOX LIBRAS</h3>
                 </div>
-                <button type="button" onclick="closeVideoShowcaseModal()" aria-label="Fechar vídeo" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center cursor-pointer border-0">
+                <button type="button" onclick="closeVideoShowcaseModal()" aria-label="Fechar vídeo" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center cursor-pointer border-0 shrink-0">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
             <div class="p-5 sm:p-6">
-                <div id="modalVideoPlayerContainer" class="rounded-xl overflow-hidden bg-black aspect-video mb-4 border border-white/10"></div>
+                <div id="modalVideoPlayerContainer" class="rounded-xl overflow-hidden bg-black aspect-video mb-3 border border-white/10 relative"></div>
+                <div id="modalVideoActionBar" class="flex flex-wrap items-center justify-between gap-2 mb-4 px-1 text-xs text-white/75"></div>
+
+                <!-- Seletor Principal Separado por Tema Exato -->
+                <div class="mb-2 flex items-center justify-between text-[11px] text-white/70 font-semibold uppercase tracking-wider">
+                    <span><i class="fa-solid fa-tower-broadcast text-red-400 mr-1"></i> Selecione a Galeria / Vídeo por Tema Real:</span>
+                    <span class="text-[#08B9F2]">100% fiel ao conteúdo</span>
+                </div>
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
-                    <button type="button" data-video-key="camara" onclick="openVideoShowcaseModal('camara')" class="modal-video-btn px-3 py-2 rounded-lg text-xs font-semibold border transition-all bg-[#08B9F2] text-[#061A33] border-[#08B9F2] cursor-pointer">
-                        1. Ao Vivo (Plenário)
+                    <button type="button" data-video-key="live_1" onclick="openVideoShowcaseModal('live_1')" class="modal-video-btn px-2.5 py-2 rounded-lg text-[11px] font-semibold border transition-all bg-[#08B9F2] text-[#061A33] border-[#08B9F2] cursor-pointer text-left">
+                        <span class="block text-[9px] uppercase opacity-80">🔴 Ao Vivo #1</span>
+                        <span class="font-bold">Plenário CMJF I</span>
                     </button>
-                    <button type="button" data-video-key="sac" onclick="openVideoShowcaseModal('sac')" class="modal-video-btn px-3 py-2 rounded-lg text-xs font-semibold border transition-all bg-[#0B2140] text-slate-200 border-[#102B4D] cursor-pointer">
-                        2. Central SAC
+                    <button type="button" data-video-key="live_2" onclick="openVideoShowcaseModal('live_2')" class="modal-video-btn px-2.5 py-2 rounded-lg text-[11px] font-semibold border transition-all bg-[#0B2140] text-slate-200 border-[#102B4D] cursor-pointer text-left">
+                        <span class="block text-[9px] uppercase text-red-400">🔴 Ao Vivo #2</span>
+                        <span class="font-bold">10º Período CMJF</span>
                     </button>
-                    <button type="button" data-video-key="eventos" onclick="openVideoShowcaseModal('eventos')" class="modal-video-btn px-3 py-2 rounded-lg text-xs font-semibold border transition-all bg-[#0B2140] text-slate-200 border-[#102B4D] cursor-pointer">
-                        3. Eventos & Lives
+                    <button type="button" data-video-key="live_3" onclick="openVideoShowcaseModal('live_3')" class="modal-video-btn px-2.5 py-2 rounded-lg text-[11px] font-semibold border transition-all bg-[#0B2140] text-slate-200 border-[#102B4D] cursor-pointer text-left">
+                        <span class="block text-[9px] uppercase text-red-400">🔴 Ao Vivo #3</span>
+                        <span class="font-bold">9º Período CMJF</span>
                     </button>
-                    <button type="button" data-video-key="ead" onclick="openVideoShowcaseModal('ead')" class="modal-video-btn px-3 py-2 rounded-lg text-xs font-semibold border transition-all bg-[#0B2140] text-slate-200 border-[#102B4D] cursor-pointer">
-                        4. EAD & Vídeos
+                    <button type="button" data-video-key="live_4" onclick="openVideoShowcaseModal('live_4')" class="modal-video-btn px-2.5 py-2 rounded-lg text-[11px] font-semibold border transition-all bg-[#0B2140] text-slate-200 border-[#102B4D] cursor-pointer text-left">
+                        <span class="block text-[9px] uppercase text-red-400">🔴 Ao Vivo #4</span>
+                        <span class="font-bold">8º Período CMJF</span>
                     </button>
-                    <button type="button" data-video-key="estudio" onclick="openVideoShowcaseModal('estudio')" class="modal-video-btn px-3 py-2 rounded-lg text-xs font-semibold border transition-all bg-[#0B2140] text-slate-200 border-[#102B4D] cursor-pointer">
-                        5. Estúdio HD
+                    <button type="button" data-video-key="evento_arco_iris" onclick="openVideoShowcaseModal('evento_arco_iris')" class="modal-video-btn px-2.5 py-2 rounded-lg text-[11px] font-semibold border transition-all bg-[#0B2140] text-slate-200 border-[#102B4D] cursor-pointer text-left">
+                        <span class="block text-[9px] uppercase text-[#08B9F2]">🎭 Eventos & Teatro</span>
+                        <span class="font-bold">Palco & Palestras</span>
                     </button>
-                    <button type="button" data-video-key="local" onclick="openVideoShowcaseModal('local')" class="modal-video-btn px-3 py-2 rounded-lg text-xs font-semibold border transition-all bg-[#0B2140] text-slate-200 border-[#102B4D] cursor-pointer">
-                        6. Metodologia
+                    <button type="button" data-video-key="metodologia" onclick="openVideoShowcaseModal('metodologia')" class="modal-video-btn px-2.5 py-2 rounded-lg text-[11px] font-semibold border transition-all bg-[#0B2140] text-slate-200 border-[#102B4D] cursor-pointer text-left">
+                        <span class="block text-[9px] uppercase text-[#FF7800]">🎓 Metodologia</span>
+                        <span class="font-bold">Alunos (3 Aulas)</span>
                     </button>
                 </div>
             </div>
@@ -1338,7 +1367,7 @@
 
     <!-- 2. Modal de Detalhes das Soluções (openServiceDetailModal) -->
     <div id="serviceDetailModal" class="hidden fixed inset-0 z-[80] flex items-center justify-center p-4 modal-backdrop-fox" role="dialog" aria-modal="true" aria-labelledby="srvModalTitle">
-        <div class="bg-[#0B2140] border border-white/15 rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl p-6 sm:p-7 relative">
+        <div class="bg-[#0B2140] border border-white/15 rounded-2xl max-w-3xl w-full max-h-[92vh] overflow-y-auto shadow-2xl p-6 sm:p-7 relative">
             <button type="button" onclick="closeServiceDetailModal()" aria-label="Fechar detalhes" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center cursor-pointer border-0">
                 <i class="fa-solid fa-xmark"></i>
             </button>
@@ -1361,6 +1390,18 @@
                 </div>
             </div>
 
+            <!-- Galeria Integrada de Vídeos de Ao Vivo & Tradução dentro do Modal de Soluções -->
+            <div id="srvModalVideoGallerySection" class="mb-5 bg-[#061A33]/90 p-4 rounded-xl border border-[#102B4D]">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+                        <span id="srvModalGalleryTitle" class="text-xs font-bold uppercase tracking-wider text-white">Galeria de Transmissões Ao Vivo & Tradução (2x/mês)</span>
+                    </div>
+                    <span class="text-[11px] text-[#08B9F2] font-medium">Atualizada quinzenalmente</span>
+                </div>
+                <div id="srvModalVideoGalleryGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5"></div>
+            </div>
+
             <div class="flex flex-wrap items-center justify-between gap-3">
                 <button type="button" id="srvModalQuoteBtn" class="btn-fox-orange px-6 py-2.5 text-sm">
                     <i class="fa-solid fa-paper-plane"></i>
@@ -1368,7 +1409,7 @@
                 </button>
                 <button type="button" id="srvModalDemoBtn" class="btn-fox-outline px-4 py-2.5 text-xs">
                     <i class="fa-regular fa-circle-play"></i>
-                    <span>Ver Vídeo Demonstrativo</span>
+                    <span>Abrir Player Principal</span>
                 </button>
             </div>
         </div>

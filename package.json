@@ -1,9 +1,11 @@
 {
   "name": "fox-libras",
-  "version": "2.0.0",
+  "version": "4.0.0",
   "private": true,
-  "description": "FOX LIBRAS — Soluções Corporativas em LIBRAS & Acessibilidade Comunicacional",
+  "description": "FOX LIBRAS — Soluções em Acessibilidade | Tradução, Interpretação e Consultoria LBI",
   "scripts": {
-    "start": "npx serve ."
+    "dev": "node scripts/dev-server.js",
+    "build": "node scripts/build-css.js",
+    "start": "node scripts/dev-server.js"
   }
 }
