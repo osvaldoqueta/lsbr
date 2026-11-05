@@ -1,3 +1,8 @@
+// ============================================================================
+// FOX LIBRAS — DYNAMIC FRONTEND ARCHITECTURE & INTERACTIVE ENGINE (Np1 v4.0)
+// Preservação 100% das Funcionalidades + Interatividade do Novo Design System
+// ============================================================================
+
 // --- 1. CONFIGURAÇÃO GLOBAL DE PRECIFICAÇÃO (PRICING_CONFIG) ---
 const PRICING_CONFIG = {
     hourlyRates: {
@@ -23,39 +28,216 @@ function sanitizeHTML(str) {
     return temp.innerHTML;
 }
 
-// --- 3. MOBILE MENU CONTROLLER ---
+// --- 3. HEADER, DROPDOWN & MOBILE MENU CONTROLLER ---
 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const mobileMenu = document.getElementById('mobileMenu');
 const menuIcon = document.getElementById('menuIcon');
 
-if (mobileMenuBtn) {
+if (mobileMenuBtn && mobileMenu) {
     mobileMenuBtn.addEventListener('click', () => {
         const isHidden = mobileMenu.classList.contains('hidden');
         if (isHidden) {
             mobileMenu.classList.remove('hidden');
-            menuIcon.classList.remove('fa-bars');
-            menuIcon.classList.add('fa-xmark');
+            mobileMenuBtn.setAttribute('aria-expanded', 'true');
+            if (menuIcon) {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
+            }
         } else {
             mobileMenu.classList.add('hidden');
-            menuIcon.classList.remove('fa-xmark');
-            menuIcon.classList.add('fa-bars');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            if (menuIcon) {
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            }
         }
     });
 }
 
-document.querySelectorAll('.mobile-link').forEach(link => {
-    link.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
+function closeMobileMenu() {
+    if (mobileMenu) mobileMenu.classList.add('hidden');
+    if (mobileMenuBtn) mobileMenuBtn.setAttribute('aria-expanded', 'false');
+    if (menuIcon) {
         menuIcon.classList.remove('fa-xmark');
         menuIcon.classList.add('fa-bars');
+    }
+}
+
+document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+        closeMobileMenu();
     });
 });
 
-// --- 4. DEMO VIDEO SHOWCASE PLAYER (SEAMLESS YOUTUBE & LOCAL SUPPORT) ---
+// Dropdown de Soluções (Acessível por clique e teclado)
+function toggleSolutionsDropdown(e) {
+    if (e) e.stopPropagation();
+    const dropdown = document.getElementById('solutionsDropdownMenu');
+    const btn = document.getElementById('solutionsDropdownBtn');
+    if (!dropdown) return;
+    const isHidden = dropdown.classList.contains('hidden');
+    if (isHidden) {
+        dropdown.classList.remove('hidden');
+        if (btn) btn.setAttribute('aria-expanded', 'true');
+    } else {
+        dropdown.classList.add('hidden');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+}
+window.toggleSolutionsDropdown = toggleSolutionsDropdown;
+
+document.addEventListener('click', (e) => {
+    const dropdown = document.getElementById('solutionsDropdownMenu');
+    const wrapper = document.getElementById('solutionsDropdownWrapper');
+    const btn = document.getElementById('solutionsDropdownBtn');
+    if (dropdown && wrapper && !wrapper.contains(e.target)) {
+        dropdown.classList.add('hidden');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+    }
+});
+
+// --- 3.1 CONTROLE DE SEÇÕES COMPLEMENTARES & EXPANSÃO SOB DEMANDA ---
+function openComplementarySection(sectionId, shouldScroll = true) {
+    const drawer = document.getElementById('complementaryHubWrapper');
+    if (drawer && drawer.classList.contains('hidden')) {
+        drawer.classList.remove('hidden');
+    }
+    const toggleLabel = document.getElementById('complementaryToggleLabel');
+    const toggleIcon = document.getElementById('complementaryToggleIcon');
+    if (toggleLabel) toggleLabel.textContent = 'Recolher ferramentas interativas e portfólio completo';
+    if (toggleIcon) toggleIcon.className = 'fa-solid fa-chevron-up text-xs transition-transform';
+
+    // Garantir renderização correta do carrossel quando visível
+    setTimeout(() => {
+        updateGalleryCarouselPosition();
+    }, 80);
+
+    if (sectionId && shouldScroll) {
+        const target = document.getElementById(sectionId);
+        if (target) {
+            setTimeout(() => {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 60);
+        }
+    }
+}
+window.openComplementarySection = openComplementarySection;
+
+function toggleComplementaryHub() {
+    const drawer = document.getElementById('complementaryHubWrapper');
+    const toggleLabel = document.getElementById('complementaryToggleLabel');
+    const toggleIcon = document.getElementById('complementaryToggleIcon');
+    if (!drawer) return;
+
+    const isHidden = drawer.classList.contains('hidden');
+    if (isHidden) {
+        drawer.classList.remove('hidden');
+        if (toggleLabel) toggleLabel.textContent = 'Recolher ferramentas interativas e portfólio completo';
+        if (toggleIcon) toggleIcon.className = 'fa-solid fa-chevron-up text-xs transition-transform';
+        setTimeout(() => {
+            updateGalleryCarouselPosition();
+            drawer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 60);
+    } else {
+        drawer.classList.add('hidden');
+        if (toggleLabel) toggleLabel.textContent = 'Explorar Hub Interativo Completo (Vídeos, Scanner LBI, Simulador, Portfólio & Contato)';
+        if (toggleIcon) toggleIcon.className = 'fa-solid fa-chevron-down text-xs transition-transform';
+    }
+}
+window.toggleComplementaryHub = toggleComplementaryHub;
+
+// --- 4. DEMO VIDEO SHOWCASE PLAYER & MODAL DE VÍDEO ACESSÍVEL ---
 const videoElement = document.getElementById('librasDemoVideo');
 const videoOverlay = document.getElementById('videoOverlay');
 const videoTitleDisplay = document.getElementById('videoTitleDisplay');
 const videoCategoryBadge = document.getElementById('videoCategoryBadge');
+
+function openVideoShowcaseModal(videoKey = 'camara') {
+    const modal = document.getElementById('videoShowcaseModal');
+    const playerBox = document.getElementById('modalVideoPlayerContainer');
+    const titleEl = document.getElementById('modalVideoTitle');
+    const subEl = document.getElementById('modalVideoSubtitle');
+    if (!modal || !playerBox) {
+        openComplementarySection('demonstracao');
+        return;
+    }
+
+    modal.classList.remove('hidden');
+
+    // Update active button state inside modal
+    document.querySelectorAll('.modal-video-btn').forEach(btn => {
+        if (btn.dataset.videoKey === videoKey) {
+            btn.classList.add('bg-[#08B9F2]', 'text-[#061A33]', 'border-[#08B9F2]');
+            btn.classList.remove('bg-[#0B2140]', 'text-slate-200', 'border-[#102B4D]');
+        } else {
+            btn.classList.remove('bg-[#08B9F2]', 'text-[#061A33]', 'border-[#08B9F2]');
+            btn.classList.add('bg-[#0B2140]', 'text-slate-200', 'border-[#102B4D]');
+        }
+    });
+
+    const videoCatalog = {
+        'camara': {
+            title: 'Interpretação ao Vivo — Câmara Municipal de Juiz de Fora',
+            sub: 'Atuação Profissional • Janela Oficial de Libras em Tempo Real',
+            youtubeId: 'kPMsB_zrldI'
+        },
+        'sac': {
+            title: 'Central de Libras & Atendimento SAC Web On-Demand',
+            sub: 'Intermediação Humanizada em Tempo Real por Videochamada',
+            youtubeId: 'ofSwbP4dN34'
+        },
+        'eventos': {
+            title: 'Interpretação Simultânea em Eventos, Lives e Congressos',
+            sub: 'Tradução Simultânea Corporativa, Acadêmica e Institucional',
+            youtubeId: 'Q2M-EY789xQ'
+        },
+        'ead': {
+            title: 'Tradução e Legendagem Acessível para Vídeos e EAD',
+            sub: 'Adaptação Pedagógica e Audiovisual conforme ABNT NBR 15290',
+            youtubeId: 'BdA5100ZBQg'
+        },
+        'estudio': {
+            title: 'Produção em Estúdio Profissional FOX LIBRAS',
+            sub: 'Gravação de Alta Definição com Enquadramento Oficial',
+            youtubeId: '6aztjSFdRII'
+        },
+        'local': {
+            title: 'Prática de Metodologia Bilíngue Aplicada',
+            sub: 'Capacitação e Resultados Reais em Libras',
+            localSrc: 'assets/videos/65cf1137395f4bbca99ea87541ea65a1.mp4'
+        }
+    };
+
+    const selected = videoCatalog[videoKey] || videoCatalog['camara'];
+    if (titleEl) titleEl.textContent = selected.title;
+    if (subEl) subEl.textContent = selected.sub;
+
+    if (selected.localSrc) {
+        playerBox.innerHTML = `
+            <video controls autoplay playsinline poster="assets/images/logo/video-poster.jpg" class="w-full h-full aspect-video object-cover rounded-xl">
+                <source src="${selected.localSrc}" type="video/mp4">
+                Seu navegador não suporta reprodução de vídeo HTML5.
+            </video>
+        `;
+    } else {
+        playerBox.innerHTML = `
+            <iframe src="https://www.youtube-nocookie.com/embed/${selected.youtubeId}?autoplay=1&rel=0&modestbranding=1"
+                    title="${sanitizeHTML(selected.title)}"
+                    class="w-full h-full aspect-video border-0 rounded-xl"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+        `;
+    }
+}
+window.openVideoShowcaseModal = openVideoShowcaseModal;
+
+function closeVideoShowcaseModal() {
+    const modal = document.getElementById('videoShowcaseModal');
+    const playerBox = document.getElementById('modalVideoPlayerContainer');
+    if (modal) modal.classList.add('hidden');
+    if (playerBox) playerBox.innerHTML = '';
+}
+window.closeVideoShowcaseModal = closeVideoShowcaseModal;
 
 function playDemoVideo() {
     if (videoElement) {
@@ -64,8 +246,11 @@ function playDemoVideo() {
         setTimeout(() => {
             if (videoOverlay) videoOverlay.style.display = 'none';
         }, 300);
+    } else {
+        openVideoShowcaseModal('camara');
     }
 }
+window.playDemoVideo = playDemoVideo;
 
 if (videoElement) {
     videoElement.addEventListener('pause', () => {
@@ -79,12 +264,12 @@ if (videoElement) {
 function changeDemoVideo(type, elementBtn) {
     const buttons = document.querySelectorAll('.video-select-btn');
     buttons.forEach(btn => {
-        btn.classList.remove('active', 'border-sky-500/60');
+        btn.classList.remove('active', 'border-sky-500/60', 'border-[#08B9F2]');
         btn.classList.add('border-slate-800');
     });
 
     if (elementBtn) {
-        elementBtn.classList.add('active', 'border-sky-500/60');
+        elementBtn.classList.add('active', 'border-[#08B9F2]');
         elementBtn.classList.remove('border-slate-800');
     }
 
@@ -108,7 +293,6 @@ function changeDemoVideo(type, elementBtn) {
         videoTitle = "Demonstração: Tradução de Cursos EAD e Treinamentos";
         categoryText = "Educação & Materiais Digitais";
     } else if (type === 'metodologia') {
-        // Local video
         container.innerHTML = `
             <video id="librasDemoVideo" controls autoplay playsinline class="w-full h-full aspect-video object-cover">
                 <source src="assets/videos/65cf1137395f4bbca99ea87541ea65a1.mp4" type="video/mp4">
@@ -120,7 +304,6 @@ function changeDemoVideo(type, elementBtn) {
         return;
     }
 
-    // Embed YouTube Nocookie Player
     container.innerHTML = `
         <iframe src="https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0" 
                 title="${videoTitle}" 
@@ -132,29 +315,33 @@ function changeDemoVideo(type, elementBtn) {
     if (videoTitleDisplay) videoTitleDisplay.textContent = videoTitle;
     if (videoCategoryBadge) videoCategoryBadge.textContent = categoryText;
 }
+window.changeDemoVideo = changeDemoVideo;
 
 // --- 5. CONTROLE DA GALERIA DE BASTIDORES & PROVA SOCIAL ---
 function switchGalleryTab(tabName, btnElement) {
     const tabBtns = document.querySelectorAll('.gallery-tab-btn');
     tabBtns.forEach(btn => {
-        btn.classList.remove('active', 'bg-sky-600', 'text-white', 'shadow-md');
+        btn.classList.remove('active', 'bg-sky-600', 'bg-[#08B9F2]', 'text-white', 'shadow-md');
         btn.classList.add('text-slate-400');
     });
 
-    btnElement.classList.add('active', 'bg-sky-600', 'text-white', 'shadow-md');
-    btnElement.classList.remove('text-slate-400');
+    if (btnElement) {
+        btnElement.classList.add('active', 'bg-[#08B9F2]', 'text-white', 'shadow-md');
+        btnElement.classList.remove('text-slate-400');
+    }
 
     const tabEstudio = document.getElementById('tabGalleryEstudio');
     const tabAlunas = document.getElementById('tabGalleryAlunas');
 
     if (tabName === 'estudio') {
-        tabEstudio.classList.remove('hidden');
-        tabAlunas.classList.add('hidden');
+        if (tabEstudio) tabEstudio.classList.remove('hidden');
+        if (tabAlunas) tabAlunas.classList.add('hidden');
     } else {
-        tabEstudio.classList.add('hidden');
-        tabAlunas.classList.remove('hidden');
+        if (tabEstudio) tabEstudio.classList.add('hidden');
+        if (tabAlunas) tabAlunas.classList.remove('hidden');
     }
 }
+window.switchGalleryTab = switchGalleryTab;
 
 function openLightbox(imgSrc, caption) {
     const modal = document.getElementById('lightboxModal');
@@ -162,15 +349,17 @@ function openLightbox(imgSrc, caption) {
     const cap = document.getElementById('lightboxCaption');
     if (modal && img) {
         img.src = imgSrc;
-        cap.textContent = caption || '';
+        if (cap) cap.textContent = caption || '';
         modal.classList.remove('hidden');
     }
 }
+window.openLightbox = openLightbox;
 
 function closeLightbox() {
     const modal = document.getElementById('lightboxModal');
     if (modal) modal.classList.add('hidden');
 }
+window.closeLightbox = closeLightbox;
 
 // --- 6. CALCULADORA INTERATIVA ("A PARTIR DE") ---
 function setCalcVolumePreset(val) {
@@ -187,8 +376,11 @@ function setCalcVolumePreset(val) {
 window.setCalcVolumePreset = setCalcVolumePreset;
 
 function calcularInvestimento() {
-    const serviceKey = document.getElementById('calcService').value;
+    const serviceEl = document.getElementById('calcService');
     const volumeInput = document.getElementById('calcVolume');
+    if (!serviceEl || !volumeInput) return;
+
+    const serviceKey = serviceEl.value;
     let volumeVal = parseInt(volumeInput.value, 10);
 
     const tierRadio = document.querySelector('input[name="calcTier"]:checked');
@@ -213,7 +405,7 @@ function calcularInvestimento() {
     if (serviceKey === 'retentor_mensal') {
         unitName = "horas/mês de franquia";
         serviceTitle = "Retentor Mensal Corporativo (Plantão + SLA)";
-        volumeLabel.textContent = "2. Franquia Mensal de Horas (Plantão + SLA)";
+        if (volumeLabel) volumeLabel.textContent = "2. Franquia Mensal de Horas (Plantão + SLA)";
         volumeInput.min = 10;
         volumeInput.max = 80;
         volumeInput.step = 10;
@@ -226,7 +418,7 @@ function calcularInvestimento() {
     } else if (serviceKey === 'instituicoes_ensino') {
         unitName = "horas/mês de suporte";
         serviceTitle = "Acessibilidade Educacional";
-        volumeLabel.textContent = "2. Carga Horária Acadêmica (Horas/mês)";
+        if (volumeLabel) volumeLabel.textContent = "2. Carga Horária Acadêmica (Horas/mês)";
         volumeInput.min = 10;
         volumeInput.max = 160;
         volumeInput.step = 10;
@@ -235,7 +427,7 @@ function calcularInvestimento() {
     } else if (serviceKey === 'central_sac') {
         unitName = "atendimentos/mês";
         serviceTitle = "Central Libras SAC Web";
-        volumeLabel.textContent = "2. Volume Estimado (Atendimentos/mês)";
+        if (volumeLabel) volumeLabel.textContent = "2. Volume Estimado (Atendimentos/mês)";
         volumeInput.min = 10;
         volumeInput.max = 500;
         volumeInput.step = 10;
@@ -244,7 +436,7 @@ function calcularInvestimento() {
     } else if (serviceKey === 'eventos_transmissoes') {
         unitName = "horas de evento";
         serviceTitle = "Interpretação de Eventos";
-        volumeLabel.textContent = "2. Carga Horária Estimada (Horas)";
+        if (volumeLabel) volumeLabel.textContent = "2. Carga Horária Estimada (Horas)";
         volumeInput.min = 2;
         volumeInput.max = 40;
         volumeInput.step = 2;
@@ -253,7 +445,7 @@ function calcularInvestimento() {
     } else if (serviceKey === 'traducao_audiovisual') {
         unitName = "minutos de vídeo";
         serviceTitle = "Tradução & Legendagem";
-        volumeLabel.textContent = "2. Duração Total (Minutos de Vídeo)";
+        if (volumeLabel) volumeLabel.textContent = "2. Duração Total (Minutos de Vídeo)";
         volumeInput.min = 5;
         volumeInput.max = 200;
         volumeInput.step = 5;
@@ -262,7 +454,7 @@ function calcularInvestimento() {
     } else if (serviceKey === 'consultoria_rh') {
         unitName = "colaboradores treinados";
         serviceTitle = "Consultoria & Treinamento RH";
-        volumeLabel.textContent = "2. Tamanho da Equipe (Colaboradores)";
+        if (volumeLabel) volumeLabel.textContent = "2. Tamanho da Equipe (Colaboradores)";
         volumeInput.min = 10;
         volumeInput.max = 200;
         volumeInput.step = 10;
@@ -270,7 +462,7 @@ function calcularInvestimento() {
         if (maxVolumeLabel) maxVolumeLabel.textContent = "200";
     }
 
-    volumeValueDisplay.textContent = `${volumeVal} ${unitName.split(' ')[0]}`;
+    if (volumeValueDisplay) volumeValueDisplay.textContent = `${volumeVal} ${unitName.split(' ')[0]}`;
 
     let estimatedTotal = Math.round(hourlyRate * volumeVal * multiplier);
     if (estimatedTotal < 450) estimatedTotal = 450;
@@ -278,18 +470,20 @@ function calcularInvestimento() {
     const formattedPrice = estimatedTotal.toLocaleString('pt-BR');
     const periodicity = (serviceKey === 'eventos_transmissoes' || serviceKey === 'traducao_audiovisual') ? ' (projeto)' : '/mês';
 
-    // Hierarquia tipográfica soberba e limpa
-    calcPrice.innerHTML = `<span class="text-sm font-medium text-slate-400">a partir de</span> <span class="text-3xl sm:text-4xl font-bold text-sky-400 font-mono">R$ ${formattedPrice}</span> <span class="text-xs text-slate-400">${periodicity}</span>`;
+    if (calcPrice) {
+        calcPrice.innerHTML = `<span class="text-sm font-medium text-slate-400">a partir de</span> <span class="text-3xl sm:text-4xl font-bold text-[#08B9F2] font-mono">R$ ${formattedPrice}</span> <span class="text-xs text-slate-400">${periodicity}</span>`;
+    }
 
-    summaryService.textContent = serviceTitle;
-    summaryHourlyRate.textContent = `R$ ${hourlyRate.toFixed(2).replace('.', ',')}/h`;
-    summaryVolume.textContent = `${volumeVal} ${unitName}`;
+    if (summaryService) summaryService.textContent = serviceTitle;
+    if (summaryHourlyRate) summaryHourlyRate.textContent = `R$ ${hourlyRate.toFixed(2).replace('.', ',')}/h`;
+    if (summaryVolume) summaryVolume.textContent = `${volumeVal} ${unitName}`;
 
     let tierName = "Padrão (1.0x)";
     if (tierKey === 'enterprise') tierName = "Enterprise (1.35x)";
     if (tierKey === 'exclusivo') tierName = "Exclusivo (1.60x)";
-    summaryTier.textContent = tierName;
+    if (summaryTier) summaryTier.textContent = tierName;
 }
+window.calcularInvestimento = calcularInvestimento;
 
 // --- 7. CAPTURA DE LEAD AUTOMATIZADA PARA WHATSAPP ---
 let pendingRequestedService = null;
@@ -310,6 +504,7 @@ function triggerLeadOrWhatsApp(specificService) {
     if (specificService) pendingRequestedService = specificService;
     handleCalculatedWhatsAppLead();
 }
+window.triggerLeadOrWhatsApp = triggerLeadOrWhatsApp;
 
 function handleCalculatedWhatsAppLead() {
     const { name, email, company } = getContactFieldsData();
@@ -321,16 +516,19 @@ function handleCalculatedWhatsAppLead() {
 
     executeWhatsAppRedirect(name, email, company);
 }
+window.handleCalculatedWhatsAppLead = handleCalculatedWhatsAppLead;
 
 function openLeadModal() {
     const modal = document.getElementById('leadModal');
     if (modal) modal.classList.remove('hidden');
 }
+window.openLeadModal = openLeadModal;
 
 function closeLeadModal() {
     const modal = document.getElementById('leadModal');
     if (modal) modal.classList.add('hidden');
 }
+window.closeLeadModal = closeLeadModal;
 
 function trackConversion(eventName, eventData = {}) {
     if (window.fbq) {
@@ -348,7 +546,6 @@ window.trackConversion = trackConversion;
 function submitLeadModalForm(e) {
     e.preventDefault();
 
-    // Honeypot anti-spam check
     const hp = document.getElementById('lead_hp');
     if (hp && hp.value.trim() !== '') {
         console.warn('Spam submission detected and blocked.');
@@ -362,8 +559,10 @@ function submitLeadModalForm(e) {
 
     if (!name || !email || !company) {
         const status = document.getElementById('leadModalStatus');
-        status.className = "p-3 rounded-lg font-medium text-[11px] bg-red-950 text-red-300 block";
-        status.textContent = "Por favor, preencha todos os campos.";
+        if (status) {
+            status.className = "p-3 rounded-lg font-medium text-[11px] bg-red-950 text-red-300 block";
+            status.textContent = "Por favor, preencha todos os campos.";
+        }
         return;
     }
 
@@ -376,6 +575,7 @@ function submitLeadModalForm(e) {
     closeLeadModal();
     executeWhatsAppRedirect(name, email, company);
 }
+window.submitLeadModalForm = submitLeadModalForm;
 
 function executeWhatsAppRedirect(name, email, company) {
     if (window.fbq) {
@@ -383,11 +583,15 @@ function executeWhatsAppRedirect(name, email, company) {
     }
     trackConversion('WhatsAppClick', { service: pendingRequestedService || 'Calculadora' });
 
-    const serviceName = pendingRequestedService || document.getElementById('summaryService').textContent;
-    const volumeText = document.getElementById('summaryVolume').textContent;
-    const tierText = document.getElementById('summaryTier').textContent;
+    const sumServiceEl = document.getElementById('summaryService');
+    const sumVolEl = document.getElementById('summaryVolume');
+    const sumTierEl = document.getElementById('summaryTier');
+    const calcPriceEl = document.getElementById('calcPrice');
 
-    let priceRaw = document.getElementById('calcPrice').innerText.replace('\n', ' ');
+    const serviceName = pendingRequestedService || (sumServiceEl ? sumServiceEl.textContent : 'Soluções em Acessibilidade FOX LIBRAS');
+    const volumeText = sumVolEl ? sumVolEl.textContent : 'Sob medida';
+    const tierText = sumTierEl ? sumTierEl.textContent : 'Padrão';
+    const priceRaw = calcPriceEl ? calcPriceEl.innerText.replace('\n', ' ') : 'Sob consulta';
 
     let msg = '';
     if (serviceName.toLowerCase().includes('retentor')) {
@@ -403,7 +607,6 @@ function executeWhatsAppRedirect(name, email, company) {
 function handleContactSubmit(e) {
     e.preventDefault();
 
-    // Honeypot anti-spam check
     const hp = document.getElementById('contact_hp');
     if (hp && hp.value.trim() !== '') {
         console.warn('Spam submission detected and blocked.');
@@ -426,8 +629,10 @@ function handleContactSubmit(e) {
     const statusDiv = document.getElementById('contactStatus');
 
     if (!name || !email || !phone || !company || !message) {
-        statusDiv.className = "p-4 rounded-xl text-xs font-medium bg-red-950/80 border border-red-500/40 text-red-300 block";
-        statusDiv.textContent = "Por favor, preencha todos os campos obrigatórios (*).";
+        if (statusDiv) {
+            statusDiv.className = "p-4 rounded-xl text-xs font-medium bg-red-950/80 border border-red-500/40 text-red-300 block";
+            statusDiv.textContent = "Por favor, preencha todos os campos obrigatórios (*).";
+        }
         if (submitBtn) {
             submitBtn.disabled = false;
             submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
@@ -437,16 +642,19 @@ function handleContactSubmit(e) {
 
     trackConversion('ContactFormSubmitted', { name, company, email, interest });
 
-    statusDiv.className = "p-4 rounded-xl text-xs font-medium bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 block space-y-2";
-    statusDiv.innerHTML = `
-                <div class="font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
-                    <span>Mensagem processada com sucesso!</span>
-                </div>
-                <div>Obrigado, ${name}. Nossa equipe técnica entrará em contato em breve no e-mail <strong>${email}</strong>. Conectando agora ao WhatsApp corporativo...</div>
-            `;
+    if (statusDiv) {
+        statusDiv.className = "p-4 rounded-xl text-xs font-medium bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 block space-y-2";
+        statusDiv.innerHTML = `
+            <div class="font-bold flex items-center gap-2">
+                <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+                <span>Mensagem processada com sucesso!</span>
+            </div>
+            <div>Obrigado, ${name}. Nossa equipe técnica entrará em contato em breve no e-mail <strong>${email}</strong>. Conectando agora ao WhatsApp corporativo...</div>
+        `;
+    }
 
     setTimeout(() => {
+        pendingRequestedService = interest;
         executeWhatsAppRedirect(name, email, company);
         if (submitBtn) {
             submitBtn.disabled = false;
@@ -454,27 +662,105 @@ function handleContactSubmit(e) {
         }
     }, 1200);
 }
+window.handleContactSubmit = handleContactSubmit;
 
-// --- 9. MODAIS (CV & LGPD) ---
+// --- 9. MODAIS (CV, LGPD, DETALHES DE SERVIÇO & ACESSIBILIDADE) ---
 function openCvModal() {
     const modal = document.getElementById('cvModal');
     if (modal) modal.classList.remove('hidden');
 }
+window.openCvModal = openCvModal;
 
 function closeCvModal() {
     const modal = document.getElementById('cvModal');
     if (modal) modal.classList.add('hidden');
 }
+window.closeCvModal = closeCvModal;
 
 function openLgpdModal() {
     const modal = document.getElementById('lgpdModal');
     if (modal) modal.classList.remove('hidden');
 }
+window.openLgpdModal = openLgpdModal;
 
 function closeLgpdModal() {
     const modal = document.getElementById('lgpdModal');
     if (modal) modal.classList.add('hidden');
 }
+window.closeLgpdModal = closeLgpdModal;
+
+function openServiceDetailModal(serviceKey) {
+    const modal = document.getElementById('serviceDetailModal');
+    if (!modal) {
+        openComplementarySection('servicos-detalhados');
+        return;
+    }
+    const catalog = {
+        'sac': {
+            badge: 'On-Demand • Atendimento Humanizado',
+            title: 'Central de Libras & SAC',
+            subtitle: 'Intermediação em tempo real por intérpretes de Libras, com qualidade e agilidade.',
+            problem: 'Elimina barreiras comunicacionais no SAC digital e no atendimento presencial (balcão, clínicas, agências e lojas), prevenindo autuações pela LBI (Lei nº 13.146/2015).',
+            audience: 'Bancos, fintechs, redes de varejo, concessionárias, hospitais, clínicas, seguradoras, universidades e órgãos públicos.',
+            howItWorks: 'Acesso imediato via link web, QR Code ou widget integrado ao seu site/tablet sem instalação de softwares pesados. Conexão em segundos com intérpretes certificados.',
+            videoKey: 'sac',
+            calcKey: 'central_sac'
+        },
+        'eventos': {
+            badge: 'Presencial, Híbrido & Live Streaming',
+            title: 'Interpretação de eventos',
+            subtitle: 'Intérpretes especializados para eventos corporativos, institucionais e acadêmicos.',
+            problem: 'Garante acessibilidade plena e conformidade com a norma ABNT NBR 15290 em palestras, congressos, câmaras legislativas, lives e seminários.',
+            audience: 'Produtoras de eventos, empresas, universidades, órgãos governamentais, conferências e transmissões oficiais.',
+            howItWorks: 'Atuação presencial no palco ou remota em estúdio próprio com fundo neutro e envio de sinal de vídeo HD para inserção da janela de Libras.',
+            videoKey: 'eventos',
+            calcKey: 'eventos_transmissoes'
+        },
+        'traducao': {
+            badge: 'Audiovisual HD • Padrão ABNT NBR 15290',
+            title: 'Tradução e legendagem',
+            subtitle: 'Adaptação de conteúdos em Libras e legendagem acessível para vídeos, apresentações e treinamentos.',
+            problem: 'Transforma videoaulas, campanhas institucionais, treinamentos corporativos de RH e comunicados oficiais em conteúdos 100% acessíveis para surdos.',
+            audience: 'Instituições de ensino EAD, departamentos de RH e D&I, agências de publicidade e comunicação governamental.',
+            howItWorks: 'Estudo terminológico do roteiro, gravação em estúdio profissional com iluminação e enquadramento técnico, edição da janela de Libras e legendagem LSE.',
+            videoKey: 'ead',
+            calcKey: 'traducao_audiovisual'
+        }
+    };
+
+    const data = catalog[serviceKey] || catalog['sac'];
+    document.getElementById('srvModalBadge').textContent = data.badge;
+    document.getElementById('srvModalTitle').textContent = data.title;
+    document.getElementById('srvModalSubtitle').textContent = data.subtitle;
+    document.getElementById('srvModalProblem').textContent = data.problem;
+    document.getElementById('srvModalAudience').textContent = data.audience;
+    document.getElementById('srvModalHow').textContent = data.howItWorks;
+
+    const demoBtn = document.getElementById('srvModalDemoBtn');
+    if (demoBtn) {
+        demoBtn.onclick = () => {
+            closeServiceDetailModal();
+            openVideoShowcaseModal(data.videoKey);
+        };
+    }
+
+    const quoteBtn = document.getElementById('srvModalQuoteBtn');
+    if (quoteBtn) {
+        quoteBtn.onclick = () => {
+            closeServiceDetailModal();
+            triggerLeadOrWhatsApp(data.title);
+        };
+    }
+
+    modal.classList.remove('hidden');
+}
+window.openServiceDetailModal = openServiceDetailModal;
+
+function closeServiceDetailModal() {
+    const modal = document.getElementById('serviceDetailModal');
+    if (modal) modal.classList.add('hidden');
+}
+window.closeServiceDetailModal = closeServiceDetailModal;
 
 window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
@@ -482,10 +768,13 @@ window.addEventListener('keydown', (e) => {
         closeLgpdModal();
         closeLeadModal();
         closeLightbox();
+        closeVideoShowcaseModal();
+        closeServiceDetailModal();
+        closeAdminModal();
     }
 });
 
-// --- AUTO-DESCOBERTA DINÂMICA DE MÍDIAS (SEM NECESSIDADE DE ALTERAR CÓDIGO) ---
+// --- AUTO-DESCOBERTA DINÂMICA DE MÍDIAS (MANIFEST.JSON) ---
 async function fetchDirectoryManifest(manifestPath, fallbackArray, transformFn) {
     try {
         const res = await fetch(manifestPath + '?v=' + Date.now());
@@ -503,16 +792,16 @@ async function fetchDirectoryManifest(manifestPath, fallbackArray, transformFn) 
 
 // --- 10. CARROSSEL DINÂMICO DE CORPORAÇÕES ATENDIDAS (PROVA SOCIAL B2B) ---
 const CORPORATE_LOGOS = [
+    { name: "JFTV Câmara", src: "assets/images/corps/tv-camara.jpg" },
+    { name: "Grupo Orbenk", src: "assets/images/corps/1_colorido-1-1.webp" },
+    { name: "BD Juiz de Fora", src: "assets/images/corps/logo-bd-jf.png" },
+    { name: "Câmara Municipal de Juiz de Fora", src: "assets/images/corps/logo-camara-jf.png" },
+    { name: "UFJF - Universidade Federal de Juiz de Fora", src: "assets/images/corps/Logo_da_UFJF.png" },
     { name: "UniAcademia", src: "assets/images/corps/UniAcademia.png" },
     { name: "Coca-Cola", src: "assets/images/corps/cocacola.png" },
     { name: "Estação das Artes / Cinema Alameda", src: "assets/images/corps/estacao-das-artes.png" },
     { name: "IMEPP", src: "assets/images/corps/imepp.png" },
-    { name: "B&D Juiz de Fora", src: "assets/images/corps/logo-bd-jf.png" },
-    { name: "Câmara Municipal de Juiz de Fora", src: "assets/images/corps/logo-camara-jf.png" },
-    { name: "IFTO - Instituto Federal", src: "assets/images/corps/ifto-gurupi.jpg" },
-    { name: "UFJF - Universidade Federal de Juiz de Fora", src: "assets/images/corps/Logo_da_UFJF.png" },
-    { name: "Orbenk", src: "assets/images/corps/1_colorido-1-1.webp" },
-    { name: "TV Câmara", src: "assets/images/corps/tv-camara.jpg" }
+    { name: "IFTO - Instituto Federal", src: "assets/images/corps/ifto-gurupi.jpg" }
 ];
 
 async function renderCorporateMarquee() {
@@ -532,16 +821,15 @@ async function renderCorporateMarquee() {
         }
     );
 
-    // Duplica em malha contínua para garantir efeito de marquee infinito sem lacunas
     const list = [...logoFiles, ...logoFiles, ...logoFiles, ...logoFiles];
 
     track.innerHTML = list.map(item => `
-                <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
-                    <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-lg shadow-black/20 flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-2xl hover:shadow-sky-500/25 hover:border-sky-400 hover:scale-[1.04] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="${sanitizeHTML(item.name)}">
-                        <img src="${item.src}" alt="${sanitizeHTML(item.name)}" onerror="this.closest('.logo-card-wrapper').remove()" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
-                    </div>
-                </div>
-            `).join('');
+        <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+            <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-lg shadow-black/20 flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-2xl hover:shadow-sky-500/25 hover:border-[#08B9F2] hover:scale-[1.04] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="${sanitizeHTML(item.name)}">
+                <img src="${item.src}" alt="${sanitizeHTML(item.name)}" onerror="this.closest('.logo-card-wrapper').remove()" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+            </div>
+        </div>
+    `).join('');
 }
 
 // --- 11. ARQUITETURA DE STREAMING & VÍDEOS LEVES (MODULAR YOUTUBE + LOCAL) ---
@@ -602,7 +890,6 @@ const DEMO_VIDEOS = [
     }
 ];
 
-// --- 11.1 LITE YOUTUBE FACADE (CARREGAMENTO SOB DEMANDA PARA PAGESPEED) ---
 function loadYouTubeIframe(playerId, youtubeId, title) {
     const container = document.getElementById(`player-${playerId}`);
     if (!container) return;
@@ -628,7 +915,7 @@ function renderServicesVideoGrid() {
                 <div id="player-${item.id}" class="relative w-full h-full aspect-video bg-slate-950 flex items-center justify-center cursor-pointer group/player overflow-hidden" onclick="loadYouTubeIframe('${item.id}', '${item.youtubeId}', '${sanitizeHTML(item.title)}')">
                     <img src="https://i.ytimg.com/vi/${item.youtubeId}/hqdefault.jpg" alt="${sanitizeHTML(item.title)}" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover/player:scale-105 filter brightness-90 group-hover/player:brightness-100">
                     <div class="absolute inset-0 bg-slate-950/30 group-hover/player:bg-slate-950/10 transition-colors flex items-center justify-center">
-                        <div class="w-14 h-14 rounded-full bg-red-600/95 text-white flex items-center justify-center text-xl shadow-xl group-hover/player:bg-red-600 group-hover/player:scale-110 transition-all duration-300">
+                        <div class="w-14 h-14 rounded-full bg-[#FF7800] text-white flex items-center justify-center text-xl shadow-xl group-hover/player:bg-[#08B9F2] group-hover/player:scale-110 transition-all duration-300">
                             <i class="fa-solid fa-play ml-0.5"></i>
                         </div>
                     </div>
@@ -639,21 +926,21 @@ function renderServicesVideoGrid() {
             `;
         } else {
             mediaHTML = `
-                <video src="${item.src}" type="video/mp4" poster="${item.poster || 'assets/images/video-poster.jpg'}" class="w-full h-full aspect-video object-cover" controls playsinline preload="none"></video>
+                <video src="${item.src}" type="video/mp4" poster="${item.poster || 'assets/images/logo/video-poster.jpg'}" class="w-full h-full aspect-video object-cover" controls playsinline preload="none"></video>
             `;
         }
 
         return `
-            <div class="bg-[#0F172A] rounded-2xl overflow-hidden border border-slate-800 hover:border-sky-500/40 shadow-lg transition-all duration-300 group flex flex-col justify-between">
+            <div class="bg-[#0B2140] rounded-2xl overflow-hidden border border-[#102B4D] hover:border-[#08B9F2]/50 shadow-lg transition-all duration-300 group flex flex-col justify-between">
                 <div class="relative bg-slate-950 aspect-video overflow-hidden">
                     ${mediaHTML}
                 </div>
-                <div class="p-5 bg-[#0F172A] space-y-2 border-t border-slate-800">
+                <div class="p-5 bg-[#0B2140] space-y-2 border-t border-[#102B4D]">
                     <div class="flex items-center justify-between">
-                        <span class="px-2.5 py-0.5 rounded-full bg-[#0B132B] text-sky-300 text-[10px] font-semibold border border-slate-700">${sanitizeHTML(item.category)}</span>
-                        <span class="text-[10px] text-sky-400 font-mono flex items-center gap-1"><i class="fa-brands fa-youtube text-red-500"></i> ${sanitizeHTML(item.badge)}</span>
+                        <span class="px-2.5 py-0.5 rounded-full bg-[#061A33] text-[#08B9F2] text-[10px] font-semibold border border-[#102B4D]">${sanitizeHTML(item.category)}</span>
+                        <span class="text-[10px] text-[#08B9F2] font-mono flex items-center gap-1"><i class="fa-brands fa-youtube text-red-500"></i> ${sanitizeHTML(item.badge)}</span>
                     </div>
-                    <h3 class="text-base font-bold text-white group-hover:text-sky-400 transition-colors">${sanitizeHTML(item.title)}</h3>
+                    <h3 class="text-base font-bold text-white group-hover:text-[#08B9F2] transition-colors">${sanitizeHTML(item.title)}</h3>
                     <p class="text-xs text-slate-300 leading-relaxed">${sanitizeHTML(item.description)}</p>
                 </div>
             </div>
@@ -713,20 +1000,20 @@ async function renderGalleryCarousel() {
 
     if (totalSpan) totalSpan.textContent = activeGalleryList.length;
 
-    track.innerHTML = activeGalleryList.map((img, idx) => `
-                <div onclick="openLightbox('${img.src}', '${sanitizeHTML(img.title)} - ${sanitizeHTML(img.desc)}')" class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 bg-[#0F172A] rounded-2xl overflow-hidden group cursor-pointer border border-slate-800 hover:border-sky-500/40 transition-all duration-300 flex flex-col justify-between">
-                    <div class="relative aspect-video overflow-hidden bg-slate-950">
-                        <img src="${img.src}" loading="lazy" alt="${sanitizeHTML(img.title)}" onerror="this.closest('.shrink-0').remove()" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 max-w-full max-h-full">
-                        <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <span class="w-12 h-12 rounded-full bg-sky-500 text-slate-950 flex items-center justify-center shadow-lg"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
-                        </div>
-                    </div>
-                    <div class="p-4 space-y-1 bg-[#0F172A]">
-                        <h4 class="text-sm font-bold text-white group-hover:text-sky-400 transition-colors">${sanitizeHTML(img.title)}</h4>
-                        <p class="text-xs text-slate-400 line-clamp-2">${sanitizeHTML(img.desc)}</p>
-                    </div>
+    track.innerHTML = activeGalleryList.map((img) => `
+        <div onclick="openLightbox('${img.src}', '${sanitizeHTML(img.title)} - ${sanitizeHTML(img.desc)}')" class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 bg-[#0B2140] rounded-2xl overflow-hidden group cursor-pointer border border-[#102B4D] hover:border-[#08B9F2]/50 transition-all duration-300 flex flex-col justify-between">
+            <div class="relative aspect-video overflow-hidden bg-slate-950">
+                <img src="${img.src}" loading="lazy" alt="${sanitizeHTML(img.title)}" onerror="this.closest('.shrink-0').remove()" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 max-w-full max-h-full">
+                <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span class="w-12 h-12 rounded-full bg-[#08B9F2] text-[#061A33] flex items-center justify-center shadow-lg"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
                 </div>
-            `).join('');
+            </div>
+            <div class="p-4 space-y-1 bg-[#0B2140]">
+                <h4 class="text-sm font-bold text-white group-hover:text-[#08B9F2] transition-colors">${sanitizeHTML(img.title)}</h4>
+                <p class="text-xs text-slate-300 line-clamp-2">${sanitizeHTML(img.desc)}</p>
+            </div>
+        </div>
+    `).join('');
 
     updateGalleryCarouselPosition();
     setupGalleryDragScroll();
@@ -740,6 +1027,7 @@ function moveGalleryCarousel(direction) {
     if (currentGalleryIndex > maxIndex) currentGalleryIndex = 0;
     updateGalleryCarouselPosition();
 }
+window.moveGalleryCarousel = moveGalleryCarousel;
 
 function updateGalleryCarouselPosition() {
     const track = document.getElementById('galleryCarouselTrack');
@@ -748,7 +1036,9 @@ function updateGalleryCarouselPosition() {
 
     if (currentSpan) currentSpan.textContent = currentGalleryIndex + 1;
 
-    const cardWidth = track.firstElementChild ? track.firstElementChild.offsetWidth + 24 : 320;
+    const cardWidth = track.firstElementChild && track.firstElementChild.offsetWidth > 0
+        ? track.firstElementChild.offsetWidth + 24
+        : 340;
     track.style.transform = `translateX(-${currentGalleryIndex * cardWidth}px)`;
 }
 
@@ -835,13 +1125,11 @@ async function recordVisitTelemetry() {
         device_type: deviceType
     };
 
-    // Salvar no Cache Local para Resiliência de Leitura no Admin
     let localVisits = JSON.parse(localStorage.getItem('fox_site_visits') || '[]');
     localVisits.unshift(visitRecord);
     if (localVisits.length > 100) localVisits = localVisits.slice(0, 100);
     localStorage.setItem('fox_site_visits', JSON.stringify(localVisits));
 
-    // Persistir na tabela site_visits do Supabase
     if (supabaseClient) {
         try {
             await supabaseClient.from('site_visits').insert([visitRecord]);
@@ -872,6 +1160,7 @@ function openAdminModal(e) {
         }
     }
 }
+window.openAdminModal = openAdminModal;
 
 function closeAdminModal() {
     const modal = document.getElementById('adminModal');
@@ -880,17 +1169,24 @@ function closeAdminModal() {
         history.pushState("", document.title, window.location.pathname + window.location.search);
     }
 }
+window.closeAdminModal = closeAdminModal;
 
 function showAdminAuthView() {
-    document.getElementById('adminAuthSection').classList.remove('hidden');
-    document.getElementById('adminDashboardSection').classList.add('hidden');
-    document.getElementById('adminLogoutBtn').classList.add('hidden');
+    const authSec = document.getElementById('adminAuthSection');
+    const dashSec = document.getElementById('adminDashboardSection');
+    const logoutBtn = document.getElementById('adminLogoutBtn');
+    if (authSec) authSec.classList.remove('hidden');
+    if (dashSec) dashSec.classList.add('hidden');
+    if (logoutBtn) logoutBtn.classList.add('hidden');
 }
 
 function showAdminDashboardView() {
-    document.getElementById('adminAuthSection').classList.add('hidden');
-    document.getElementById('adminDashboardSection').classList.remove('hidden');
-    document.getElementById('adminLogoutBtn').classList.remove('hidden');
+    const authSec = document.getElementById('adminAuthSection');
+    const dashSec = document.getElementById('adminDashboardSection');
+    const logoutBtn = document.getElementById('adminLogoutBtn');
+    if (authSec) authSec.classList.add('hidden');
+    if (dashSec) dashSec.classList.remove('hidden');
+    if (logoutBtn) logoutBtn.classList.remove('hidden');
     fetchAdminTelemetryData();
 }
 
@@ -901,18 +1197,20 @@ function handleAdminLogin(e) {
 
     if (inputPass === 'foxlibras2026admin' || inputPass === 'admin' || inputPass === '123456') {
         isAdminAuthenticated = true;
-        statusDiv.classList.add('hidden');
+        if (statusDiv) statusDiv.classList.add('hidden');
         showAdminDashboardView();
-    } else {
+    } else if (statusDiv) {
         statusDiv.classList.remove('hidden');
         statusDiv.textContent = 'Senha incorreta. Tente novamente ou verifique suas credenciais.';
     }
 }
+window.handleAdminLogin = handleAdminLogin;
 
 function handleAdminLogout() {
     isAdminAuthenticated = false;
     showAdminAuthView();
 }
+window.handleAdminLogout = handleAdminLogout;
 
 async function fetchAdminTelemetryData() {
     let visits = [];
@@ -949,10 +1247,12 @@ async function fetchAdminTelemetryData() {
 
     renderAdminMetrics(visits);
 }
+window.fetchAdminTelemetryData = fetchAdminTelemetryData;
 
 function renderAdminMetrics(visits) {
     const totalCount = visits.length;
-    document.getElementById('metricTotalVisits').textContent = totalCount;
+    const totalVisitsEl = document.getElementById('metricTotalVisits');
+    if (totalVisitsEl) totalVisitsEl.textContent = totalCount;
 
     const regionCounts = {};
     let mobileCount = 0;
@@ -964,10 +1264,12 @@ function renderAdminMetrics(visits) {
     });
 
     const uniqueRegions = Object.keys(regionCounts).length;
-    document.getElementById('metricTotalRegions').textContent = uniqueRegions;
+    const totalRegEl = document.getElementById('metricTotalRegions');
+    if (totalRegEl) totalRegEl.textContent = uniqueRegions;
 
     const mobilePct = totalCount > 0 ? Math.round((mobileCount / totalCount) * 100) : 0;
-    document.getElementById('metricMobilePercent').textContent = `${mobilePct}%`;
+    const mobPctEl = document.getElementById('metricMobilePercent');
+    if (mobPctEl) mobPctEl.textContent = `${mobilePct}%`;
 
     const regionListEl = document.getElementById('adminRegionList');
     if (regionListEl) {
@@ -975,16 +1277,16 @@ function renderAdminMetrics(visits) {
         regionListEl.innerHTML = sortedRegions.map(([uf, count]) => {
             const pct = Math.round((count / (totalCount || 1)) * 100);
             return `
-                        <div class="space-y-1">
-                            <div class="flex justify-between text-xs text-slate-300">
-                                <span class="font-bold text-white flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-sky-400 text-[10px]"></i> ${uf}</span>
-                                <span class="font-mono text-slate-400">${count} acessos (${pct}%)</span>
-                            </div>
-                            <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
-                                <div class="bg-gradient-to-r from-sky-500 to-blue-600 h-2 rounded-full" style="width: ${pct}%"></div>
-                            </div>
-                        </div>
-                    `;
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs text-slate-300">
+                        <span class="font-bold text-white flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-[#08B9F2] text-[10px]"></i> ${uf}</span>
+                        <span class="font-mono text-slate-400">${count} acessos (${pct}%)</span>
+                    </div>
+                    <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
+                        <div class="bg-gradient-to-r from-[#08B9F2] to-blue-600 h-2 rounded-full" style="width: ${pct}%"></div>
+                    </div>
+                </div>
+            `;
         }).join('') || '<div class="text-xs text-slate-500">Nenhum acesso registrado ainda.</div>';
     }
 
@@ -993,19 +1295,19 @@ function renderAdminMetrics(visits) {
         tableBody.innerHTML = visits.slice(0, 15).map(v => {
             const dateStr = v.visited_at ? new Date(v.visited_at).toLocaleString('pt-BR') : 'Agora';
             return `
-                        <tr class="hover:bg-slate-900/50">
-                            <td class="py-2.5 px-3 font-mono text-slate-400">${dateStr}</td>
-                            <td class="py-2.5 px-3 font-mono text-sky-400">${sanitizeHTML(v.ip_address)}</td>
-                            <td class="py-2.5 px-3 font-semibold text-white">${sanitizeHTML(v.city)} - ${sanitizeHTML(v.region)}</td>
-                            <td class="py-2.5 px-3 text-slate-300">${sanitizeHTML(v.country)}</td>
-                            <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded text-[10px] ${v.device_type === 'Mobile' ? 'bg-amber-500/10 text-amber-300 border border-amber-500/20' : 'bg-blue-500/10 text-blue-300 border border-blue-500/20'}">${sanitizeHTML(v.device_type)}</span></td>
-                        </tr>
-                    `;
+                <tr class="hover:bg-slate-900/50">
+                    <td class="py-2.5 px-3 font-mono text-slate-400">${dateStr}</td>
+                    <td class="py-2.5 px-3 font-mono text-[#08B9F2]">${sanitizeHTML(v.ip_address)}</td>
+                    <td class="py-2.5 px-3 font-semibold text-white">${sanitizeHTML(v.city)} - ${sanitizeHTML(v.region)}</td>
+                    <td class="py-2.5 px-3 text-slate-300">${sanitizeHTML(v.country)}</td>
+                    <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded text-[10px] ${v.device_type === 'Mobile' ? 'bg-amber-500/10 text-amber-300 border border-amber-500/20' : 'bg-blue-500/10 text-blue-300 border border-blue-500/20'}">${sanitizeHTML(v.device_type)}</span></td>
+                </tr>
+            `;
         }).join('') || '<tr><td colspan="5" class="py-4 text-center text-slate-500">Nenhum registro encontrado.</td></tr>';
     }
 }
 
-// --- 15. SCROLL TO TOP CONTROLLER & INITIALIZATION ---
+// --- 15. SCROLL TO TOP & ACTIVE NAV OBSERVER ---
 const scrollTopBtn = document.getElementById('scrollTopBtn');
 if (scrollTopBtn) {
     window.addEventListener('scroll', () => {
@@ -1022,6 +1324,7 @@ if (scrollTopBtn) {
 function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+window.scrollToTop = scrollToTop;
 
 window.addEventListener('hashchange', checkAdminRoute);
 
@@ -1217,73 +1520,75 @@ let currentDiagnosticState = {
 function switchComplianceTab(tabId, btn) {
     document.querySelectorAll('.compliance-tab-content').forEach(el => el.classList.add('hidden'));
     document.querySelectorAll('.compliance-tab-btn').forEach(b => {
-        b.classList.remove('active', 'bg-sky-600', 'text-white', 'shadow-lg');
+        b.classList.remove('active', 'bg-sky-600', 'bg-[#08B9F2]', 'text-white', 'shadow-lg');
         b.classList.add('text-slate-300');
     });
 
     if (tabId === 'scanner') {
         const el = document.getElementById('tabContentScanner');
         if (el) el.classList.remove('hidden');
-        if (btn) btn.classList.add('active', 'bg-sky-600', 'text-white', 'shadow-lg');
+        if (btn) btn.classList.add('active', 'bg-[#08B9F2]', 'text-white', 'shadow-lg');
     } else if (tabId === 'laboratorio') {
         const el = document.getElementById('tabContentLaboratorio');
         if (el) el.classList.remove('hidden');
-        if (btn) btn.classList.add('active', 'bg-sky-600', 'text-white', 'shadow-lg');
+        if (btn) btn.classList.add('active', 'bg-[#08B9F2]', 'text-white', 'shadow-lg');
     } else if (tabId === 'parametros') {
         const el = document.getElementById('tabContentParametros');
         if (el) el.classList.remove('hidden');
-        if (btn) btn.classList.add('active', 'bg-sky-600', 'text-white', 'shadow-lg');
+        if (btn) btn.classList.add('active', 'bg-[#08B9F2]', 'text-white', 'shadow-lg');
     }
 }
+window.switchComplianceTab = switchComplianceTab;
 
 function setDiagnosticSector(sectorKey, el) {
     currentDiagnosticState.sector = sectorKey;
     document.querySelectorAll('.diag-sector-btn').forEach(b => {
-        b.classList.remove('active', 'border-sky-500', 'bg-sky-500/10', 'text-white');
+        b.classList.remove('active', 'border-sky-500', 'border-[#08B9F2]', 'bg-sky-500/10', 'text-white');
         b.classList.add('border-slate-800', 'text-slate-300');
     });
     if (el) {
-        el.classList.add('active', 'border-sky-500', 'bg-sky-500/10', 'text-white');
+        el.classList.add('active', 'border-[#08B9F2]', 'bg-sky-500/10', 'text-white');
         el.classList.remove('border-slate-800', 'text-slate-300');
     }
     updateLbiDiagnostic();
 }
+window.setDiagnosticSector = setDiagnosticSector;
 
 function setDiagnosticSolution(solutionKey, el) {
     currentDiagnosticState.solution = solutionKey;
     document.querySelectorAll('.diag-solution-btn').forEach(b => {
-        b.classList.remove('active', 'border-sky-500', 'bg-sky-500/10', 'text-white');
+        b.classList.remove('active', 'border-sky-500', 'border-[#08B9F2]', 'bg-sky-500/10', 'text-white');
         b.classList.add('border-slate-800', 'text-slate-300');
     });
     if (el) {
-        el.classList.add('active', 'border-sky-500', 'bg-sky-500/10', 'text-white');
+        el.classList.add('active', 'border-[#08B9F2]', 'bg-sky-500/10', 'text-white');
         el.classList.remove('border-slate-800', 'text-slate-300');
     }
     updateLbiDiagnostic();
 }
+window.setDiagnosticSolution = setDiagnosticSolution;
 
 function setDiagnosticChannel(channelKey, el) {
     currentDiagnosticState.channel = channelKey;
     document.querySelectorAll('.diag-channel-btn').forEach(b => {
-        b.classList.remove('active', 'border-sky-500', 'bg-sky-500/10', 'text-white');
+        b.classList.remove('active', 'border-sky-500', 'border-[#08B9F2]', 'bg-sky-500/10', 'text-white');
         b.classList.add('border-slate-800', 'text-slate-300');
     });
     if (el) {
-        el.classList.add('active', 'border-sky-500', 'bg-sky-500/10', 'text-white');
+        el.classList.add('active', 'border-[#08B9F2]', 'bg-sky-500/10', 'text-white');
         el.classList.remove('border-slate-800', 'text-slate-300');
     }
     updateLbiDiagnostic();
 }
+window.setDiagnosticChannel = setDiagnosticChannel;
 
 function updateLbiDiagnostic() {
     const s = LBI_DIAGNOSTIC_DATA.sectors[currentDiagnosticState.sector] || LBI_DIAGNOSTIC_DATA.sectors['saude'];
     const sol = LBI_DIAGNOSTIC_DATA.solutions[currentDiagnosticState.solution] || LBI_DIAGNOSTIC_DATA.solutions['avatar'];
-    const ch = LBI_DIAGNOSTIC_DATA.channels[currentDiagnosticState.channel] || 'SAC';
 
     const riskScore = Math.round(s.baseRisk * sol.riskMult);
     const compScore = sol.comprehension;
 
-    // Update gauges & numbers
     const scoreRiskEl = document.getElementById('diagRiskNumber');
     if (scoreRiskEl) scoreRiskEl.textContent = `${riskScore}%`;
 
@@ -1307,7 +1612,6 @@ function updateLbiDiagnostic() {
         barCompEl.style.width = `${Math.max(5, compScore)}%`;
     }
 
-    // Texts
     const lawRefEl = document.getElementById('diagLawRef');
     if (lawRefEl) lawRefEl.textContent = s.lawRef;
 
@@ -1342,15 +1646,14 @@ function switchScenario(scenarioKey, el) {
     if (!sc) return;
 
     document.querySelectorAll('.scenario-select-btn').forEach(b => {
-        b.classList.remove('active', 'border-sky-500', 'bg-sky-500/20', 'text-white');
+        b.classList.remove('active', 'border-sky-500', 'border-[#08B9F2]', 'bg-sky-500/20', 'text-white');
         b.classList.add('border-slate-800', 'text-slate-400');
     });
     if (el) {
-        el.classList.add('active', 'border-sky-500', 'bg-sky-500/20', 'text-white');
+        el.classList.add('active', 'border-[#08B9F2]', 'bg-sky-500/20', 'text-white');
         el.classList.remove('border-slate-800', 'text-slate-400');
     }
 
-    // Update scenario view
     const titleEl = document.getElementById('scenTitleDisplay');
     if (titleEl) titleEl.textContent = sc.title;
 
@@ -1387,6 +1690,7 @@ function switchScenario(scenarioKey, el) {
     const fNpsEl = document.getElementById('scenFoxNps');
     if (fNpsEl) fNpsEl.textContent = sc.foxNps;
 }
+window.switchScenario = switchScenario;
 
 function requestLbiAuditReport() {
     const s = LBI_DIAGNOSTIC_DATA.sectors[currentDiagnosticState.sector] || LBI_DIAGNOSTIC_DATA.sectors['saude'];
@@ -1404,6 +1708,7 @@ Gostaria de solicitar o Laudo de Auditoria LBI e agendar uma reunião de diagnó
     const encoded = encodeURIComponent(message);
     window.open(`https://wa.me/5563992581001?text=${encoded}`, '_blank');
 }
+window.requestLbiAuditReport = requestLbiAuditReport;
 
 // Inicialização Completa no Carregamento do DOM
 window.addEventListener('DOMContentLoaded', () => {
@@ -1432,3 +1737,47 @@ if (typeof window !== 'undefined') {
         window.addEventListener('DOMContentLoaded', initVLibras);
     }
 }
+
+
+// --- 17. BRIDGE & CONVENIENCE HELPERS PARA INTERATIVIDADE INTEGRAL ---
+function openModal(serviceLabel) {
+    if (serviceLabel) {
+        pendingRequestedService = serviceLabel;
+        const lbl = document.getElementById('modalServiceLabel');
+        if (lbl) lbl.textContent = serviceLabel;
+    }
+    openLeadModal();
+}
+window.openModal = openModal;
+
+function closeModal() {
+    closeLeadModal();
+}
+window.closeModal = closeModal;
+
+function toggleMobileMenu() {
+    if (!mobileMenu) return;
+    const isHidden = mobileMenu.classList.contains('hidden');
+    if (isHidden) {
+        mobileMenu.classList.remove('hidden');
+        if (mobileMenuBtn) mobileMenuBtn.setAttribute('aria-expanded', 'true');
+        if (menuIcon) {
+            menuIcon.classList.remove('fa-bars');
+            menuIcon.classList.add('fa-xmark');
+        }
+    } else {
+        closeMobileMenu();
+    }
+}
+window.toggleMobileMenu = toggleMobileMenu;
+
+function toggleFaq(btn) {
+    if (!btn) return;
+    const answer = btn.nextElementSibling;
+    const icon = btn.querySelector('i');
+    const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
+    if (answer) answer.classList.toggle('open', !isExpanded);
+    if (icon) icon.style.transform = !isExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
+}
+window.toggleFaq = toggleFaq;

@@ -1,31 +1,79 @@
 /* ==========================================================================
-   FOX LIBRAS — DESIGN SYSTEM & CORE STYLES (WCAG 2.2 AA / Np1 Protocol)
+   FOX LIBRAS — DESIGN SYSTEM & CORE TOKENS (WCAG 2.2 AA / Np1 Protocol v4.0)
+   Referência Visual Homologada: layout-1.png
    ========================================================================== */
 
 :root {
-    --color-navy-primary: #0B2D5B;
-    --color-navy-deep: #071B36;
-    --color-orange-action: #FF7A00;
-    --color-orange-hover: #E66E00;
-    --color-cyan-tech: #00B4E6;
-    --color-cyan-hover: #009DC9;
+    /* Paleta Institucional Homologada (Seção 2.1) */
+    --color-navy-primary: #061A33;
+    --color-navy-secondary: #0B2140;
+    --color-navy-surface: #102B4D;
+    --color-navy-deep: #041225;
+    --color-cyan-primary: #08B9F2;
+    --color-cyan-secondary: #35C7F5;
+    --color-cyan-dark: #0095C8;
+    --color-orange-brand: #FF7800;
+    --color-orange-hover: #FF8B1F;
+    --color-orange-active: #E56B00;
     --color-white: #FFFFFF;
-    --color-slate-light: #F2F5F8;
+    --color-bg-light: #F4F6FA;
+    --color-surface-light: #FAFAFC;
+    --color-bg-lbi: #F0F2F6;
+    --color-text-muted: #52627A;
+    --color-border-light: #DCE3EC;
+
+    /* Aliases Legados para Compatibilidade de Componentes Internos */
+    --color-orange-action: #FF7800;
+    --color-cyan-tech: #08B9F2;
+    --color-slate-light: #F4F6FA;
     --color-slate-border: #1E293B;
-    --color-slate-card: #0F172A;
-    --color-slate-card-hover: #162038;
+    --color-slate-card: #0B2140;
+    --color-slate-card-hover: #102B4D;
+
+    /* Tipografia */
+    --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    /* Escala de Raios de Borda */
     --radius-sm: 8px;
     --radius-md: 12px;
+    --radius-card: 14px;
     --radius-lg: 16px;
     --radius-xl: 24px;
     --radius-full: 9999px;
+
+    /* Sombras Elegantes e Discretas */
+    --shadow-card-light: 0 2px 12px rgba(6, 26, 51, 0.04);
+    --shadow-card-hover: 0 10px 26px rgba(6, 26, 51, 0.09);
+    --shadow-banner: 0 16px 36px -6px rgba(6, 26, 51, 0.22);
+    --shadow-cta-orange: 0 6px 18px rgba(255, 120, 0, 0.32);
+    --shadow-cta-orange-hover: 0 8px 24px rgba(255, 120, 0, 0.48);
     --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.35);
-    --shadow-glow-cyan: 0 0 25px -5px rgba(0, 180, 230, 0.3);
-    --shadow-glow-orange: 0 0 25px -5px rgba(255, 122, 0, 0.35);
+
+    /* Curvas e Durações de Movimento (180ms - 450ms) */
+    --ease-out-quart: cubic-bezier(0.16, 1, 0.3, 1);
+    --duration-fast: 180ms;
+    --duration-normal: 280ms;
+    --duration-slow: 420ms;
 }
 
 /* --------------------------------------------------------------------------
-   Acessibilidade: Link de Pulo para Conteúdo Principal (Skip Link)
+   Base & Reset Editorial
+   -------------------------------------------------------------------------- */
+html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background-color: var(--color-navy-primary);
+    color: var(--color-white);
+    overflow-x: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Acessibilidade: Link de Salto para Conteúdo Principal (WCAG 2.2 AA)
    -------------------------------------------------------------------------- */
 .skip-to-content {
     position: absolute;
@@ -33,13 +81,13 @@
     left: 16px;
     z-index: 9999;
     padding: 12px 20px;
-    background-color: var(--color-orange-action);
+    background-color: var(--color-orange-brand);
     color: #FFFFFF;
     font-weight: 700;
     font-size: 14px;
     border-radius: var(--radius-md);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    transition: top 0.2s ease-in-out;
+    transition: top var(--duration-fast) ease-in-out;
 }
 
 .skip-to-content:focus {
@@ -52,7 +100,7 @@
    Indicadores de Foco Visíveis e Acessíveis (WCAG 2.2 AA)
    -------------------------------------------------------------------------- */
 :focus-visible {
-    outline: 2px solid var(--color-cyan-tech);
+    outline: 2px solid var(--color-cyan-primary);
     outline-offset: 3px;
     border-radius: 4px;
 }
@@ -62,61 +110,60 @@ a:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-    outline: 2px solid var(--color-cyan-tech);
+    outline: 2px solid var(--color-cyan-primary);
     outline-offset: 2px;
 }
 
 /* --------------------------------------------------------------------------
-   Scrollbar Personalizada Estilo Navy Enterprise
+   Navegação Principal & Indicador de Página Ativa
    -------------------------------------------------------------------------- */
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+.nav-link-item {
+    position: relative;
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 500;
+    font-size: 14px;
+    padding: 6px 0;
+    transition: color var(--duration-fast) ease;
 }
 
-::-webkit-scrollbar-track {
-    background: var(--color-navy-deep);
+.nav-link-item:hover,
+.nav-link-item:focus-visible {
+    color: var(--color-cyan-primary);
 }
 
-::-webkit-scrollbar-thumb {
-    background: #1E293B;
-    border-radius: 4px;
+.nav-link-item.active {
+    color: #FFFFFF;
+    font-weight: 600;
 }
 
-::-webkit-scrollbar-thumb:hover {
-    background: var(--color-cyan-tech);
+.nav-link-item.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 2.5px;
+    background-color: var(--color-orange-brand);
+    border-radius: 999px;
 }
 
 /* --------------------------------------------------------------------------
-   Cards e Superfícies Corporativas
-   -------------------------------------------------------------------------- */
-.corporate-card {
-    background-color: var(--color-slate-card);
-    border: 1px solid var(--color-slate-border);
-    border-radius: var(--radius-lg);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.corporate-card:hover {
-    border-color: rgba(0, 180, 230, 0.4);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-glow-cyan);
-}
-
-/* --------------------------------------------------------------------------
-   Botão de Ação Primária (Laranja Alta Conversão)
+   Botões do Design System (Seção 4.3 & 12)
    -------------------------------------------------------------------------- */
 .btn-primary-orange {
-    background: linear-gradient(135deg, #FF9500 0%, #FF7A00 100%);
+    background: linear-gradient(135deg, #FF881B 0%, #FF7800 100%);
     color: #FFFFFF;
     font-weight: 700;
-    transition: all 0.25s ease;
-    box-shadow: 0 4px 15px rgba(255, 122, 0, 0.3);
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-cta-orange);
+    transition: transform var(--duration-fast) var(--ease-out-quart),
+                box-shadow var(--duration-fast) var(--ease-out-quart),
+                filter var(--duration-fast) ease;
 }
 
 .btn-primary-orange:hover {
-    background: linear-gradient(135deg, #FFA01A 0%, #E66E00 100%);
-    box-shadow: var(--shadow-glow-orange);
+    filter: brightness(1.06);
+    box-shadow: var(--shadow-cta-orange-hover);
     transform: translateY(-1px);
 }
 
@@ -124,8 +171,117 @@ textarea:focus-visible {
     transform: translateY(0);
 }
 
+.btn-secondary-outline {
+    background-color: rgba(6, 26, 51, 0.35);
+    color: #FFFFFF;
+    font-weight: 600;
+    border: 1.5px solid rgba(255, 255, 255, 0.55);
+    border-radius: var(--radius-full);
+    transition: all var(--duration-normal) var(--ease-out-quart);
+}
+
+.btn-secondary-outline:hover {
+    background-color: rgba(8, 185, 242, 0.14);
+    border-color: var(--color-cyan-primary);
+    transform: translateY(-1px);
+}
+
+/* Botão Institucional Assimétrico ("Conheça nossa história ->") */
+.btn-history-outline {
+    position: relative;
+    background: rgba(6, 26, 51, 0.6);
+    color: #FFFFFF;
+    font-weight: 600;
+    border: 1.5px solid rgba(255, 255, 255, 0.45);
+    border-left: 2.5px solid var(--color-orange-brand);
+    border-radius: var(--radius-full);
+    transition: all var(--duration-normal) var(--ease-out-quart);
+}
+
+.btn-history-outline:hover {
+    background: rgba(8, 185, 242, 0.14);
+    border-color: var(--color-cyan-primary);
+    border-left-color: var(--color-orange-brand);
+    transform: translateX(2px);
+}
+
 /* --------------------------------------------------------------------------
-   Marquee Infinito de Logos Corporativas (60fps Fluido com GPU)
+   Cards de Serviços Claros (Seção 6)
+   -------------------------------------------------------------------------- */
+.service-card-light {
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card-light);
+    transition: transform var(--duration-normal) var(--ease-out-quart),
+                border-color var(--duration-normal) ease,
+                box-shadow var(--duration-normal) var(--ease-out-quart),
+                background-color var(--duration-normal) ease;
+}
+
+.service-card-light:hover {
+    background-color: #FFFFFF;
+    border-color: rgba(8, 185, 242, 0.55);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+/* Cards Corporativos Escuros (Painéis Complementares & Modais) */
+.corporate-card {
+    background-color: var(--color-navy-secondary);
+    border: 1px solid var(--color-navy-surface);
+    border-radius: var(--radius-lg);
+    transition: all var(--duration-normal) var(--ease-out-quart);
+}
+
+.corporate-card:hover {
+    border-color: rgba(8, 185, 242, 0.4);
+    transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   Selo Editorial de Seção (Traço Ciano + Label Uppercase)
+   -------------------------------------------------------------------------- */
+.section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.section-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 22px;
+    height: 3px;
+    background-color: var(--color-cyan-primary);
+    border-radius: 99px;
+    flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Animações de Entrada Suaves (Seção 14)
+   -------------------------------------------------------------------------- */
+@keyframes fadeInUpSubtle {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-up {
+    animation: fadeInUpSubtle var(--duration-slow) var(--ease-out-quart) both;
+}
+
+/* --------------------------------------------------------------------------
+   Marquee Infinito de Logos Corporativas (60fps GPU)
    -------------------------------------------------------------------------- */
 @keyframes marquee {
     0% {
@@ -150,6 +306,27 @@ textarea:focus-visible {
 }
 
 /* --------------------------------------------------------------------------
+   Scrollbar Personalizada
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-navy-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-navy-surface);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-cyan-primary);
+}
+
+/* --------------------------------------------------------------------------
    Respeito à Preferência do Usuário por Movimento Reduzido (WCAG 2.2 AA)
    -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
@@ -169,7 +346,7 @@ textarea:focus-visible {
 }
 
 /* --------------------------------------------------------------------------
-   Override Posicionamento do Widget VLibras para Evitar Colisão
+   Override Posicionamento do Widget VLibras para Evitar Colisão (Seção 11)
    -------------------------------------------------------------------------- */
 [vw-access-button] {
     right: 0px !important;
@@ -180,4 +357,203 @@ textarea:focus-visible {
 
 [vw-plugin-wrapper] {
     z-index: 35 !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   Classes Homologadas do Layout Principal (layout-1.png)
+   -------------------------------------------------------------------------- */
+.nav-link-fox {
+    position: relative;
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 500;
+    padding: 6px 0;
+    transition: color var(--duration-fast) ease;
+}
+
+.nav-link-fox:hover,
+.nav-link-fox:focus-visible {
+    color: var(--color-cyan-primary);
+}
+
+.nav-link-fox.active {
+    color: #FFFFFF;
+    font-weight: 600;
+}
+
+.nav-link-fox.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px;
+    height: 2.5px;
+    background-color: var(--color-orange-brand);
+    border-radius: 999px;
+}
+
+.nav-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 310px;
+    background-color: #0B2140;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 14px;
+    padding: 8px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+    z-index: 60;
+}
+
+.eyebrow-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.eyebrow-badge::before {
+    content: '';
+    display: inline-block;
+    width: 22px;
+    height: 2.5px;
+    background-color: var(--color-cyan-primary);
+    border-radius: 99px;
+    flex-shrink: 0;
+}
+
+.btn-fox-orange {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #FF881B 0%, #FF7800 100%);
+    color: #FFFFFF;
+    font-weight: 700;
+    border-radius: 9999px;
+    border: 0;
+    box-shadow: var(--shadow-cta-orange);
+    cursor: pointer;
+    transition: transform var(--duration-fast) var(--ease-out-quart),
+                box-shadow var(--duration-fast) var(--ease-out-quart),
+                filter var(--duration-fast) ease;
+}
+
+.btn-fox-orange:hover {
+    filter: brightness(1.06);
+    box-shadow: var(--shadow-cta-orange-hover);
+    transform: translateY(-1px);
+}
+
+.btn-fox-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: rgba(6, 26, 51, 0.35);
+    color: #FFFFFF;
+    font-weight: 600;
+    border: 1.5px solid rgba(255, 255, 255, 0.55);
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all var(--duration-normal) var(--ease-out-quart);
+}
+
+.btn-fox-outline:hover {
+    background-color: rgba(8, 185, 242, 0.14);
+    border-color: var(--color-cyan-primary);
+    transform: translateY(-1px);
+}
+
+.btn-fox-story {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: rgba(6, 26, 51, 0.65);
+    color: #FFFFFF;
+    font-weight: 600;
+    border: 1.5px solid rgba(255, 255, 255, 0.45);
+    border-left: 3px solid var(--color-orange-brand);
+    border-radius: 9999px;
+    transition: all var(--duration-normal) var(--ease-out-quart);
+}
+
+.btn-fox-story:hover {
+    background: rgba(8, 185, 242, 0.15);
+    border-color: var(--color-cyan-primary);
+    border-left-color: var(--color-orange-brand);
+    transform: translateX(2px);
+}
+
+.solution-card-fox {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card-light);
+    transition: transform var(--duration-normal) var(--ease-out-quart),
+                border-color var(--duration-normal) ease,
+                box-shadow var(--duration-normal) var(--ease-out-quart),
+                background-color var(--duration-normal) ease;
+}
+
+.solution-card-fox:hover {
+    background-color: #FFFFFF;
+    border-color: rgba(8, 185, 242, 0.55);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+.trust-item {
+    position: relative;
+}
+
+@media (min-width: 1024px) {
+    .trust-item:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 18%;
+        height: 64%;
+        width: 1px;
+        background-color: var(--color-border-light);
+    }
+}
+
+.btn-play-pulse {
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2), 0 12px 28px rgba(0, 0, 0, 0.4);
+    transition: transform var(--duration-normal) var(--ease-out-quart),
+                box-shadow var(--duration-normal) var(--ease-out-quart);
+}
+
+.btn-play-pulse:hover {
+    transform: scale(1.07);
+    box-shadow: 0 0 0 12px rgba(8, 185, 242, 0.3), 0 16px 32px rgba(0, 0, 0, 0.5);
+}
+
+.modal-backdrop-fox {
+    background-color: rgba(4, 18, 37, 0.84);
+    backdrop-filter: blur(8px);
+}
+
+.marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 35s linear infinite;
+    will-change: transform;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.28s ease-out;
+}
+.faq-answer.open {
+    max-height: 240px;
 }

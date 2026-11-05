@@ -1,7 +1,7 @@
 # ARCHITECTURE.md — FOX LIBRAS Architecture & System Design
 
 > **Documentação de Arquitetura, Governança & Conformidade Np1**
-> **Versão:** 3.0 (Redesign Estratégico, Branding, Conversão & Marketing Digital)
+> **Versão:** 4.0 (Design System + Implementação Fiel da Referência Visual `layout-1.png` + Arquitetura Modular Next.js/Tailwind)
 > **Subdomínio de Produção:** `https://libras.foxstorebr.com/`
 > **Razão Social / Homologação:** Fox Store BR / Fox Libras — CNPJ: 66.550.293/0001-99
 > **Liderança Técnica & Educacional:** Prof. Mestre Osvaldo Queta (Mestre em Educação, Especialista em Libras & Desenvolvedor de Sistemas)
@@ -122,13 +122,17 @@ O projeto adota integralmente as diretrizes do **Np1.md**:
    - **Símbolo:** Intersecção de duas mãos estilizadas em diálogo acolhedor, simbolizando pertencimento e impacto social.
    - **Posicionamento:** Direcionado a instituições públicas, saúde e ESG.
 
-### Paleta de Cores Homologada (Tokens Np1)
-- **Navy Corporativo Primário:** `#0B2D5B` (Autoridade, seriedade institucional)
-- **Azul Profundo Fundo:** `#071B36` (Ambiente escuro sofisticado e foco visual)
-- **Laranja Ação / CTA:** `#FF7A00` (Contraste alto, calor humano, conversão direta)
-- **Ciano Tecnologia:** `#00B4E6` (Conexão, fluidez digital, destaque técnico)
-- **Branco Puro:** `#FFFFFF` (Legibilidade máxima e tipografia primária)
-- **Cinza Claro / Slate:** `#F2F5F8` / `#1E293B` (Superfícies de apoio, bordas e divisores)
+### Paleta de Cores Homologada (Tokens Np1 v4.0 — Referência `layout-1.png`)
+- **Azul-marinho Principal:** `#061A33` (Header, Hero, Sobre, Footer)
+- **Azul-marinho Secundário:** `#0B2140` (Superfícies elevadas, modais e barra interativa)
+- **Azul de Superfícies:** `#102B4D` (Bordas e cartões internos escuros)
+- **Ciano Principal:** `#08B9F2` (Destaques tipográficos, selos, ícones de linha e foco acessível)
+- **Ciano Secundário:** `#35C7F5` (Estados de hover e gradientes técnicos)
+- **Laranja Institucional:** `#FF7800` (CTAs primários, indicador de página ativa e detalhes geométricos)
+- **Branco:** `#FFFFFF` (Seção de Soluções e tipografia sobre fundo escuro)
+- **Fundo Claro:** `#F4F6FA` / `#EEF2F7` (Faixa de Credibilidade, Cards de Serviços e Diagnóstico LBI)
+- **Cinza Textual:** `#52627A` (Descrições e textos de apoio sobre fundo claro)
+- **Bordas Claras:** `#DCE3EC` (Divisores verticais e contornos sutis)
 
 ### Slogan Oficial
 > **Soluções em Acessibilidade**

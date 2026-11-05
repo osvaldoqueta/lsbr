@@ -15,6 +15,23 @@ O **FOX LIBRAS** é uma plataforma B2B de alta performance e governança em aces
 
 ## 🚀 Histórico de Sprints
 
+### 📅 Sprint 4.0 — Design System + Implementação Fiel da Referência Visual (`layout-1.png`) & Arquitetura Modular (05/11/2026)
+- **Redesign Completo Fiel à Referência Visual Aprovada (`public/layout-novo/layout-1.png`)**:
+  - **Tokens do Design System**: Paleta oficial implementada em [`assets/css/style.css`](file:///c:/Users/Queta/.libras/assets/css/style.css), [`tailwind.config.js`](file:///c:/Users/Queta/.libras/tailwind.config.js) e [`src/lib/design-system.ts`](file:///c:/Users/Queta/.libras/src/lib/design-system.ts) (`#061A33` Azul-marinho principal, `#0B2140` Azul-marinho secundário, `#102B4D` Superfícies, `#08B9F2` Ciano principal, `#35C7F5` Ciano secundário, `#FF7800` Laranja institucional, `#F4F6FA` Fundo claro, `#52627A` Cinza textual, `#DCE3EC` Bordas claras).
+  - **7 Seções Principais Reproduzidas com Fidelidade Pixel-a-Pixel**:
+    1. **Header Institucional (`#navbar`)**: Sticky `72px` em `#061A33`, logotipo oficial `assets/brand/logo-horizontal.svg`, links (`Início` com indicador ativo laranja, `Soluções` com dropdown interativo, `Demonstração`, `Diagnóstico LBI`, `Portfólio`, `Sobre`, `Contato`) e botão arredondado laranja `Solicitar proposta`.
+    2. **Hero Principal (`#inicio`)**: Composição horizontal dividida (`48%` texto à esquerda + `52%` fotografia editorial `assets/images/layout/hero-interpreter.png` à direita com fusão suave e indicador interativo `"Interpretação profissional • Ao vivo"`), selo `"ACESSIBILIDADE QUE CONECTA PESSOAS"`, headline em 3 linhas `"Comunicação acessível. / Presença em / todos os espaços."` e CTAs primário e secundário.
+    3. **Faixa de Credibilidade**: Fundo claro `#F4F6FA`, 4 pilares com divisores verticais e ícones SVG em azul/ciano (`Atuação profissional`, `Liderança técnica especializada`, `Conformidade LBI`, `Atendimento nacional`).
+    4. **Seção de Soluções (`#solucoes`)**: Fundo claro, título `"Soluções para uma comunicação sem barreiras."` e 3 cards equivalentes (`Central de Libras & SAC`, `Interpretação de eventos`, `Tradução e legendagem`) com modais de detalhamento (`Saiba mais →`).
+    5. **Banner de Demonstração (`#veja-na-pratica`)**: Card horizontal arredondado com fotografia de palco (`assets/images/layout/demo-stage.png`), gradiente azul-marinho, título `"Veja a acessibilidade em ação."` e botão play circular central conectado ao Showcase de Vídeos Reais.
+    6. **Diagnóstico LBI e Parceiros (`#diagnostico-lbi`)**: Faixa horizontal em 3 colunas com divisores verticais (`Conformidade e segurança jurídica.`, explicação + botão laranja `"Solicitar diagnóstico →"`, e faixa `"NOSSOS PARCEIROS"` com logotipos monocromáticos oficiais `JFTV Câmara`, `Orbenk`, `BD`, `Câmara Municipal de Juiz de Fora`).
+    7. **Sobre a FOX LIBRAS (`#sobre`)**: Seção azul-marinho em 3 colunas assimétricas com fotografia institucional (`assets/images/layout/about-interpreter.png`), título `"Mais que tecnologia, um compromisso social."` e botão `"Conheça nossa história →"`.
+    8. **Footer Institucional**: Azul-marinho profundo (`#041225`) em 5 colunas com dados reais da FOX LIBRAS (`(63) 99258-1001`, `osvaldoqueta@gmail.com`, `Juiz de Fora / MG`), redes sociais, links legais e detalhe curvo laranja/azul no canto inferior direito.
+- **Preservação de 100% das Funcionalidades Existentes (`#complementaryHubWrapper` + Modais)**:
+  - Mantidos integralmente o Marquee e Portfólio de Corporações Atendidas (`#corporacoes-atendidas`), Vitrine de Vídeos Reais (`#demonstracao`), Scanner Interativo de Conformidade LBI em 3 Abas (`#comparativo-autoridade`), Trajetória do Prof. Mestre Osvaldo Queta + PDF Lattes (`#quem-somos`), Carrossel de 26 Fotos de Bastidores (`#bastidores`), Simulador de Investimento B2B (`#calculadora`), Formulário de Contato (`#contato`), Painel Admin Supabase (`#adminModal`), Meta Pixel (`624428955224744`) e Widget VLibras.
+
+---
+
 ### 📅 Sprint 2.2 — Auto-Descoberta Dinâmica de Mídias (Manifests) & Responsividade de Imagens (23/09/2026)
 - **Auto-Descoberta de Imagens via `manifest.json`**:
   - Criados os arquivos de manifesto [`assets/images/corps/manifest.json`](file:///c:/Users/Queta/.libras/assets/images/corps/manifest.json) e [`assets/images/gallery/manifest.json`](file:///c:/Users/Queta/.libras/assets/images/gallery/manifest.json) para auto-detecção em tempo de execução sem alterar código-fonte no HTML.
