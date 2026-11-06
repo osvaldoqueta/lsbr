@@ -301,10 +301,11 @@ textarea:focus-visible {
     will-change: transform;
 }
 
-@media (hover: hover) {
-    .animate-marquee:hover {
-        animation-play-state: paused;
-    }
+.animate-marquee:hover,
+.animate-marquee:active,
+.animate-marquee:focus-within,
+.animate-marquee.is-paused {
+    animation-play-state: paused !important;
 }
 
 /* --------------------------------------------------------------------------

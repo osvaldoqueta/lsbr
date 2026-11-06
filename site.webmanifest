@@ -1,0 +1,25 @@
+{
+  "name": "FOX LIBRAS — Soluções em Acessibilidade",
+  "short_name": "FOX LIBRAS",
+  "description": "Comunicação acessível. Presença em todos os espaços. Soluções profissionais em Libras, interpretação ao vivo e consultoria LBI.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#061A33",
+  "theme_color": "#061A33",
+  "categories": ["business", "accessibility", "productivity"],
+  "icons": [
+    {
+      "src": "assets/brand/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/brand/logo-icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

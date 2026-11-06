@@ -9,7 +9,20 @@
     <meta name="author" content="FOX LIBRAS — Soluções em Acessibilidade">
     <meta name="robots" content="index, follow">
     <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- Cores Nativas do Sistema, Status Bar e Navegadores (Chrome, Firefox/Mozilla, Safari, Edge, Android & iOS) -->
     <meta name="theme-color" content="#061A33">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#061A33">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#061A33">
+    <meta name="msapplication-navbutton-color" content="#061A33">
+    <meta name="msapplication-TileColor" content="#061A33">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FOX LIBRAS">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Web App Manifest (Garante que a barra superior e barra nativa inferior adotem o Azul Oficial #061A33) -->
+    <link rel="manifest" href="site.webmanifest">
 
     <!-- Canonical & Open Graph -->
     <link rel="canonical" href="https://libras.foxstorebr.com/">
@@ -767,13 +780,170 @@
                                 Instituições e Corporações <span class="text-[#08B9F2]">Atendidas</span>
                             </h3>
                         </div>
-                        <p class="text-[#52627A] text-sm max-w-md">
-                            Empresas líderes, órgãos legislativos, universidades e instituições federais que confiam na excelência técnica da FOX LIBRAS.
-                        </p>
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+                            <p class="text-[#52627A] text-sm max-w-md">
+                                Empresas líderes, órgãos legislativos, universidades e instituições federais que confiam na excelência técnica da FOX LIBRAS.
+                            </p>
+                            <button type="button" onclick="toggleMarqueePlayPause()" id="toggleMarqueeBtn" class="shrink-0 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white hover:bg-slate-100 text-[#061A33] text-xs font-bold border border-[#DCE3EC] shadow-sm transition-all cursor-pointer self-start sm:self-auto" title="Pausar ou Retomar a rotação contínua do carrossel">
+                                <i id="toggleMarqueeIcon" class="fa-solid fa-pause text-[11px] text-[#08B9F2]"></i>
+                                <span id="toggleMarqueeText">Pausar Carrossel</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="overflow-hidden py-4 bg-white rounded-2xl border border-[#DCE3EC] shadow-sm">
-                        <div id="corpsMarqueeTrack" class="animate-marquee"></div>
+                    <div class="overflow-hidden py-4 bg-white rounded-2xl border border-[#DCE3EC] shadow-sm select-none" title="Passe o cursor ou toque para pausar o carrossel">
+                        <div id="corpsMarqueeTrack" class="animate-marquee">
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="JFTV Câmara — Juiz de Fora">
+                                    <img src="assets/images/corps/tv-camara.jpg" alt="JFTV Câmara — Juiz de Fora" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="Grupo Orbenk">
+                                    <img src="assets/images/corps/1_colorido-1-1.webp" alt="Grupo Orbenk" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="BD Juiz de Fora (Becton Dickinson)">
+                                    <img src="assets/images/corps/logo-bd-jf.png" alt="BD Juiz de Fora (Becton Dickinson)" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="Câmara Municipal de Juiz de Fora">
+                                    <img src="assets/images/corps/logo-camara-jf.png" alt="Câmara Municipal de Juiz de Fora" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="UFJF — Universidade Federal de Juiz de Fora">
+                                    <img src="assets/images/corps/Logo_da_UFJF.png" alt="UFJF — Universidade Federal de Juiz de Fora" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="UniAcademia">
+                                    <img src="assets/images/corps/UniAcademia.png" alt="UniAcademia" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="Coca-Cola">
+                                    <img src="assets/images/corps/cocacola.png" alt="Coca-Cola" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="Estação das Artes / Cinema Alameda">
+                                    <img src="assets/images/corps/estacao-das-artes.png" alt="Estação das Artes / Cinema Alameda" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="IMEPP">
+                                    <img src="assets/images/corps/imepp.png" alt="IMEPP" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="IFTO — Instituto Federal do Tocantins">
+                                    <img src="assets/images/corps/ifto-gurupi.jpg" alt="IFTO — Instituto Federal do Tocantins" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="JFTV Câmara — Juiz de Fora">
+                                    <img src="assets/images/corps/tv-camara.jpg" alt="JFTV Câmara — Juiz de Fora" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="Grupo Orbenk">
+                                    <img src="assets/images/corps/1_colorido-1-1.webp" alt="Grupo Orbenk" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="BD Juiz de Fora (Becton Dickinson)">
+                                    <img src="assets/images/corps/logo-bd-jf.png" alt="BD Juiz de Fora (Becton Dickinson)" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="Câmara Municipal de Juiz de Fora">
+                                    <img src="assets/images/corps/logo-camara-jf.png" alt="Câmara Municipal de Juiz de Fora" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="UFJF — Universidade Federal de Juiz de Fora">
+                                    <img src="assets/images/corps/Logo_da_UFJF.png" alt="UFJF — Universidade Federal de Juiz de Fora" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="UniAcademia">
+                                    <img src="assets/images/corps/UniAcademia.png" alt="UniAcademia" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="Coca-Cola">
+                                    <img src="assets/images/corps/cocacola.png" alt="Coca-Cola" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="Estação das Artes / Cinema Alameda">
+                                    <img src="assets/images/corps/estacao-das-artes.png" alt="Estação das Artes / Cinema Alameda" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="IMEPP">
+                                    <img src="assets/images/corps/imepp.png" alt="IMEPP" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="IFTO — Instituto Federal do Tocantins">
+                                    <img src="assets/images/corps/ifto-gurupi.jpg" alt="IFTO — Instituto Federal do Tocantins" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="JFTV Câmara — Juiz de Fora">
+                                    <img src="assets/images/corps/tv-camara.jpg" alt="JFTV Câmara — Juiz de Fora" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="Grupo Orbenk">
+                                    <img src="assets/images/corps/1_colorido-1-1.webp" alt="Grupo Orbenk" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="BD Juiz de Fora (Becton Dickinson)">
+                                    <img src="assets/images/corps/logo-bd-jf.png" alt="BD Juiz de Fora (Becton Dickinson)" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="Câmara Municipal de Juiz de Fora">
+                                    <img src="assets/images/corps/logo-camara-jf.png" alt="Câmara Municipal de Juiz de Fora" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="UFJF — Universidade Federal de Juiz de Fora">
+                                    <img src="assets/images/corps/Logo_da_UFJF.png" alt="UFJF — Universidade Federal de Juiz de Fora" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="UniAcademia">
+                                    <img src="assets/images/corps/UniAcademia.png" alt="UniAcademia" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="Coca-Cola">
+                                    <img src="assets/images/corps/cocacola.png" alt="Coca-Cola" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="Estação das Artes / Cinema Alameda">
+                                    <img src="assets/images/corps/estacao-das-artes.png" alt="Estação das Artes / Cinema Alameda" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="IMEPP">
+                                    <img src="assets/images/corps/imepp.png" alt="IMEPP" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+                                <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="IFTO — Instituto Federal do Tocantins">
+                                    <img src="assets/images/corps/ifto-gurupi.jpg" alt="IFTO — Instituto Federal do Tocantins" loading="lazy" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -1602,6 +1772,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <!-- Script Principal Modularizado da Aplicação -->
-    <script src="assets/js/script.js"></script>
+    <script src="assets/js/script.js?v=4.3"></script>
 </body>
 </html>

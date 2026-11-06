@@ -107,6 +107,9 @@ function openComplementarySection(sectionId, shouldScroll = true) {
     if (toggleLabel) toggleLabel.textContent = 'Recolher ferramentas interativas e portfólio completo';
     if (toggleIcon) toggleIcon.className = 'fa-solid fa-chevron-up text-xs transition-transform';
 
+    // Garantir renderização imediata do carrossel de marcas parceiras
+    renderCorporateMarquee();
+
     // Garantir renderização correta do carrossel quando visível
     setTimeout(() => {
         updateGalleryCarouselPosition();
@@ -134,6 +137,7 @@ function toggleComplementaryHub() {
         drawer.classList.remove('hidden');
         if (toggleLabel) toggleLabel.textContent = 'Recolher ferramentas interativas e portfólio completo';
         if (toggleIcon) toggleIcon.className = 'fa-solid fa-chevron-up text-xs transition-transform';
+        renderCorporateMarquee();
         setTimeout(() => {
             updateGalleryCarouselPosition();
             drawer.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -145,6 +149,17 @@ function toggleComplementaryHub() {
     }
 }
 window.toggleComplementaryHub = toggleComplementaryHub;
+
+function toggleMarqueePlayPause() {
+    const track = document.getElementById('corpsMarqueeTrack');
+    const icon = document.getElementById('toggleMarqueeIcon');
+    const text = document.getElementById('toggleMarqueeText');
+    if (!track) return;
+    const isPaused = track.classList.toggle('is-paused');
+    if (icon) icon.className = isPaused ? 'fa-solid fa-play text-[11px] text-[#FF7800]' : 'fa-solid fa-pause text-[11px] text-[#08B9F2]';
+    if (text) text.textContent = isPaused ? 'Retomar Carrossel' : 'Pausar Carrossel';
+}
+window.toggleMarqueePlayPause = toggleMarqueePlayPause;
 
 // --- 4. DEMO VIDEO SHOWCASE PLAYER, GALERIA AO VIVO (2X/MÊS) & MODAL DE VÍDEO ACESSÍVEL ---
 const videoElement = document.getElementById('librasDemoVideo');
@@ -1247,6 +1262,21 @@ async function renderCorporateMarquee() {
     const track = document.getElementById('corpsMarqueeTrack');
     if (!track) return;
 
+    // Helper para gerar o HTML do card de forma segura e padronizada
+    const buildCardHtml = (item) => `
+        <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
+            <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-sm flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-xl hover:border-[#08B9F2] hover:scale-[1.03] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="${sanitizeHTML(item.name)}">
+                <img src="${item.src}" alt="${sanitizeHTML(item.name)}" onerror="this.onerror=null;this.src='assets/brand/favicon.svg';this.classList.add('p-3','opacity-70');" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105" loading="lazy">
+            </div>
+        </div>
+    `;
+
+    // Se já estiver vazio, preenche imediatamente com os logos oficiais para não haver tela em branco
+    if (!track.children || track.children.length === 0) {
+        const initialList = [...CORPORATE_LOGOS, ...CORPORATE_LOGOS, ...CORPORATE_LOGOS];
+        track.innerHTML = initialList.map(buildCardHtml).join('');
+    }
+
     const logoFiles = await fetchDirectoryManifest(
         'assets/images/corps/manifest.json',
         CORPORATE_LOGOS,
@@ -1260,15 +1290,8 @@ async function renderCorporateMarquee() {
         }
     );
 
-    const list = [...logoFiles, ...logoFiles, ...logoFiles, ...logoFiles];
-
-    track.innerHTML = list.map(item => `
-        <div class="flex items-center justify-center shrink-0 px-3 sm:px-4 logo-card-wrapper">
-            <div class="bg-white px-6 py-3.5 rounded-2xl border border-slate-200/90 shadow-lg shadow-black/20 flex items-center justify-center h-20 sm:h-24 w-52 sm:w-64 md:w-72 hover:shadow-2xl hover:shadow-sky-500/25 hover:border-[#08B9F2] hover:scale-[1.04] transition-all duration-300 group/logo overflow-hidden cursor-pointer" title="${sanitizeHTML(item.name)}">
-                <img src="${item.src}" alt="${sanitizeHTML(item.name)}" onerror="this.closest('.logo-card-wrapper').remove()" class="h-12 sm:h-16 max-h-full w-auto object-contain max-w-[90%] filter contrast-105 transition-transform duration-300 group-hover/logo:scale-105">
-            </div>
-        </div>
-    `).join('');
+    const list = [...logoFiles, ...logoFiles, ...logoFiles];
+    track.innerHTML = list.map(buildCardHtml).join('');
 }
 
 // --- 11. ARQUITETURA DE STREAMING, GALERIA AO VIVO QUINZENAL (2X/MÊS) & ACERVO POR TEMA ---
