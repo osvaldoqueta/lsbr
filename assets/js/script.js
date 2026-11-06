@@ -1129,9 +1129,43 @@ function closeCvModal() {
 }
 window.closeCvModal = closeCvModal;
 
-function openLgpdModal() {
+function switchLegalTab(tabName) {
+    const validTabs = ['privacidade', 'termos', 'acessibilidade'];
+    const activeTab = validTabs.includes(tabName) ? tabName : 'privacidade';
+
+    document.querySelectorAll('.legal-tab-btn').forEach(btn => {
+        const btnTab = btn.getAttribute('data-tab');
+        if (btnTab === activeTab) {
+            btn.className = 'legal-tab-btn px-3.5 py-2 rounded-lg text-xs sm:text-sm font-bold bg-[#08B9F2] text-[#061A33] transition-all shadow-md';
+            btn.setAttribute('aria-selected', 'true');
+        } else {
+            btn.className = 'legal-tab-btn px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium bg-white/10 text-white/80 hover:bg-white/15 hover:text-white transition-all';
+            btn.setAttribute('aria-selected', 'false');
+        }
+    });
+
+    ['privacidade', 'termos', 'acessibilidade'].forEach(tab => {
+        const panel = document.getElementById(`legal-panel-${tab}`);
+        if (panel) {
+            if (tab === activeTab) {
+                panel.classList.remove('hidden');
+            } else {
+                panel.classList.add('hidden');
+            }
+        }
+    });
+
+    const contentArea = document.getElementById('legalModalContentArea');
+    if (contentArea) contentArea.scrollTop = 0;
+}
+window.switchLegalTab = switchLegalTab;
+
+function openLgpdModal(targetTab = 'privacidade') {
     const modal = document.getElementById('lgpdModal');
-    if (modal) modal.classList.remove('hidden');
+    if (modal) {
+        modal.classList.remove('hidden');
+        switchLegalTab(targetTab);
+    }
 }
 window.openLgpdModal = openLgpdModal;
 

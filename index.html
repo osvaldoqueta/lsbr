@@ -53,10 +53,10 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Folha de Estilo Estática Tailwind CSS (Compilada Localmente — Zero Dependência de CDN) -->
-    <link rel="stylesheet" href="assets/css/tailwind.min.css?v=4.5">
+    <link rel="stylesheet" href="assets/css/tailwind.min.css?v=4.6">
 
     <!-- Folha de Estilo Institucional & Design System -->
-    <link rel="stylesheet" href="assets/css/style.css?v=4.5">
+    <link rel="stylesheet" href="assets/css/style.css?v=4.6">
 
     <!-- Schema.org JSON-LD: ProfessionalService & FAQPage -->
     <script type="application/ld+json">
@@ -2054,15 +2054,15 @@
                     © 2026 FOX LIBRAS | Soluções em Acessibilidade. Todos os direitos reservados.
                 </div>
                 <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-                    <button type="button" onclick="openLgpdModal()"
+                    <button type="button" onclick="openLgpdModal('privacidade')"
                         class="hover:text-white transition-colors cursor-pointer bg-transparent border-0 text-[12px] text-white/60 p-0">Política
                         de Privacidade</button>
                     <span>•</span>
-                    <button type="button" onclick="openLgpdModal()"
+                    <button type="button" onclick="openLgpdModal('termos')"
                         class="hover:text-white transition-colors cursor-pointer bg-transparent border-0 text-[12px] text-white/60 p-0">Termos
                         de Uso</button>
                     <span>•</span>
-                    <button type="button" onclick="openLgpdModal()"
+                    <button type="button" onclick="openLgpdModal('acessibilidade')"
                         class="hover:text-white transition-colors cursor-pointer bg-transparent border-0 text-[12px] text-white/60 p-0">Acessibilidade</button>
                     <span>•</span>
                     <button type="button" onclick="openAdminModal(event)" title="Painel de Telemetria"
@@ -2287,29 +2287,346 @@
     </div>
 
     <!-- 5. Modal LGPD / Termos / Acessibilidade (lgpdModal) -->
-    <div id="lgpdModal" class="hidden fixed inset-0 z-[90] flex items-center justify-center p-4 modal-backdrop-fox"
+    <div id="lgpdModal" class="hidden fixed inset-0 z-[90] flex items-center justify-center p-3 sm:p-4 modal-backdrop-fox"
         role="dialog" aria-modal="true" aria-labelledby="lgpdModalTitle">
-        <div class="bg-[#0B2140] border border-white/15 rounded-2xl max-w-xl w-full p-6 sm:p-7 shadow-2xl relative">
-            <button type="button" onclick="closeLgpdModal()" aria-label="Fechar modal"
-                class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center cursor-pointer border-0">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <div class="eyebrow-badge text-[#08B9F2] mb-2">GOVERNANÇA, PRIVACIDADE & ACESSIBILIDADE</div>
-            <h3 id="lgpdModalTitle" class="font-display text-white font-extrabold text-xl mb-3">
-                Política de Privacidade, Termos de Uso e Acessibilidade
-            </h3>
-            <div class="space-y-3 text-white/80 text-xs sm:text-sm leading-relaxed max-h-[60vh] overflow-y-auto pr-2">
-                <p><strong>1. Proteção de Dados (LGPD — Lei nº 13.709/2018):</strong> A FOX LIBRAS — Soluções em
-                    Acessibilidade (CNPJ 66.550.293/0001-99) trata os dados fornecidos exclusivamente para elaboração de
-                    propostas comerciais e atendimento institucional.</p>
-                <p><strong>2. Compromisso com a Acessibilidade Digital (WCAG 2.2 AA & LBI):</strong> Este portal possui
-                    suporte nativo à suíte VLibras, navegação assistiva por teclado, contraste elevado e demonstrações
-                    reais em Libras.</p>
-                <p><strong>3. Contato Institucional:</strong> Dúvidas sobre privacidade ou acessibilidade podem ser
-                    encaminhadas diretamente para <a href="mailto:osvaldoqueta@gmail.com"
-                        class="text-[#08B9F2] underline">osvaldoqueta@gmail.com</a> ou pelo telefone (63) 99258-1001.
-                </p>
+        <div class="bg-[#0B2140] border border-white/15 rounded-2xl max-w-4xl w-full shadow-2xl relative flex flex-col max-h-[92vh] overflow-hidden">
+            
+            <!-- Cabeçalho do Modal -->
+            <div class="px-5 sm:px-7 py-4 sm:py-5 border-b border-white/10 flex items-start justify-between bg-[#0B2140] z-10 shrink-0">
+                <div>
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-sky-500/10 text-[#08B9F2] border border-[#08B9F2]/30 text-[11px] font-bold uppercase tracking-wider mb-1">
+                        <i class="fa-solid fa-shield-halved"></i> Governança Jurídica & Compliance
+                    </span>
+                    <h2 id="lgpdModalTitle" class="font-display text-white font-extrabold text-lg sm:text-2xl leading-tight">
+                        Políticas de Privacidade, Termos de Uso e Acessibilidade
+                    </h2>
+                    <p class="text-white/60 text-[11px] sm:text-xs mt-0.5">
+                        FOX LIBRAS — Soluções em Acessibilidade • CNPJ 66.550.293/0001-99 • Juiz de Fora - MG
+                    </p>
+                </div>
+                <button type="button" onclick="closeLgpdModal()" aria-label="Fechar modal"
+                    class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center cursor-pointer border-0 shrink-0 transition-colors ml-3 mt-1">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
+
+            <!-- Barra de Abas de Navegação -->
+            <div class="px-5 sm:px-7 py-2.5 bg-[#061A33]/80 border-b border-white/10 flex flex-wrap items-center gap-2 shrink-0">
+                <button type="button" onclick="switchLegalTab('privacidade')" data-tab="privacidade"
+                    class="legal-tab-btn px-3.5 py-2 rounded-lg text-xs sm:text-sm font-bold bg-[#08B9F2] text-[#061A33] transition-all shadow-md flex items-center gap-2 cursor-pointer border-0"
+                    aria-selected="true">
+                    <i class="fa-solid fa-user-shield text-xs"></i>
+                    <span>Política de Privacidade (LGPD)</span>
+                </button>
+                <button type="button" onclick="switchLegalTab('termos')" data-tab="termos"
+                    class="legal-tab-btn px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium bg-white/10 text-white/80 hover:bg-white/15 hover:text-white transition-all flex items-center gap-2 cursor-pointer border-0"
+                    aria-selected="false">
+                    <i class="fa-solid fa-file-contract text-xs"></i>
+                    <span>Termos de Uso do Portal</span>
+                </button>
+                <button type="button" onclick="switchLegalTab('acessibilidade')" data-tab="acessibilidade"
+                    class="legal-tab-btn px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium bg-white/10 text-white/80 hover:bg-white/15 hover:text-white transition-all flex items-center gap-2 cursor-pointer border-0"
+                    aria-selected="false">
+                    <i class="fa-solid fa-universal-access text-xs"></i>
+                    <span>Declaração de Acessibilidade</span>
+                </button>
+            </div>
+
+            <!-- Área de Conteúdo Rolável -->
+            <div id="legalModalContentArea" class="p-5 sm:p-7 overflow-y-auto max-h-[62vh] text-white/85 text-xs sm:text-sm leading-relaxed space-y-6">
+
+                <!-- =======================================================
+                     ABA 1: POLÍTICA DE PRIVACIDADE E PROTEÇÃO DE DADOS (LGPD)
+                     ======================================================= -->
+                <div id="legal-panel-privacidade" class="legal-tab-panel space-y-5">
+                    <div class="p-4 rounded-xl bg-[#061A33] border border-[#08B9F2]/30 flex items-start gap-3">
+                        <i class="fa-solid fa-scale-balanced text-[#08B9F2] text-xl shrink-0 mt-0.5"></i>
+                        <div>
+                            <h3 class="text-white font-bold text-sm sm:text-base">Compromisso com a Lei Federal nº 13.709/2018 (LGPD)</h3>
+                            <p class="text-white/70 text-xs mt-1 leading-normal">
+                                A FOX LIBRAS atua com total transparência e rigor ético na custódia de dados de clientes, parceiros e usuários, implementando padrões de segurança da informação adequados à legislação brasileira.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-white font-bold text-sm text-[#08B9F2] flex items-center gap-2">
+                            <span>1. Identificação do Controlador</span>
+                        </h4>
+                        <p>
+                            A <strong>FOX LIBRAS — SOLUÇÕES EM ACESSIBILIDADE</strong>, pessoa jurídica de direito privado inscrita no CNPJ sob o nº <strong>66.550.293/0001-99</strong>, com sede em Juiz de Fora/MG e atuação em todo o Brasil, sob liderança técnica do <strong>Prof. Mestre Osvaldo Queta</strong>, é a Controladora dos dados pessoais tratados através deste website (<a href="https://libras.foxstorebr.com/" class="text-[#08B9F2] underline">https://libras.foxstorebr.com/</a>).
+                        </p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-white font-bold text-sm text-[#08B9F2] flex items-center gap-2">
+                            <span>2. Princípios e Bases Legais do Tratamento</span>
+                        </h4>
+                        <p>
+                            Todas as atividades de tratamento de dados realizadas pela FOX LIBRAS observam estritamente os princípios do artigo 6º da LGPD: finalidade específica, adequação, necessidade, livre acesso, qualidade dos dados, transparência, segurança, prevenção, não discriminação e responsabilização.
+                        </p>
+                        <p>As bases legais que legitimam nosso tratamento incluem (Art. 7º da LGPD):</p>
+                        <ul class="list-disc list-inside space-y-1 pl-2 text-white/80">
+                            <li><strong>Consentimento do titular:</strong> fornecido de forma expressa no envio de formulários e orçamentos;</li>
+                            <li><strong>Execução de contrato ou procedimentos preliminares:</strong> para elaboração de propostas comerciais sob medida a pedido do titular;</li>
+                            <li><strong>Cumprimento de obrigação legal ou regulatória:</strong> atendimento à Lei Brasileira de Inclusão (Lei nº 13.146/2015), Decreto do SAC (Decreto nº 11.034/2022) e legislação fiscal.</li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-white font-bold text-sm text-[#08B9F2] flex items-center gap-2">
+                            <span>3. Dados Coletados e Finalidades Específicas</span>
+                        </h4>
+                        <p>Coletamos exclusivamente os dados necessários para o atendimento corporativo:</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                            <div class="p-3 rounded-lg bg-[#061A33] border border-white/10">
+                                <span class="font-bold text-[#35C7F5] block text-xs mb-1">Dados de Contato Comercial</span>
+                                <p class="text-white/70 text-[11px] leading-relaxed">
+                                    Nome, e-mail corporativo, telefone/WhatsApp, razão social da empresa e detalhes da demanda para confecção de orçamentos e simulações B2B.
+                                </p>
+                            </div>
+                            <div class="p-3 rounded-lg bg-[#061A33] border border-white/10">
+                                <span class="font-bold text-[#35C7F5] block text-xs mb-1">Telemetria Técnica Anônima</span>
+                                <p class="text-white/70 text-[11px] leading-relaxed">
+                                    Endereço IP anonimizado, resolução de tela, navegador e métricas de desempenho para garantir acessibilidade e estabilidade do site.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-white font-bold text-sm text-[#08B9F2] flex items-center gap-2">
+                            <span>4. Sigilo Profissional e Confidencialidade em Tradução e Interpretação</span>
+                        </h4>
+                        <p>
+                            Em conformidade com o Código de Conduta e Ética do Tradutor e Intérprete de Libras (FEBRAPILS) e as normas de compliance corporativo, todos os materiais, pautas de eventos, apresentações acadêmicas, relatórios industriais e conteúdos compartilhados para interpretação simultânea ou tradução de vídeos são tratados sob <strong>sigilo profissional absoluto (NDA operacional e contratual)</strong>, sendo expressamente proibido qualquer compartilhamento não autorizado.
+                        </p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-white font-bold text-sm text-[#08B9F2] flex items-center gap-2">
+                            <span>5. Compartilhamento e Não Comercialização de Dados</span>
+                        </h4>
+                        <p>
+                            A FOX LIBRAS <strong>jamais vende, aluga ou cede</strong> informações de usuários a terceiros para fins de marketing. O compartilhamento ocorre exclusivamente com prestadores de tecnologia imprescindíveis à operação do portal (hospedagem em nuvem segura Vercel e banco de dados Supabase com criptografia em repouso) ou mediante ordem de autoridade judiciária competente.
+                        </p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-white font-bold text-sm text-[#08B9F2] flex items-center gap-2">
+                            <span>6. Medidas Técnicas de Segurança da Informação</span>
+                        </h4>
+                        <p>
+                            Adotamos criptografia ponta a ponta (HTTPS com TLS 1.3), certificados SSL homologados, proteção contra cross-site scripting (XSS) e injeção de código, além de políticas restritas de controle de acesso aos bancos de dados de leads e orçamentos.
+                        </p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-white font-bold text-sm text-[#08B9F2] flex items-center gap-2">
+                            <span>7. Direitos dos Titulares de Dados (Art. 18 da LGPD)</span>
+                        </h4>
+                        <p>
+                            Você possui o direito de, a qualquer momento e sem qualquer custo: confirmar a existência de tratamento de dados; solicitar cópia dos dados em nossos arquivos; pedir a correção de dados incompletos ou inexatos; solicitar a eliminação de dados tratados com base no seu consentimento; e revogar o consentimento outorgado.
+                        </p>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-gradient-to-r from-[#061A33] to-[#102B4D] border border-[#08B9F2]/40">
+                        <h4 class="text-white font-bold text-xs uppercase tracking-wider text-[#08B9F2] mb-1">
+                            8. Canal Oficial do Encarregado de Proteção de Dados (DPO)
+                        </h4>
+                        <p class="text-white/80 text-xs">
+                            Para exercer seus direitos ou esclarecer qualquer questão relacionada à privacidade, contate diretamente o nosso Encarregado:
+                        </p>
+                        <div class="mt-2 text-xs text-white/90 space-y-1">
+                            <div>• <strong>Encarregado (DPO):</strong> Prof. Mestre Osvaldo Queta</div>
+                            <div>• <strong>E-mail Institucional:</strong> <a href="mailto:osvaldoqueta@gmail.com" class="text-[#08B9F2] hover:underline">osvaldoqueta@gmail.com</a></div>
+                            <div>• <strong>WhatsApp Corporativo:</strong> <a href="https://wa.me/5563992581001" target="_blank" rel="noopener noreferrer" class="text-[#25D366] hover:underline">(63) 99258-1001</a></div>
+                            <div>• <strong>Prazo Regulamentar:</strong> Atendimento inicial imediato ou resposta detalhada em até 15 dias úteis.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- =======================================================
+                     ABA 2: TERMOS DE USO E CONDIÇÕES GERAIS DE SERVIÇOS
+                     ======================================================= -->
+                <div id="legal-panel-termos" class="legal-tab-panel hidden space-y-5">
+                    <div class="p-4 rounded-xl bg-[#061A33] border border-[#08B9F2]/30 flex items-start gap-3">
+                        <i class="fa-solid fa-file-signature text-[#08B9F2] text-xl shrink-0 mt-0.5"></i>
+                        <div>
+                            <h3 class="text-white font-bold text-sm sm:text-base">Condições Gerais de Uso do Portal FOX LIBRAS</h3>
+                            <p class="text-white/70 text-xs mt-1 leading-normal">
+                                O acesso e utilização dos serviços deste portal pressupõem a concordância integral com as cláusulas deste termo, regido pela legislação da República Federativa do Brasil.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-white font-bold text-sm text-[#08B9F2]">1. Objeto e Âmbito de Aplicação</h4>
+                        <p>
+                            Os presentes Termos de Uso regem a utilização do website institucional da <strong>FOX LIBRAS — Soluções em Acessibilidade</strong>, disponibilizado para apresentação de serviços de interpretação simultânea, tradução de conteúdos audiovisuais, Central de Atendimento/SAC bilíngue, consultoria em conformidade com a LBI e ferramentas interativas de simulação de investimentos.
+                        </p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-white font-bold text-sm text-[#08B9F2]">2. Propriedade Intelectual e Direitos Autorais</h4>
+                        <p>
+                            Todo o conteúdo disponibilizado neste portal — incluindo a marca nominal e figurativa FOX LIBRAS, layout, identidade visual, paleta cromática, fotografias de atuação, produções em vídeo, textos institucionais, scripts e códigos de programação — é de titularidade exclusiva da FOX LIBRAS ou concedido mediante licença formal de uso.
+                        </p>
+                        <p>
+                            É expressamente proibida a reprodução, cópia, distribuição, engenharia reversa, extração massiva automatizada de dados (web scraping) ou uso comercial de qualquer elemento deste portal sem autorização prévia e expressa por escrito da diretoria técnica da FOX LIBRAS.
+                        </p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-white font-bold text-sm text-[#08B9F2]">3. Serviços Especializados e Escopo de Atendimento</h4>
+                        <p>A contratação formal dos serviços segue os parâmetros técnicos acordados contratualmente:</p>
+                        <ul class="list-disc list-inside space-y-1.5 pl-2 text-white/80">
+                            <li><strong>Central de Libras & SAC:</strong> Operação humanizada remota ou presencial voltada a órgãos públicos e corporações privadas, em estrita aderência ao Decreto Federal nº 11.034/2022;</li>
+                            <li><strong>Interpretação de Eventos:</strong> Atuação de intérpretes certificados em palestras, convenções, congressos, eventos acadêmicos e assembleias com transmissão ao vivo ou gravação;</li>
+                            <li><strong>Tradução e Legendagem:</strong> Gravação de Janela de Libras em estúdio profissional conforme a norma ABNT NBR 15290 e inserção de legendas descritivas (Closed Caption);</li>
+                            <li><strong>Consultoria LBI:</strong> Diagnóstico e parecer técnico sobre barreiras de acessibilidade comunicacional e arquitetônica conforme a Lei nº 13.146/2015.</li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-white font-bold text-sm text-[#08B9F2]">4. Simulador de Investimento B2B e Orçamentação</h4>
+                        <p>
+                            Os valores calculados através do <em>Simulador de Investimento B2B</em> presente neste portal possuem <strong>caráter meramente informativo e estimativo</strong>, servindo como referência orçamentária preliminar. Os valores finais, prazos de execução e condições comerciais são formalizados exclusivamente por meio de Proposta Comercial escrita, homologada e assinada pelas partes, com emissão de Nota Fiscal de Serviços eletrônica (NFS-e).
+                        </p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-white font-bold text-sm text-[#08B9F2]">5. Deveres e Responsabilidades do Usuário</h4>
+                        <p>O usuário do portal compromete-se a:</p>
+                        <ul class="list-disc list-inside space-y-1 pl-2 text-white/80">
+                            <li>Fornecer informações precisas, legítimas e atualizadas nas solicitações de proposta;</li>
+                            <li>Não tentar violar a segurança, autenticação ou integridade do sistema;</li>
+                            <li>Em caso de contratação de eventos de alta densidade cognitiva (medicina, direito, engenharia), disponibilizar cronogramas e glossários com antecedência hábil para a preparação da equipe de intérpretes.</li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-white font-bold text-sm text-[#08B9F2]">6. Limitação de Responsabilidade e Conexões Externas</h4>
+                        <p>
+                            Embora a FOX LIBRAS adote rigorosos padrões técnicos de disponibilidade (infraestrutura moderna em nuvem com uptime superior a 99,8%), não podemos nos responsabilizar por interrupções temporárias oriundas de falhas generalizadas na infraestrutura da internet, ataques cibernéticos em escala global ou eventos de força maior.
+                        </p>
+                        <p>
+                            As transmissões de vídeo vinculadas a serviços externos (como o YouTube) estão sujeitas às diretrizes e políticas de estabilidade de seus respectivos provedores.
+                        </p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-white font-bold text-sm text-[#08B9F2]">7. Foro de Eleição e Legislação Vigente</h4>
+                        <p>
+                            Estes Termos de Uso são regidos e interpretados em conformidade com as leis da República Federativa do Brasil. Para a resolução de eventuais litígios oriundos do uso deste portal, fica eleito o <strong>Foro da Comarca de Juiz de Fora, Estado de Minas Gerais</strong>, com expressa renúncia a qualquer outro, por mais privilegiado que seja.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- =======================================================
+                     ABA 3: DECLARAÇÃO DE ACESSIBILIDADE DIGITAL
+                     ======================================================= -->
+                <div id="legal-panel-acessibilidade" class="legal-tab-panel hidden space-y-5">
+                    <div class="p-4 rounded-xl bg-[#061A33] border border-[#08B9F2]/30 flex items-start gap-3">
+                        <i class="fa-solid fa-hands-asl-interpreting text-[#08B9F2] text-xl shrink-0 mt-0.5"></i>
+                        <div>
+                            <h3 class="text-white font-bold text-sm sm:text-base">Declaração de Acessibilidade Digital e Inclusão</h3>
+                            <p class="text-white/70 text-xs mt-1 leading-normal">
+                                A acessibilidade digital é o fundamento ético da FOX LIBRAS. Nosso portal é projetado para garantir autonomia, conforto e plena navegabilidade para todas as pessoas.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-white font-bold text-sm text-[#08B9F2]">1. Padrões Técnicos e Normas Adotadas</h4>
+                        <p>
+                            Este website foi concebido e programado em estrita observância às <strong>Diretrizes de Acessibilidade para Conteúdo Web (WCAG 2.2)</strong>, estabelecidas pelo W3C / WAI, alcançando nível de conformidade <strong>AA</strong>, e cumpre integralmente as exigências do <strong>Artigo 63 da Lei Brasileira de Inclusão da Pessoa com Deficiência (Lei Federal nº 13.146/2015)</strong>.
+                        </p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-white font-bold text-sm text-[#08B9F2]">2. Recursos Assistivos Implementados no Portal</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                            <div class="p-3.5 rounded-lg bg-[#061A33] border border-white/10">
+                                <div class="flex items-center gap-2 mb-1.5">
+                                    <i class="fa-solid fa-hands text-[#08B9F2]"></i>
+                                    <span class="font-bold text-white text-xs">Suíte Oficial VLibras</span>
+                                </div>
+                                <p class="text-white/70 text-[11px] leading-relaxed">
+                                    Integração completa com o avatar oficial VLibras, traduzindo conteúdos em língua portuguesa para a Língua Brasileira de Sinais com um clique.
+                                </p>
+                            </div>
+                            <div class="p-3.5 rounded-lg bg-[#061A33] border border-white/10">
+                                <div class="flex items-center gap-2 mb-1.5">
+                                    <i class="fa-solid fa-keyboard text-[#08B9F2]"></i>
+                                    <span class="font-bold text-white text-xs">Navegação por Teclado</span>
+                                </div>
+                                <p class="text-white/70 text-[11px] leading-relaxed">
+                                    Todos os menus, botões, modais e galerias são 100% operáveis via teclado (Tab, Enter, Espaço, Esc) com indicador de foco de alto contraste visível.
+                                </p>
+                            </div>
+                            <div class="p-3.5 rounded-lg bg-[#061A33] border border-white/10">
+                                <div class="flex items-center gap-2 mb-1.5">
+                                    <i class="fa-solid fa-eye text-[#08B9F2]"></i>
+                                    <span class="font-bold text-white text-xs">Contraste Cromático WCAG AA</span>
+                                </div>
+                                <p class="text-white/70 text-[11px] leading-relaxed">
+                                    Razão de contraste superior a 4.5:1 em todos os textos sobre fundos escuros e claros, ideal para baixa visão, daltonismo e ambientes iluminados.
+                                </p>
+                            </div>
+                            <div class="p-3.5 rounded-lg bg-[#061A33] border border-white/10">
+                                <div class="flex items-center gap-2 mb-1.5">
+                                    <i class="fa-solid fa-volume-high text-[#08B9F2]"></i>
+                                    <span class="font-bold text-white text-xs">Leitores de Tela (WAI-ARIA)</span>
+                                </div>
+                                <p class="text-white/70 text-[11px] leading-relaxed">
+                                    Estrutura semântica rigorosa com atributos ARIA (NVDA, JAWS, VoiceOver, TalkBack) e textos alternativos descritivos em todas as imagens.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-white font-bold text-sm text-[#08B9F2]">3. Demonstrações Audiovisuais Reais com Intérpretes Humanos</h4>
+                        <p>
+                            Reconhecendo que a Língua Brasileira de Sinais possui nuances espaciais, expressivas e gramaticais próprias, nosso portal disponibiliza gravações em vídeo de alta definição com intérpretes humanos em situações reais de atuação profissional (cursos superiores, teatros, conferências e transmissões ao vivo), superando os limites das animações sintéticas.
+                        </p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <h4 class="text-white font-bold text-sm text-[#08B9F2]">4. Canal Prioritário de Suporte Acessível</h4>
+                        <p>
+                            Se você identificar qualquer dificuldade de navegação, barreira arquitetônica digital ou necessitar de algum conteúdo em formato alternativo adaptado, por favor acione diretamente nosso canal prioritário de acessibilidade:
+                        </p>
+                        <div class="p-3 rounded-lg bg-[#061A33] border border-[#08B9F2]/30 text-xs text-white/90 space-y-1">
+                            <div>• <strong>E-mail de Suporte Acessível:</strong> <a href="mailto:osvaldoqueta@gmail.com" class="text-[#08B9F2] hover:underline">osvaldoqueta@gmail.com</a></div>
+                            <div>• <strong>WhatsApp Corporativo (Vídeo / Libras):</strong> <a href="https://wa.me/5563992581001" target="_blank" rel="noopener noreferrer" class="text-[#25D366] hover:underline">(63) 99258-1001</a></div>
+                            <div>• <strong>Compromisso de Resposta:</strong> Retorno em até 24 horas úteis com solução ou encaminhamento acessível.</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Rodapé Fixo do Modal -->
+            <div class="px-5 sm:px-7 py-3.5 bg-[#061A33] border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+                <div class="text-[11px] text-white/60 text-center sm:text-left">
+                    Documentos atualizados em conformidade com LGPD, LBI e WCAG 2.2 • Revisão 2026.1
+                </div>
+                <div class="flex items-center gap-2.5">
+                    <a href="https://wa.me/5563992581001?text=Ol%C3%A1!%20Gostaria%20de%20falar%20com%20o%20Encarregado%20de%20Privacidade%20(DPO)%20da%20FOX%20LIBRAS."
+                        target="_blank" rel="noopener noreferrer"
+                        class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/15 text-white text-xs font-semibold inline-flex items-center gap-1.5 transition-colors">
+                        <i class="fa-solid fa-headset text-[#08B9F2]"></i>
+                        <span>Contatar DPO</span>
+                    </a>
+                    <button type="button" onclick="closeLgpdModal()"
+                        class="btn-fox-orange px-5 py-2 text-xs font-bold shadow-lg cursor-pointer">
+                        Entendido / Fechar
+                    </button>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -2434,7 +2751,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <!-- Script Principal Modularizado da Aplicação -->
-    <script src="assets/js/script.js?v=4.5"></script>
+    <script src="assets/js/script.js?v=4.6"></script>
 </body>
 
 </html>
