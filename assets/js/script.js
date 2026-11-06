@@ -326,6 +326,36 @@ const DEFAULT_VIDEO_CATALOG = {
         localSrc: 'assets/videos/65cf1137395f4bbca99ea87541ea65a1.mp4',
         poster: 'https://i.ytimg.com/vi/-oyKvGXqOLk/hqdefault.jpg',
         fallbackPoster: 'assets/images/logo/video-poster.jpg'
+    },
+
+    // 4. GALERIA DE INTERPRETAÇÃO EM CURSO SUPERIOR & CIÊNCIAS EXATAS (ENGENHARIA DE SOFTWARE)
+    'curso_superior_1': {
+        key: 'curso_superior_1',
+        themeGroup: 'curso_superior',
+        badge: '🎓 Curso Superior • Eng. de Software',
+        category: 'Interpretação em Curso Superior',
+        title: 'Interpretação em Curso Superior — Engenharia de Software e Ciências Exatas',
+        sub: 'Atuação do Prof. Me. Osvaldo Queta em disciplina de Arquitetura e Engenharia de Software (UniAcademia)',
+        description: 'Interpretação simultânea de alta densidade cognitiva em Engenharia de Software, Arquitetura de Sistemas e Ciências Exatas.',
+        type: 'youtube_live',
+        youtubeId: 'i0ehJAk1D2s',
+        url: 'https://youtube.com/shorts/i0ehJAk1D2s',
+        poster: 'https://i.ytimg.com/vi/i0ehJAk1D2s/hqdefault.jpg',
+        fallbackPoster: 'assets/images/logo/video-poster.jpg'
+    },
+    'curso_superior_2': {
+        key: 'curso_superior_2',
+        themeGroup: 'curso_superior',
+        badge: '🎓 Curso Superior • Jargões Técnicos',
+        category: 'Interpretação em Curso Superior',
+        title: 'Interpretação em Curso Superior — Vocabulário Técnico e Jargões de T.I.',
+        sub: 'Rigor Terminológico e Interpretação Simultânea em Ensino Superior',
+        description: 'Tradução simultânea em tempo real de conceitos avançados de tecnologia da informação e sistemas computacionais para Libras.',
+        type: 'youtube_live',
+        youtubeId: 'sy_VvnxqLB4',
+        url: 'https://youtube.com/shorts/sy_VvnxqLB4',
+        poster: 'https://i.ytimg.com/vi/sy_VvnxqLB4/hqdefault.jpg',
+        fallbackPoster: 'assets/images/logo/video-poster.jpg'
     }
 };
 
@@ -382,7 +412,10 @@ const VIDEO_KEY_ALIASES = {
     'traducao': 'evento_arco_iris',
     'sac': 'live_2',
     'ead': 'evento_arco_iris',
-    'local': 'metodologia'
+    'local': 'metodologia',
+    'curso_superior': 'curso_superior_1',
+    'engenharia': 'curso_superior_1',
+    'faculdade': 'curso_superior_1'
 };
 
 function resolveVideoKey(rawKey) {
@@ -1345,7 +1378,9 @@ function promptAddNewLiveVideo(targetGroup = 'ao_vivo', defaultCategory = 'Trans
             ? 'Interpretação de Eventos, Teatro e Palestras — Atuação em Palco'
             : (targetGroup === 'metodologia'
                 ? 'Metodologia de Ensino Prático — Apresentação de Alunos em Libras'
-                : `${defaultCategory} — Demonstração Oficial FOX LIBRAS`));
+                : (targetGroup === 'curso_superior'
+                    ? 'Interpretação em Curso Superior — Engenharia e Ciências Exatas'
+                    : `${defaultCategory} — Demonstração Oficial FOX LIBRAS`)));
 
     const titleInput = window.prompt('Informe o título exato deste vídeo:', defaultTitle);
     const title = sanitizeHTML((titleInput || `${defaultTitle} (${ytId})`).trim());
@@ -1419,6 +1454,7 @@ function renderServicesVideoGrid() {
     const liveVideos = allVideos.filter(v => v.themeGroup === 'ao_vivo');
     const stageEventVideos = allVideos.filter(v => v.themeGroup === 'eventos_teatro');
     const methodologyVideos = allVideos.filter(v => v.themeGroup === 'metodologia');
+    const cursoSuperiorVideos = allVideos.filter(v => v.themeGroup === 'curso_superior');
     const customOtherVideos = allVideos.filter(v => v.themeGroup === 'acervo_fotos');
 
     const renderVideoCard = (item, accentColor = 'red') => {
@@ -1585,12 +1621,36 @@ function renderServicesVideoGrid() {
             </div>
         </div>
 
-        <!-- GALERIA 4: Central SAC Web, Cursos EAD e Estúdio (Registros Fotográficos Reais + Pronta para Upload YouTube) -->
+        <!-- GALERIA 4: Interpretação em Curso Superior & Ciências Exatas (Engenharia de Software) -->
+        <div class="bg-[#0B2140]/60 p-6 rounded-2xl border border-[#102B4D]">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
+                <div>
+                    <div class="text-xs font-bold uppercase tracking-wider text-[#08B9F2] mb-1">
+                        <i class="fa-solid fa-graduation-cap mr-1"></i> GALERIA 4 • INTERPRETAÇÃO EM CURSO SUPERIOR & CIÊNCIAS EXATAS
+                    </div>
+                    <h4 class="font-display text-xl font-bold text-white">
+                        Engenharia de Software, Arquitetura de Sistemas & Docência Universitária (${cursoSuperiorVideos.length} Vídeos)
+                    </h4>
+                    <p class="text-xs text-white/70 mt-0.5">
+                        Interpretação simultânea de alta densidade cognitiva em disciplinas de graduação, terminologia avançada e jargões técnicos.
+                    </p>
+                </div>
+                <button type="button" onclick="promptAddNewLiveVideo('curso_superior', 'Interpretação em Curso Superior')" class="px-4 py-2 rounded-xl bg-[#08B9F2]/20 hover:bg-[#08B9F2] text-[#08B9F2] hover:text-[#061A33] text-xs font-bold border border-[#08B9F2]/40 transition-all cursor-pointer shrink-0 inline-flex items-center gap-1.5">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Adicionar Vídeo de Curso Superior</span>
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                ${cursoSuperiorVideos.map(item => renderVideoCard(item, 'cyan')).join('')}
+            </div>
+        </div>
+
+        <!-- GALERIA 5: Central SAC Web, Cursos EAD e Estúdio (Registros Fotográficos Reais + Pronta para Upload YouTube) -->
         <div class="bg-[#0B2140]/60 p-6 rounded-2xl border border-[#102B4D]">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-white/10">
                 <div>
                     <div class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-1">
-                        <i class="fa-solid fa-camera-retro mr-1"></i> GALERIA 4 • CENTRAL SAC WEB, CURSOS EAD & ESTÚDIO PROFISSIONAL
+                        <i class="fa-solid fa-camera-retro mr-1"></i> GALERIA 5 • CENTRAL SAC WEB, CURSOS EAD & ESTÚDIO PROFISSIONAL
                     </div>
                     <h4 class="font-display text-xl font-bold text-white">
                         Registros Fotográficos Reais de Operação (Novos Vídeos em Upload para o YouTube)
@@ -2447,3 +2507,23 @@ function toggleFaq(btn) {
     if (icon) icon.style.transform = !isExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
 }
 window.toggleFaq = toggleFaq;
+
+function switchAuthorVideo(youtubeId, captionText, btnEl) {
+    const iframe = document.getElementById('authorIframe');
+    const caption = document.getElementById('authorVideoCaption');
+    if (iframe) {
+        iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0&playsinline=1`;
+    }
+    if (caption) {
+        caption.textContent = captionText;
+    }
+    document.querySelectorAll('.author-vid-tab').forEach(btn => {
+        btn.classList.remove('active', 'bg-[#08B9F2]', 'text-[#061A33]', 'font-bold');
+        btn.classList.add('bg-[#0B2140]', 'text-slate-300', 'font-semibold');
+    });
+    if (btnEl) {
+        btnEl.classList.add('active', 'bg-[#08B9F2]', 'text-[#061A33]', 'font-bold');
+        btnEl.classList.remove('bg-[#0B2140]', 'text-slate-300', 'font-semibold');
+    }
+}
+window.switchAuthorVideo = switchAuthorVideo;

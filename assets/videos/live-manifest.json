@@ -109,5 +109,25 @@
       "description": "Atividades práticas aplicadas para alunos que não sabiam Libras e, com apenas 3 aulas, já realizavam apresentações em Libras."
     }
   ],
+  "curso_superior_engenharia": [
+    {
+      "id": "curso_superior_1",
+      "youtubeId": "i0ehJAk1D2s",
+      "url": "https://youtube.com/shorts/i0ehJAk1D2s",
+      "title": "Interpretação em Curso Superior — Engenharia de Software e Ciências Exatas",
+      "category": "Interpretação em Curso Superior",
+      "badge": "🎓 Curso Superior • Eng. de Software",
+      "description": "Atuação do Prof. Me. Osvaldo Queta em disciplina de Arquitetura e Engenharia de Software (UniAcademia)."
+    },
+    {
+      "id": "curso_superior_2",
+      "youtubeId": "sy_VvnxqLB4",
+      "url": "https://youtube.com/shorts/sy_VvnxqLB4",
+      "title": "Interpretação em Curso Superior — Vocabulário Técnico e Jargões de T.I.",
+      "category": "Interpretação em Curso Superior",
+      "badge": "🎓 Curso Superior • Jargões Técnicos",
+      "description": "Rigor terminológico e interpretação simultânea em ambientes complexos de tecnologia e graduação."
+    }
+  ],
   "outras_galerias_em_upload": []
 }

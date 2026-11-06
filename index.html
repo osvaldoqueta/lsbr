@@ -46,10 +46,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Folha de Estilo Estática Tailwind CSS (Compilada Localmente — Zero Dependência de CDN) -->
-    <link rel="stylesheet" href="assets/css/tailwind.min.css?v=4.2">
+    <link rel="stylesheet" href="assets/css/tailwind.min.css?v=4.3">
 
     <!-- Folha de Estilo Institucional & Design System -->
-    <link rel="stylesheet" href="assets/css/style.css?v=4.2">
+    <link rel="stylesheet" href="assets/css/style.css?v=4.3">
 
     <!-- Schema.org JSON-LD: ProfessionalService & FAQPage -->
     <script type="application/ld+json">
@@ -562,11 +562,14 @@
                                     <button type="button" onclick="filterInlineGallery('ao_vivo'); toggleInlineLiveGallery();" class="px-2.5 py-1 rounded-full bg-[#08B9F2]/20 hover:bg-[#08B9F2] text-[#08B9F2] hover:text-[#061A33] text-[10.5px] font-bold transition-all cursor-pointer border border-[#08B9F2]/40">
                                         <i class="fa-solid fa-tower-broadcast text-red-400 mr-1"></i>Ao Vivo & Tradução (2x/mês)
                                     </button>
+                                    <button type="button" onclick="filterInlineGallery('curso_superior'); toggleInlineLiveGallery();" class="px-2.5 py-1 rounded-full bg-sky-500/20 hover:bg-[#08B9F2] text-[#08B9F2] hover:text-[#061A33] text-[10.5px] font-bold transition-all cursor-pointer border border-[#08B9F2]/40">
+                                        <i class="fa-solid fa-graduation-cap mr-1 text-[#08B9F2]"></i>Curso Superior: Eng. de Software (2)
+                                    </button>
                                     <button type="button" onclick="filterInlineGallery('eventos_teatro'); toggleInlineLiveGallery();" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-[10.5px] font-semibold transition-all cursor-pointer border border-white/15">
                                         <i class="fa-solid fa-masks-theater mr-1 text-[#08B9F2]"></i>Eventos, Teatro & Palestras (6)
                                     </button>
                                     <button type="button" onclick="openVideoShowcaseModal('metodologia')" class="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-white text-[10.5px] font-semibold transition-all cursor-pointer border border-white/15">
-                                        <i class="fa-solid fa-graduation-cap mr-1 text-[#FF7800]"></i>Metodologia (Alunos em 3 Aulas)
+                                        <i class="fa-solid fa-chalkboard-user mr-1 text-[#FF7800]"></i>Metodologia (3 Aulas)
                                     </button>
                                 </div>
                             </div>
@@ -584,15 +587,18 @@
                                 <span>GALERIAS OFICIAIS ORGANIZADAS POR TEMA REAL • ATUALIZAÇÃO QUINZENAL (2X/MÊS)</span>
                             </div>
                             <h3 class="font-display text-white font-bold text-xl sm:text-2xl leading-snug">
-                                Transmissões Ao Vivo, Interpretação de Eventos/Teatro e Metodologia (3 Aulas)
+                                Transmissões Ao Vivo, Curso Superior, Teatro/Palco e Metodologia (3 Aulas)
                             </h3>
                             <p class="text-white/75 text-xs sm:text-sm mt-1.5 leading-relaxed">
-                                Todos os vídeos de palco/teatro estão reunidos na galeria de <strong>Interpretação de Eventos e Palestras</strong>, as sessões ao vivo na galeria <strong>Ao Vivo (2x/mês)</strong> e a prática de sala de aula em <strong>Metodologia</strong>.
+                                Todos os vídeos organizados por atuação real: <strong>Ao Vivo (2x/mês)</strong> na Câmara Municipal, <strong>Curso Superior</strong> em Engenharia de Software (UniAcademia), <strong>Eventos e Palestras</strong> em teatro/palco e didática prática em <strong>Metodologia</strong>.
                             </p>
                         </div>
                         <div class="flex flex-wrap items-center gap-2.5 pt-1">
                             <button type="button" onclick="filterInlineGallery('all', this)" class="inline-gallery-filter-btn active px-3.5 py-2 rounded-lg bg-[#08B9F2] text-[#061A33] text-xs font-bold cursor-pointer border-0 transition-colors">
                                 Todas as Galerias
+                            </button>
+                            <button type="button" onclick="filterInlineGallery('curso_superior', this)" class="inline-gallery-filter-btn px-3.5 py-2 rounded-lg bg-[#0B2140] text-white/85 hover:text-white text-xs font-semibold cursor-pointer border border-white/10 transition-colors">
+                                <i class="fa-solid fa-graduation-cap text-[#08B9F2] mr-1.5"></i>Curso Superior: Eng. de Software (2)
                             </button>
                             <button type="button" onclick="filterInlineGallery('ao_vivo', this)" class="inline-gallery-filter-btn px-3.5 py-2 rounded-lg bg-[#0B2140] text-white/85 hover:text-white text-xs font-semibold cursor-pointer border border-white/10 transition-colors">
                                 <i class="fa-solid fa-tower-broadcast text-red-400 mr-1.5"></i>Ao Vivo & Tradução (4 Lives)
@@ -1188,6 +1194,114 @@
                         </div>
                     </div>
 
+                    <!-- BLOCO DE AUTORIDADE TÉCNICA EM AMBIENTES COMPLEXOS & CASOS REAIS (CURSO SUPERIOR) -->
+                    <div id="autoridade-tecnica-complexa" class="my-10 bg-[#0B2140] rounded-2xl border border-[#102B4D] p-6 sm:p-8 lg:p-10 shadow-2xl relative overflow-hidden">
+                        <div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-[#08B9F2]/5 blur-3xl pointer-events-none"></div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+                            
+                            <!-- Coluna Esquerda: Texto de Autoridade & Segmentos Especializados -->
+                            <div class="lg:col-span-7 space-y-5">
+                                <div>
+                                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#08B9F2]/15 text-[#08B9F2] text-[11px] font-bold uppercase tracking-wider mb-2 border border-[#08B9F2]/30">
+                                        <i class="fa-solid fa-graduation-cap"></i>
+                                        <span>Casos Reais & Autoridade Técnica</span>
+                                    </div>
+                                    <h3 class="font-display text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+                                        Autoridade e Rigor Técnico em <span class="text-[#08B9F2]">Ambientes Complexos</span>
+                                    </h3>
+                                    <p class="text-[#35C7F5] text-sm sm:text-base font-semibold mt-1">
+                                        Interpretação simultânea de alta densidade cognitiva em Engenharia de Software e Ciências Exatas.
+                                    </p>
+                                </div>
+
+                                <p class="text-white/80 text-xs sm:text-sm leading-relaxed">
+                                    Diferente do senso comum, os serviços da <strong>FOX LIBRAS</strong> vão muito além do atendimento básico. Nossa liderança técnica possui formação multidisciplinar e vivência direta na docência superior, assegurando tradução precisa de jargões técnicos e terminologias densas em:
+                                </p>
+
+                                <!-- Grid de 4 Especialidades -->
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                                    <div class="p-3 rounded-xl bg-[#061A33] border border-white/10 flex items-start gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-[#08B9F2]/20 text-[#08B9F2] flex items-center justify-center shrink-0 text-sm mt-0.5">
+                                            <i class="fa-solid fa-network-wired"></i>
+                                        </div>
+                                        <span class="text-xs font-medium text-white/90">Tecnologia da Informação e Arquitetura de Sistemas</span>
+                                    </div>
+                                    <div class="p-3 rounded-xl bg-[#061A33] border border-white/10 flex items-start gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-[#08B9F2]/20 text-[#08B9F2] flex items-center justify-center shrink-0 text-sm mt-0.5">
+                                            <i class="fa-solid fa-industry"></i>
+                                        </div>
+                                        <span class="text-xs font-medium text-white/90">Operações Logísticas, Industriais e Portuárias</span>
+                                    </div>
+                                    <div class="p-3 rounded-xl bg-[#061A33] border border-white/10 flex items-start gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-[#08B9F2]/20 text-[#08B9F2] flex items-center justify-center shrink-0 text-sm mt-0.5">
+                                            <i class="fa-solid fa-shield-halved"></i>
+                                        </div>
+                                        <span class="text-xs font-medium text-white/90">Compliance, Saúde e Normas Regulamentadoras (NRs)</span>
+                                    </div>
+                                    <div class="p-3 rounded-xl bg-[#061A33] border border-white/10 flex items-start gap-3">
+                                        <div class="w-8 h-8 rounded-lg bg-[#08B9F2]/20 text-[#08B9F2] flex items-center justify-center shrink-0 text-sm mt-0.5">
+                                            <i class="fa-solid fa-chalkboard-user"></i>
+                                        </div>
+                                        <span class="text-xs font-medium text-white/90">Treinamentos e Convenções Executivas</span>
+                                    </div>
+                                </div>
+
+                                <!-- CTAs Corporativos -->
+                                <div class="flex flex-wrap items-center gap-3 pt-2">
+                                    <a href="https://wa.me/5563992581001?text=Ol%C3%A1%2C%20Prof.%20Mestre%20Osvaldo%20Queta%21%20Gostaria%20de%20solicitar%20uma%20proposta%20especializada%20da%20FOX%20LIBRAS%20para%20minha%20empresa%2Finstitui%C3%A7%C3%A3o." target="_blank" rel="noopener noreferrer" class="btn-fox-orange px-6 py-3 text-xs sm:text-sm font-bold shadow-xl flex items-center gap-2">
+                                        <i class="fa-brands fa-whatsapp text-base"></i>
+                                        <span>Solicitar Proposta para sua Empresa</span>
+                                    </a>
+                                    <button type="button" onclick="openVideoShowcaseModal('curso_superior_1')" class="btn-fox-outline px-5 py-3 text-xs sm:text-sm font-semibold flex items-center gap-2">
+                                        <i class="fa-solid fa-tv text-[#08B9F2]"></i>
+                                        <span>Assistir Demonstração no Player</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Coluna Direita: Reprodutor de Vídeo Interativo com Embed & Seletor de Vídeos -->
+                            <div class="lg:col-span-5 flex flex-col items-center">
+                                <div class="w-full bg-[#061A33] rounded-2xl border border-white/15 overflow-hidden shadow-2xl">
+                                    
+                                    <!-- Player Embed / Janela Interativa -->
+                                    <div id="authorPlayerBox" class="relative w-full aspect-video bg-black flex items-center justify-center overflow-hidden">
+                                        <iframe 
+                                            id="authorIframe" 
+                                            src="https://www.youtube.com/embed/i0ehJAk1D2s?rel=0&playsinline=1" 
+                                            title="Atuação do Prof. Me. Osvaldo Queta em disciplina de Arquitetura e Engenharia de Software (UniAcademia)" 
+                                            class="w-full h-full border-0 bg-black" 
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                            allowfullscreen>
+                                        </iframe>
+                                    </div>
+
+                                    <!-- Legenda e Abas de Alternância dos Vídeos -->
+                                    <div class="p-4 bg-[#081B34] border-t border-white/10 space-y-3">
+                                        <div class="flex items-center justify-between gap-2">
+                                            <span class="inline-flex items-center gap-1.5 text-xs text-[#08B9F2] font-semibold">
+                                                <i class="fa-solid fa-circle-check"></i> Registro Real Homologado
+                                            </span>
+                                            <div class="flex items-center gap-1">
+                                                <button type="button" onclick="switchAuthorVideo('i0ehJAk1D2s', 'Atuação do Prof. Me. Osvaldo Queta em disciplina de Arquitetura e Engenharia de Software (UniAcademia)', this)" class="author-vid-tab active px-2.5 py-1 rounded bg-[#08B9F2] text-[#061A33] text-[10px] font-bold cursor-pointer border-0 transition-colors">
+                                                    Vídeo #1
+                                                </button>
+                                                <button type="button" onclick="switchAuthorVideo('sy_VvnxqLB4', 'Rigor Terminológico em Libras: Interpretação de Jargões de T.I. no Ensino Superior', this)" class="author-vid-tab px-2.5 py-1 rounded bg-[#0B2140] text-slate-300 hover:text-white text-[10px] font-semibold cursor-pointer border border-white/10 transition-colors">
+                                                    Vídeo #2
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <p id="authorVideoCaption" class="text-xs text-white/90 leading-relaxed font-medium">
+                                            Atuação do Prof. Me. Osvaldo Queta em disciplina de Arquitetura e Engenharia de Software (UniAcademia).
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
                     <!-- Carrossel de Bastidores (26 Fotos Reais em assets/images/gallery/) -->
                     <div id="bastidores" class="pt-6 border-t border-white/10">
                         <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
@@ -1505,7 +1619,7 @@
                     <span><i class="fa-solid fa-tower-broadcast text-red-400 mr-1"></i> Selecione a Galeria / Vídeo por Tema Real:</span>
                     <span class="text-[#08B9F2]">100% fiel ao conteúdo</span>
                 </div>
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-2">
                     <button type="button" data-video-key="live_1" onclick="openVideoShowcaseModal('live_1')" class="modal-video-btn px-2.5 py-2 rounded-lg text-[11px] font-semibold border transition-all bg-[#08B9F2] text-[#061A33] border-[#08B9F2] cursor-pointer text-left">
                         <span class="block text-[9px] uppercase opacity-80">🔴 Ao Vivo #1</span>
                         <span class="font-bold">Plenário CMJF I</span>
@@ -1521,6 +1635,10 @@
                     <button type="button" data-video-key="live_4" onclick="openVideoShowcaseModal('live_4')" class="modal-video-btn px-2.5 py-2 rounded-lg text-[11px] font-semibold border transition-all bg-[#0B2140] text-slate-200 border-[#102B4D] cursor-pointer text-left">
                         <span class="block text-[9px] uppercase text-red-400">🔴 Ao Vivo #4</span>
                         <span class="font-bold">8º Período CMJF</span>
+                    </button>
+                    <button type="button" data-video-key="curso_superior_1" onclick="openVideoShowcaseModal('curso_superior_1')" class="modal-video-btn px-2.5 py-2 rounded-lg text-[11px] font-semibold border transition-all bg-[#0B2140] text-slate-200 border-[#102B4D] cursor-pointer text-left">
+                        <span class="block text-[9px] uppercase text-[#08B9F2]">🎓 Curso Superior</span>
+                        <span class="font-bold">Eng. de Software</span>
                     </button>
                     <button type="button" data-video-key="evento_arco_iris" onclick="openVideoShowcaseModal('evento_arco_iris')" class="modal-video-btn px-2.5 py-2 rounded-lg text-[11px] font-semibold border transition-all bg-[#0B2140] text-slate-200 border-[#102B4D] cursor-pointer text-left">
                         <span class="block text-[9px] uppercase text-[#08B9F2]">🎭 Eventos & Teatro</span>
@@ -1772,6 +1890,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <!-- Script Principal Modularizado da Aplicação -->
-    <script src="assets/js/script.js?v=4.3"></script>
+    <script src="assets/js/script.js?v=4.4"></script>
 </body>
 </html>
